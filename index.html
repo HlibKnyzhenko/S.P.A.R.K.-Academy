@@ -1,28 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Online School</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.P.A.R.K. Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<style>
+body {margin:0; font-family:'Montserrat',sans-serif; background:#000; color:#fff;}
+a {text-decoration:none; color:inherit;}
+header {display:flex; justify-content:space-between; align-items:center; padding:20px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius:0 0 20px 20px;}
+header .logo {font-size:1.8em; font-weight:bold;}
+header select.lang {padding:8px 12px; border-radius:8px; border:none; cursor:pointer; background: rgba(255,255,255,0.1); color:#fff; font-weight:bold;}
+main {max-width:900px; margin:40px auto; padding:20px; text-align:center;}
+.glass {background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:30px; backdrop-filter: blur(10px); margin-bottom:30px;}
+h1 {font-size:2.5em; margin-bottom:20px;}
+p {margin-bottom:30px; font-size:1.1em;}
+.cta button {margin:10px; padding:15px 30px; border:none; border-radius:12px; cursor:pointer; font-weight:bold; background: rgba(255,255,255,0.1); color:#fff; transition:0.3s;}
+.cta button:hover {background: rgba(255,255,255,0.2);}
+
+/* Форма */
+.form-popup {display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:50px 30px 30px 30px; backdrop-filter: blur(10px); z-index:1000; width:90%; max-width:400px; box-sizing:border-box; position:relative;}
+.form-popup input {width:100%; padding:10px; margin:10px 0; border-radius:8px; border:none; background: rgba(255,255,255,0.1); color:#fff;}
+.form-popup button.submit-btn {width:100%; padding:12px; margin-top:10px; background: rgba(255,255,255,0.1); color:#fff; border:none; border-radius:8px; cursor:pointer;}
+
+/* Круглый крестик по центру сверху */
+.close-btn {position:absolute; top:-20px; left:50%; transform:translateX(-50%); width:35px; height:35px; border-radius:50%; background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); color:#fff; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter: blur(10px); transition:0.3s;}
+.close-btn:hover {background: rgba(255,255,255,0.1);}
+
+/* Личный кабинет */
+#dashboard {display:none; padding:20px; max-width:600px; margin:20px auto; color:#fff; background: rgba(255,255,255,0.05); border-radius:20px; backdrop-filter:blur(10px);}
+#dashboard button {padding:10px 20px; border:none; border-radius:12px; cursor:pointer; background: rgba(255,255,255,0.1); color:#fff; font-weight:bold; margin-top:10px;}
+#dashboard button:hover {background: rgba(255,255,255,0.2);}
+
+/* Футер */
+footer {display:flex; justify-content:center; gap:20px; flex-wrap:wrap; padding:20px; margin-top:40px;}
+.social {background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:10px 20px; backdrop-filter: blur(10px); font-weight:bold; transition:0.3s;}
+.social:hover {background: rgba(255,255,255,0.1);}
+@media(max-width:600px){h1{font-size:2em;} .cta button{width:80%; margin:10px 0;}}
+</style>
 </head>
 <body>
-  <h1>Онлайн-школа</h1>
 
-  <h2>Регистрация</h2>
-  <input id="regName" placeholder="Full Name">
-  <input id="regEmail" placeholder="Email">
-  <input id="regPassword" placeholder="Password" type="password">
-  <select id="regRole">
-    <option value="student">Student</option>
-    <option value="teacher">Teacher</option>
-  </select>
-  <button onclick="register()">Register</button>
+<header>
+    <div class="logo">S.P.A.R.K. Academy</div>
+    <select class="lang" onchange="changeLanguage(this.value)">
+        <option value="ru">Русский</option>
+        <option value="en">English</option>
+        <option value="ua">Українська</option>
+    </select>
+</header>
 
-  <h2>Вход</h2>
-  <input id="loginEmail" placeholder="Email">
-  <input id="loginPassword" placeholder="Password" type="password">
-  <button onclick="login()">Login</button>
+<main>
+    <div class="glass">
+        <h1 id="title">Добро пожаловать в S.P.A.R.K. Academy!</h1>
+        <p id="description">Учите английский легко и интересно. Начните обучение прямо сейчас!</p>
+        <div class="cta">
+            <button onclick="openForm('student')"><span id="btnStudent">Записаться на курсы</span></button>
+            <button onclick="openForm('teacher')"><span id="btnTeacher">Стать учителем</span></button>
+        </div>
+    </div>
+</main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="script.js"></script>
+<!-- Форма -->
+<div class="form-popup" id="form-popup">
+    <button class="close-btn" onclick="closeForm()">✖</button>
+    <h2 id="form-title">Форма</h2>
+    <input type="text" id="name" placeholder="ФИО" required>
+    <input type="tel" id="phone" placeholder="Номер телефона" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <button class="submit-btn" onclick="submitForm()">Отправить</button>
+</div>
+
+<!-- Личный кабинет -->
+<div id="dashboard">
+    <h2>Личный кабинет</h2>
+    <p id="user-info"></p>
+    <button onclick="logout()">Выйти</button>
+</div>
+
+<footer>
+    <a href="https://t.me/sparkenglishe" target="_blank" class="social">Telegram</a>
+    <a href="https://www.tiktok.com/@spark_english?_r=1&_t=ZM-91QiAnjY2n5" target="_blank" class="social">TikTok</a>
+</footer>
+
+<script>
+// Подключение Supabase
+const supabaseUrl = 'https://bsurvnbwztedrtsvafoh.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzdXJ2bmJ3enRlZHJ0c3ZhZm9oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMyMjQ2NzUsImV4cCI6MjA3ODgwMDY3NX0.AhuOEVer2A9Baj56pzblu8p7D4_sS4ZdgpdiVCjC-Ko';
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+// Многоязычность
+const texts = {
+    ru: {title:"Добро пожаловать в S.P.A.R.K. Academy!", description:"Учите английский легко и интересно. Начните обучение прямо сейчас!", btnStudent:"Записаться на курсы", btnTeacher:"Стать учителем", formStudent:"Записаться на курсы", formTeacher:"Стать учителем"},
+    en: {title:"Welcome to S.P.A.R.K. Academy!", description:"Learn English easily and interestingly. Start learning now!", btnStudent:"Enroll in Courses", btnTeacher:"Become a Teacher", formStudent:"Enroll in Courses", formTeacher:"Become a Teacher"},
+    ua: {title:"Ласкаво просимо до S.P.A.R.K. Academy!", description:"Вивчайте англійську легко та цікаво. Почніть навчання прямо зараз!", btnStudent:"Записатися на курси", btnTeacher:"Стати вчителем", formStudent:"Записатися на курси", formTeacher:"Стати вчителем"}
+};
+
+function changeLanguage(lang){
+    document.getElementById('title').innerText = texts[lang].title;
+    document.getElementById('description').innerText = texts[lang].description;
+    document.getElementById('btnStudent').innerText = texts[lang].btnStudent;
+    document.getElementById('btnTeacher').innerText = texts[lang].btnTeacher;
+}
+
+// Форма и регистрация в Supabase
+async function submitForm(){
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('email').value;
+    if(name && phone && email){
+        const { data, error } = await supabase
+            .from('users')
+            .insert([{ name, phone, email }])
+            .select();
+        if(error){ alert('Ошибка при регистрации: ' + error.message); return; }
+        localStorage.setItem('userId', data[0].id);
+        closeForm();
+        openDashboard();
+    } else { alert('Пожалуйста, заполните все поля!'); }
+}
+
+function openForm(type){
+    document.getElementById('form-popup').style.display = 'block';
+    const lang = document.querySelector('.lang').value;
+    document.getElementById('form-title').innerText = type === 'student' ? texts[lang].formStudent : texts[lang].formTeacher;
+}
+function closeForm(){ document.getElementById('form-popup').style.display = 'none'; }
+
+async function openDashboard(){
+    const userId = localStorage.getItem('userId');
+    if(!userId) return;
+    const { data, error } = await supabase.from('users').select('*').eq('id', userId).single();
+    if(error){ alert('Ошибка при загрузке данных: ' + error.message); return; }
+    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('form-popup').style.display = 'none';
+    document.getElementById('user-info').innerHTML = `<strong>Имя:</strong> ${data.name}<br><strong>Телефон:</strong> ${data.phone}<br><strong>Email:</strong> ${data.email}`;
+}
+
+function logout(){
+    localStorage.removeItem('userId');
+    document.getElementById('dashboard').style.display = 'none';
+}
+
+// Автовход при перезагрузке
+window.addEventListener('load', ()=>{
+    if(localStorage.getItem('userId')) openDashboard();
+});
+</script>
+
 </body>
 </html>
