@@ -8,7 +8,7 @@ client
   .setEndpoint('https://fra.cloud.appwrite.io/v1') // твой endpoint
   .setProject('6919bd9c00395c67f284'); // ID проекта
 
-const DATABASE_ID = 'default'; // или ID базы данных
+const DATABASE_ID = '6919bef7001425273070'; // или ID базы данных
 const USERS_COLLECTION_ID = 'users'; // ID коллекции "users"
 
 // Регистрация пользователя
