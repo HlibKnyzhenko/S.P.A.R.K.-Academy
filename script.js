@@ -1,22 +1,29 @@
-// Импортируем Appwrite SDK
-const { Client, Account } = require('appwrite');
+// --------------------
+// script.js
+// --------------------
 
+// Импортируем Appwrite SDK
+const { Client, Account, ID } = require('appwrite');
+
+// --------------------
 // Настраиваем клиент
+// --------------------
 const client = new Client();
+
 client
-  .setEndpoint('https://fra.cloud.appwrite.io/v1') // твой endpoint
+  .setEndpoint('https://fra.cloud.appwrite.io/v1') // твой API endpoint
   .setProject('6919bd9c00395c67f284');             // твой Project ID
 
-// Объект для работы с аккаунтами
 const account = new Account(client);
 
 // --------------------
 // Функция регистрации
 // --------------------
-async function registerUser(userId, email, password, name) {
+async function registerUser(email, password, name) {
   try {
-    const response = await account.create(userId, email, password, name);
+    const response = await account.create(ID.unique(), email, password, name);
     console.log('Регистрация успешна:', response);
+    return response;
   } catch (error) {
     console.error('Ошибка при регистрации:', error.message);
   }
@@ -27,12 +34,15 @@ async function registerUser(userId, email, password, name) {
 // --------------------
 async function loginUser(email, password) {
   try {
+    // Создаём сессию
     const session = await account.createSession(email, password);
     console.log('Вход успешен! Сессия:', session);
 
     // Получаем данные пользователя (личный кабинет)
     const user = await account.get();
     console.log('Личный кабинет:', user);
+
+    return user;
   } catch (error) {
     console.error('Ошибка при входе:', error.message);
   }
@@ -42,8 +52,9 @@ async function loginUser(email, password) {
 // Примеры использования
 // --------------------
 
-// Зарегистрировать нового пользователя (uncomment, если нужно создать)
-// registerUser('user1', 'user@example.com', 'password123', 'Gleb');
+// 1️⃣ Зарегистрировать нового пользователя
+// Разкомментируй, если нужно создать нового
+// registerUser('user@example.com', 'password123', 'Gleb');
 
-// Войти пользователю
+// 2️⃣ Войти пользователю
 loginUser('user@example.com', 'password123');
