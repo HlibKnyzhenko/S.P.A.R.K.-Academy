@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>S.P.A.R.K. Academy</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/appwrite@8.6.0/dist/appwrite.min.js"></script>
 <style>
 body {margin:0; font-family:'Montserrat',sans-serif; background:#000; color:#fff;}
 a {text-decoration:none; color:inherit;}
@@ -20,11 +20,11 @@ p {margin-bottom:30px; font-size:1.1em;}
 .cta button:hover {background: rgba(255,255,255,0.2);}
 
 /* Форма */
-.form-popup {display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:50px 30px 30px 30px; backdrop-filter: blur(10px); z-index:1000; width:90%; max-width:400px; box-sizing:border-box; position:relative;}
+.form-popup {display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:50px 30px 30px 30px; backdrop-filter: blur(10px); z-index:1000; width:90%; max-width:400px; box-sizing:border-box;}
 .form-popup input {width:100%; padding:10px; margin:10px 0; border-radius:8px; border:none; background: rgba(255,255,255,0.1); color:#fff;}
 .form-popup button.submit-btn {width:100%; padding:12px; margin-top:10px; background: rgba(255,255,255,0.1); color:#fff; border:none; border-radius:8px; cursor:pointer;}
 
-/* Круглый крестик по центру сверху */
+/* Круглый крестик */
 .close-btn {position:absolute; top:-20px; left:50%; transform:translateX(-50%); width:35px; height:35px; border-radius:50%; background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); color:#fff; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter: blur(10px); transition:0.3s;}
 .close-btn:hover {background: rgba(255,255,255,0.1);}
 
@@ -85,49 +85,20 @@ footer {display:flex; justify-content:center; gap:20px; flex-wrap:wrap; padding:
 </footer>
 
 <script>
-// Подключение Supabase
-const supabaseUrl = 'https://fra.cloud.appwrite.io/v1';
-const supabaseKey = 'standard_445eb2a3f2d07e8dfa14ee0a356b2851a0416a267a51c3d9777b972624dc6a33b3fd69f2fe7a203e1e7ba689fd500dedb9d8229ea6a8b5ab53161f3d7f2deb9f332b66a3e02a03db6b574df2a1092b85cf6731572c1d9d336f39c03fd63c72bcdd46c08922dc410fd74df5327c34298d4c352758b89728a48f84915e69d85336';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+// --- Подключение Appwrite ---
+const client = new Appwrite.Client()
+    .setEndpoint('https://fra.cloud.appwrite.io/v1') // твой API endpoint
+    .setProject('6919bd9c00395c67f284');            // твой Project ID
 
-// Многоязычность с placeholder'ами
+const databases = new Appwrite.Databases(client);
+const databaseId = 'default'; // ID базы
+const collectionId = 'users'; // ID коллекции
+
+// --- Многоязычность ---
 const texts = {
-    ru: {
-        title:"Добро пожаловать в S.P.A.R.K. Academy!",
-        description:"Учите английский легко и интересно. Начните обучение прямо сейчас!",
-        btnStudent:"Записаться на курсы",
-        btnTeacher:"Стать учителем",
-        formStudent:"Записаться на курсы",
-        formTeacher:"Стать учителем",
-        placeholderName:"ФИО",
-        placeholderPhone:"Номер телефона",
-        placeholderEmail:"Email",
-        submitBtn:"Отправить"
-    },
-    en: {
-        title:"Welcome to S.P.A.R.K. Academy!",
-        description:"Learn English easily and interestingly. Start learning now!",
-        btnStudent:"Enroll in Courses",
-        btnTeacher:"Become a Teacher",
-        formStudent:"Enroll in Courses",
-        formTeacher:"Become a Teacher",
-        placeholderName:"Full Name",
-        placeholderPhone:"Phone Number",
-        placeholderEmail:"Email",
-        submitBtn:"Submit"
-    },
-    ua: {
-        title:"Ласкаво просимо до S.P.A.R.K. Academy!",
-        description:"Вивчайте англійську легко та цікаво. Почніть навчання прямо зараз!",
-        btnStudent:"Записатися на курси",
-        btnTeacher:"Стати вчителем",
-        formStudent:"Записатися на курси",
-        formTeacher:"Стати вчителем",
-        placeholderName:"ПІБ",
-        placeholderPhone:"Номер телефону",
-        placeholderEmail:"Email",
-        submitBtn:"Відправити"
-    }
+    ru: { title:"Добро пожаловать в S.P.A.R.K. Academy!", description:"Учите английский легко и интересно. Начните обучение прямо сейчас!", btnStudent:"Записаться на курсы", btnTeacher:"Стать учителем", formStudent:"Записаться на курсы", formTeacher:"Стать учителем", placeholderName:"ФИО", placeholderPhone:"Номер телефона", placeholderEmail:"Email", submitBtn:"Отправить" },
+    en: { title:"Welcome to S.P.A.R.K. Academy!", description:"Learn English easily and interestingly. Start learning now!", btnStudent:"Enroll in Courses", btnTeacher:"Become a Teacher", formStudent:"Enroll in Courses", formTeacher:"Become a Teacher", placeholderName:"Full Name", placeholderPhone:"Phone Number", placeholderEmail:"Email", submitBtn:"Submit" },
+    ua: { title:"Ласкаво просимо до S.P.A.R.K. Academy!", description:"Вивчайте англійську легко та цікаво. Почніть навчання прямо зараз!", btnStudent:"Записатися на курси", btnTeacher:"Стати вчителем", formStudent:"Записатися на курси", formTeacher:"Стати вчителем", placeholderName:"ПІБ", placeholderPhone:"Номер телефону", placeholderEmail:"Email", submitBtn:"Відправити" }
 };
 
 function changeLanguage(lang){
@@ -136,7 +107,6 @@ function changeLanguage(lang){
     document.getElementById('btnStudent').innerText = texts[lang].btnStudent;
     document.getElementById('btnTeacher').innerText = texts[lang].btnTeacher;
 
-    // Форма
     const formPopup = document.getElementById('form-popup');
     if(formPopup.style.display==='block'){
         const type = formPopup.dataset.type;
@@ -148,19 +118,27 @@ function changeLanguage(lang){
     document.querySelector('.submit-btn').innerText = texts[lang].submitBtn;
 }
 
-// Форма и регистрация
+// --- Форма и регистрация через Appwrite ---
 async function submitForm(){
-    const name = document.getElementById('name').value;
-    const phone = document.getElementById('phone').value;
-    const email = document.getElementById('email').value;
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
 
-    if(name && phone && email){
-        const {data,error} = await supabase.from('users').insert([{name,phone,email}]).select();
-        if(error){alert('Ошибка: '+error.message); return;}
-        localStorage.setItem('userId', data[0].id);
+    if(!name || !phone || !email) return alert('Пожалуйста, заполните все поля!');
+
+    try {
+        const response = await databases.createDocument(
+            databaseId,
+            collectionId,
+            Appwrite.ID.unique(),
+            { name, phone, email }
+        );
+        localStorage.setItem('userId', response.$id);
         closeForm();
         openDashboard();
-    } else alert('Пожалуйста, заполните все поля!');
+    } catch (err) {
+        alert('Ошибка: ' + err.message);
+    }
 }
 
 function openForm(type){
@@ -172,14 +150,19 @@ function openForm(type){
 }
 function closeForm(){document.getElementById('form-popup').style.display='none';}
 
+// --- Личный кабинет ---
 async function openDashboard(){
     const userId = localStorage.getItem('userId');
     if(!userId) return;
-    const {data,error} = await supabase.from('users').select('*').eq('id',userId).single();
-    if(error){alert('Ошибка: '+error.message); return;}
-    document.getElementById('dashboard').style.display='block';
-    document.getElementById('form-popup').style.display='none';
-    document.getElementById('user-info').innerHTML = `<strong>Имя:</strong> ${data.name}<br><strong>Телефон:</strong> ${data.phone}<br><strong>Email:</strong> ${data.email}`;
+
+    try {
+        const user = await databases.getDocument(databaseId, collectionId, userId);
+        document.getElementById('dashboard').style.display='block';
+        document.getElementById('form-popup').style.display='none';
+        document.getElementById('user-info').innerHTML = `<strong>Имя:</strong> ${user.name}<br><strong>Телефон:</strong> ${user.phone}<br><strong>Email:</strong> ${user.email}`;
+    } catch(err){
+        console.error(err);
+    }
 }
 
 function logout(){
@@ -187,7 +170,7 @@ function logout(){
     document.getElementById('dashboard').style.display='none';
 }
 
-// Автовход
+// --- Автовход ---
 window.addEventListener('load',()=>{if(localStorage.getItem('userId')) openDashboard();});
 </script>
 
