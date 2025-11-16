@@ -1,45 +1,70 @@
-// Подключаемся к Supabase
-const supabaseUrl = 'https://bsurvnbwztedrtsvafoh.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzdXJ2bmJ3enRlZHRTdmFmT2giLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc2MzIyNDY3NSwiZXhwIjoyMDc4ODAwNjc1fQ.AhuOEVer2A9Baj56pzblu8p7D4_sS4ZdgpdiVCjC-Ko';
+// Подключаем Appwrite
+const client = new Appwrite.Client();
+const account = new Appwrite.Account(client);
+const database = new Appwrite.Databases(client);
 
-const supabase = Supabase.createClient(supabaseUrl, supabaseKey);
+// Настройки Appwrite
+client
+  .setEndpoint('https://fra.cloud.appwrite.io/v1') // твой endpoint
+  .setProject('6919bd9c00395c67f284'); // ID проекта
 
-// Регистрация
+const DATABASE_ID = 'default'; // или ID базы данных
+const USERS_COLLECTION_ID = 'users'; // ID коллекции "users"
+
+// Регистрация пользователя
 async function register() {
   const fullName = document.getElementById('regName').value;
   const email = document.getElementById('regEmail').value;
   const password = document.getElementById('regPassword').value;
   const role = document.getElementById('regRole').value;
 
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: { data: { full_name: fullName, role } }
-  });
+  try {
+    // Создаём аккаунт
+    const user = await account.create(email, password, fullName);
 
-  if (error) alert(error.message);
-  else {
-    // Добавляем в таблицу profiles
-    await supabase.from('profiles').insert([
-      { id: data.user.id, full_name: fullName, role }
-    ]);
+    // Сохраняем дополнительные данные в коллекцию users
+    await database.createDocument(DATABASE_ID, USERS_COLLECTION_ID, user.$id, {
+      fullName,
+      email,
+      role,
+      createdOn: new Date().toISOString(),
+    });
+
     alert('Пользователь зарегистрирован!');
+  } catch (error) {
+    alert('Ошибка: ' + error.message);
   }
 }
 
-// Вход
+// Вход пользователя
 async function login() {
   const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
 
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return alert(error.message);
+  try {
+    // Вход
+    const session = await account.createSession(email, password);
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', data.user.id)
-    .single();
+    // Получаем данные пользователя из коллекции
+    const docs = await database.listDocuments(DATABASE_ID, USERS_COLLECTION_ID, [
+      Appwrite.Query.equal('email', email),
+    ]);
 
-  alert(`Вход выполнен! Роль: ${profile.role}`);
+    if (docs.documents.length === 0) throw new Error('Пользователь не найден');
+
+    const profile = docs.documents[0];
+    alert(`Вход выполнен! Роль: ${profile.role}`);
+  } catch (error) {
+    alert('Ошибка: ' + error.message);
+  }
+}
+
+// Выход
+async function logout() {
+  try {
+    await account.deleteSession('current');
+    alert('Вы вышли из аккаунта!');
+  } catch (error) {
+    console.log(error);
+  }
 }
