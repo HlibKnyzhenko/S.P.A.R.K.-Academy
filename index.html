@@ -5,34 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>S.P.A.R.K. Academy</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-<style>
-body {margin:0; font-family:'Montserrat',sans-serif; background:#000; color:#fff;}
-a {text-decoration:none; color:inherit;}
-header {display:flex; justify-content:space-between; align-items:center; padding:20px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius:0 0 20px 20px;}
-header .logo {font-size:1.8em; font-weight:bold;}
-header select.lang {padding:8px 12px; border-radius:8px; border:none; cursor:pointer; background: rgba(255,255,255,0.1); color:#fff; font-weight:bold;}
-main {max-width:900px; margin:40px auto; padding:20px; text-align:center;}
-.glass {background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:30px; backdrop-filter: blur(10px); margin-bottom:30px;}
-h1 {font-size:2.5em; margin-bottom:20px;}
-p {margin-bottom:30px; font-size:1.1em;}
-.cta button {margin:10px; padding:15px 30px; border:none; border-radius:12px; cursor:pointer; font-weight:bold; background: rgba(255,255,255,0.1); color:#fff; transition:0.3s;}
-.cta button:hover {background: rgba(255,255,255,0.2);}
-
-/* Форма */
-.form-popup {display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:50px 30px 30px 30px; backdrop-filter: blur(10px); z-index:1000; width:90%; max-width:400px; box-sizing:border-box;}
-.form-popup input {width:100%; padding:10px; margin:10px 0; border-radius:8px; border:none; background: rgba(255,255,255,0.1); color:#fff;}
-.form-popup button.submit-btn {width:100%; padding:12px; margin-top:10px; background: rgba(255,255,255,0.1); color:#fff; border:none; border-radius:8px; cursor:pointer;}
-
-/* Круглый крестик */
-.close-btn {position:absolute; top:-20px; left:50%; transform:translateX(-50%); width:35px; height:35px; border-radius:50%; background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); color:#fff; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter: blur(10px); transition:0.3s;}
-.close-btn:hover {background: rgba(255,255,255,0.1);}
-
-/* Футер */
-footer {display:flex; justify-content:center; gap:20px; flex-wrap:wrap; padding:20px; margin-top:40px;}
-.social {background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:10px 20px; backdrop-filter: blur(10px); font-weight:bold; transition:0.3s;}
-.social:hover {background: rgba(255,255,255,0.1);}
-@media(max-width:600px){h1{font-size:2em;} .cta button{width:80%; margin:10px 0;}}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -46,6 +19,7 @@ footer {display:flex; justify-content:center; gap:20px; flex-wrap:wrap; padding:
 </header>
 
 <main>
+    
     <div class="glass">
         <h1 id="title">Добро пожаловать в S.P.A.R.K. Academy!</h1>
         <p id="description">Учите английский легко и интересно. Начните обучение прямо сейчас!</p>
@@ -54,12 +28,30 @@ footer {display:flex; justify-content:center; gap:20px; flex-wrap:wrap; padding:
             <button onclick="openForm('teacher')"><span id="btnTeacher">Стать учителем</span></button>
         </div>
     </div>
+    
+    <section class="about glass">
+        <h2>О S.P.A.R.K. Academy</h2>
+        <p>
+            S.P.A.R.K. Academy — это новая инновационная онлайн-школа английского языка.
+            Мы объединяем современных учеников и талантливых учителей, создавая удобную,
+            современную и практичную среду для обучения.
+        </p>
+        <p>
+            Наша миссия — сделать изучение английского доступным, интересным и полезным
+            для каждого. После завершения обучения выпускники получают официальный сертификат,
+            подтверждающий их результаты и участие в программе.
+        </p>
+        <p>
+            Присоединяйтесь как ученик или станьте учителем — школа активно растёт
+            и открыта для новых участников.
+        </p>
+    </section>
+
 </main>
 
-<!-- Форма -->
 <div class="form-popup" id="form-popup">
     <button class="close-btn" onclick="closeForm()">✖</button>
-    <h2 id="form-title">Форма</h2>
+    <h2 id="form-title" class="drag-handle">Форма</h2>
     <form id="sparkForm" action="https://formspree.io/f/xgvrpljy" method="POST">
         <input type="text" name="name" id="name" placeholder="ФИО" required>
         <input type="tel" name="phone" id="phone" placeholder="Номер телефона" required>
@@ -75,7 +67,6 @@ footer {display:flex; justify-content:center; gap:20px; flex-wrap:wrap; padding:
 </footer>
 
 <script>
-// --- Многоязычность ---
 const texts = {
     ru: { title:"Добро пожаловать в S.P.A.R.K. Academy!", description:"Учите английский легко и интересно. Начните обучение прямо сейчас!", btnStudent:"Записаться на курсы", btnTeacher:"Стать учителем", formStudent:"Записаться на курсы", formTeacher:"Стать учителем" },
     en: { title:"Welcome to S.P.A.R.K. Academy!", description:"Learn English easily and interestingly. Start learning now!", btnStudent:"Enroll in Courses", btnTeacher:"Become a Teacher", formStudent:"Enroll in Courses", formTeacher:"Become a Teacher" },
@@ -87,34 +78,46 @@ function changeLanguage(lang){
     document.getElementById('description').innerText = texts[lang].description;
     document.getElementById('btnStudent').innerText = texts[lang].btnStudent;
     document.getElementById('btnTeacher').innerText = texts[lang].btnTeacher;
+
     const formPopup = document.getElementById('form-popup');
-    if(formPopup.style.display==='block'){
+    if(formPopup.style.display === 'block') {
         const type = formPopup.dataset.type;
-        document.getElementById('form-title').innerText = type==='student'?texts[lang].formStudent:texts[lang].formTeacher;
+        document.getElementById('form-title').innerText =
+            type === 'student' ? texts[lang].formStudent : texts[lang].formTeacher;
     }
 }
 
-// --- Форма ---
 function openForm(type){
     const formPopup = document.getElementById('form-popup');
-    formPopup.style.display='block';
+    formPopup.style.display = 'block';
     formPopup.dataset.type = type;
-    const lang = document.querySelector('.lang').value;
-    document.getElementById('form-title').innerText = type==='student'?texts[lang].formStudent:texts[lang].formTeacher;
-}
-function closeForm(){document.getElementById('form-popup').style.display='none';}
 
-// --- JS отправка формы без перезагрузки ---
+    // Сбросить позицию на центр при открытии (важно после перетаскивания)
+    formPopup.style.top = '50%';
+    formPopup.style.left = '50%';
+    formPopup.style.transform = 'translate(-50%, -50%)';
+
+    const lang = document.querySelector('.lang').value;
+    document.getElementById('form-title').innerText =
+        type === 'student' ? texts[lang].formStudent : texts[lang].formTeacher;
+}
+
+function closeForm(){
+    document.getElementById('form-popup').style.display = 'none';
+}
+
 document.getElementById('sparkForm').addEventListener('submit', async function(e){
     e.preventDefault();
     const form = e.target;
     const data = new FormData(form);
+
     const response = await fetch(form.action, {
         method: form.method,
         body: data,
         headers: { 'Accept': 'application/json' }
     });
-    if(response.ok){
+
+    if (response.ok) {
         alert('Спасибо! Ваша заявка отправлена.');
         form.reset();
         closeForm();
@@ -122,6 +125,69 @@ document.getElementById('sparkForm').addEventListener('submit', async function(e
         alert('Ошибка при отправке. Попробуйте позже.');
     }
 });
+
+
+// --- ЛОГИКА ДЛЯ ПЛАВНОГО ПЕРЕТАСКИВАНИЯ (ДРАГ-Н-ДРОП) ---
+function makeDraggable(element, handle) {
+    let pos3 = 0, pos4 = 0;
+    
+    // Перетаскивание только для устройств без сенсорного ввода (для ПК)
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    if (isTouchDevice) {
+        return;
+    }
+
+    handle.onmousedown = dragMouseDown;
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        
+        // Переводим из 'fixed' в 'absolute' и устанавливаем текущую позицию
+        if (element.style.position !== 'absolute') {
+             const rect = element.getBoundingClientRect();
+             element.style.position = "absolute";
+             element.style.top = rect.top + 'px';
+             element.style.left = rect.left + 'px';
+             element.style.removeProperty('transform');
+        }
+
+        // Получаем начальные координаты мыши
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        
+        // Вычисляем смещение и обновляем позицию
+        const dx = e.clientX - pos3;
+        const dy = e.clientY - pos4;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        
+        element.style.top = (element.offsetTop + dy) + "px";
+        element.style.left = (element.offsetLeft + dx) + "px";
+    }
+
+    function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+}
+
+// Применяем функцию перетаскивания к форме и ее заголовку
+const popupElement = document.getElementById("form-popup");
+const dragHandle = document.querySelector(".drag-handle");
+if (popupElement && dragHandle) {
+    makeDraggable(popupElement, dragHandle);
+}
+
 </script>
 
 </body>
