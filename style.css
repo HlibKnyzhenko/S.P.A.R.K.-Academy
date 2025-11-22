@@ -1,13 +1,15 @@
+/* ====== GLOBAL ====== */
 body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
     background: #000;
     color: #fff;
+    overflow-x: hidden;
 }
 
 a {
     text-decoration: none;
-    color: inherit;
+    color: inherit; /* Должен наследовать белый цвет от body */
 }
 
 header {
@@ -45,65 +47,74 @@ main {
 .glass {
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 30px;
-    backdrop-filter: blur(10px);
-    margin-bottom: 30px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    margin-top: 20px;
 }
 
-h1 { font-size: 2.5em; margin-bottom: 20px; }
-h2 { font-size: 2em; margin-bottom: 15px; }
-
-p { margin-bottom: 20px; font-size: 1.1em; }
-
 .cta button {
-    margin: 10px;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: bold;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05); /* Темный, как glass */
     color: #fff;
+    border: 1px solid rgba(255,255,255,0.2); /* Темная обводка, как у glass */
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
     transition: 0.3s;
 }
 
 .cta button:hover {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1); /* Немного светлее при наведении */
+    color: #fff; /* Цвет текста остается белым */
+    box-shadow: 0 0 10px rgba(255,255,255,0.3); /* Легкая тень при наведении */
+    border-color: rgba(255,255,255,0.4); /* Чуть светлее обводка при наведении */
 }
+
+/* ====== POPUP STYLES ====== */
 
 .form-popup {
-    display: none;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.form-content {
+    position: relative;
+    max-width: 400px;
+    width: 90%;
+    padding: 30px;
+    box-sizing: border-box;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 20px;
-    padding: 50px 30px 30px 30px;
     backdrop-filter: blur(10px);
-    z-index: 1000;
-    width: 90%;
-    max-width: 400px;
-    box-sizing: border-box;
-    /* Убираем transition, чтобы перетаскивание было мгновенным */
-    transition: none !important;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
-/* Стиль для области, которую можно перетаскивать (заголовок формы) */
-.drag-handle {
-    cursor: move;
-    user-select: none; /* Предотвращает выделение текста */
-    margin-top: -20px; /* Сдвигаем заголовок, чтобы он не закрывал кнопки */
-    padding-top: 20px;
+.form-popup h2 {
+    color: #00eaff;
+    text-align: center;
 }
 
-.form-popup input {
+.form-popup input[type="text"],
+.form-popup input[type="email"] {
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 5px;
     border: none;
     background: rgba(255,255,255,0.1);
     color: #fff;
@@ -120,58 +131,307 @@ p { margin-bottom: 20px; font-size: 1.1em; }
     cursor: pointer;
 }
 
+/* Close button */
 .close-btn {
     position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 35px;
+    top: 15px; 
+    right: 15px; 
+    left: auto; 
+    transform: none; 
+    width: 35px; 
     height: 35px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: #fff;
-    font-weight: bold;
+    background: rgba(255, 255, 255, 0.1); 
+    border: 2px solid #FFFFFF; 
+    color: #FFFFFF; 
+    font-weight: 700;
+    font-size: 1.5em; 
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px); 
     transition: 0.3s;
+    z-index: 10000;
+    box-shadow: 0 0 8px rgba(0, 234, 255, 0.5); 
 }
 
 .close-btn:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px #FFFFFF, 0 0 20px #00eaff; 
 }
 
-footer {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    padding: 20px;
-    margin-top: 40px;
-}
 
-.social {
+/* ====== СТИЛИ ДЛЯ ПОПАПА КОЛЛЕДЖЕЙ И ТЕСТА ====== */
+
+.colleges-content {
+    position: relative;
+    max-width: 1200px;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 30px;
+    box-sizing: border-box;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 20px;
-    padding: 10px 20px;
     backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+.colleges-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.9em;
+    min-width: 900px; 
+}
+.colleges-table th, 
+.colleges-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    vertical-align: top;
+    color: #fff; 
+}
+.colleges-table th {
+    background: rgba(0, 234, 255, 0.1);
+    color: #00eaff;
     font-weight: bold;
-    transition: 0.3s;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.colleges-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.social:hover {
-    background: rgba(255,255,255,0.1);
+/* Цвета для Check/Cross */
+.check { 
+    color: #4CAF50; 
+    font-weight: 700; 
+    font-size: 1.2em; 
+    text-shadow: none; 
+}
+.cross { 
+    color: #F44336; 
+    font-weight: 700; 
+    font-size: 1.2em; 
+    text-shadow: none; 
+}
+
+
+/* Стилизация строк по странам для лучшей наглядности */
+.country-usa { background: rgba(0, 70, 190, 0.05); }
+.country-canada { background: rgba(255, 0, 0, 0.05); }
+.country-uk { background: rgba(120, 0, 120, 0.05); }
+
+
+.disclaimer { text-align: center; margin-top: 20px; color: rgba(255, 255, 255, 0.6); }
+
+/* Адаптивность для таблицы на мобильных (карточки) */
+@media (max-width: 768px) {
+    .colleges-table {
+        min-width: unset; 
+    }
+    .colleges-table, .colleges-table thead, .colleges-table tbody, .colleges-table th, .colleges-table td, .colleges-table tr {
+        display: block;
+    }
+    .colleges-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    .colleges-table td {
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        padding-left: 50%; 
+        text-align: right;
+    }
+    .colleges-table td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: #00eaff;
+    }
+    .colleges-table tr {
+        margin-bottom: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+        padding: 10px 0;
+        display: block;
+    }
+    .colleges-content {
+        width: 95%;
+        padding: 20px; 
+    }
+}
+
+
+/* ====== СТИЛИ ДЛЯ POPUP МАТЕРИАЛОВ ====== */
+
+.materials-content {
+    position: relative;
+    max-width: 700px;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 30px;
+    box-sizing: border-box;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.materials-content h2 {
+    color: #00eaff;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.5em;
+}
+
+.materials-content h3 {
+    color: #fff;
+    border-bottom: 2px solid rgba(0, 234, 255, 0.4); 
+    padding-bottom: 5px;
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+
+.materials-section {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.materials-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.materials-section li {
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    font-size: 0.95em;
+}
+
+.materials-section li:last-child {
+    border-bottom: none;
+}
+
+.materials-section .source {
+    text-align: center;
+    color: rgba(0, 234, 255, 0.8);
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+/* Стили для раздела J-1 Tips */
+.j1-tips-section {
+    border: 2px solid #8a2bff; 
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
+    background: rgba(138, 43, 226, 0.05);
+    margin-top: 20px;
+}
+
+.j1-tips-section h3 {
+    color: #8a2bff; 
+    border-bottom: 1px solid rgba(138, 43, 226, 0.5);
+}
+
+.j1-tips-section li {
+    list-style-type: '💡 '; 
+    padding-left: 5px;
+    padding-bottom: 12px;
 }
 
 @media (max-width: 600px) {
-    h1 { font-size: 2em; }
-    .cta button { width: 80%; margin: 10px 0; }
-    /* На мобильных устройствах курсор-двигатель отключаем */
-    .drag-handle {
-        cursor: default;
+    .materials-content {
+        padding: 20px;
+    }
+}
+
+/* ====== FOOTER STYLES ====== */
+footer {
+    /* Контейнер для центрирования */
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    width: 100%;
+    /* Отступ снизу для поднятия "плавающей" карточки */
+    padding: 0 20px 20px 20px; 
+    box-sizing: border-box;
+    position: fixed; /* Прижимаем к низу */
+    bottom: 0;
+    left: 0;
+    z-index: 900; 
+}
+
+.glass-footer-content {
+    /* Стили "стеклянной" карточки для подвала */
+    background: rgba(255, 255, 255, 0.05); 
+    backdrop-filter: blur(10px); 
+    border-radius: 15px; 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 234, 255, 0.2); /* Бирюзовое свечение */
+    
+    padding: 15px 30px; 
+    
+    /* Содержимое подвала */
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    gap: 25px; 
+    max-width: 650px; 
+    width: 100%; 
+}
+
+.glass-footer-content p {
+    margin: 0;
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.7); /* Светло-серый текст */
+}
+
+.social-links a {
+    color: #fff; /* Белый цвет ссылок */
+    margin-left: 15px;
+    font-weight: bold;
+    transition: color 0.3s, text-shadow 0.3s;
+    text-decoration: none;
+    font-size: 1em;
+}
+
+.social-links a:hover {
+    /* Бирюзовое свечение при наведении */
+    color: #00eaff; 
+    text-shadow: 0 0 8px #00eaff;
+}
+
+/* Адаптивность для подвала на мобильных */
+@media (max-width: 650px) {
+    .glass-footer-content {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px 20px;
+    }
+    .glass-footer-content p {
+        order: 2; 
+        font-size: 0.8em;
+    }
+    .social-links {
+        order: 1; 
+    }
+    .social-links a {
+        margin: 0 10px;
     }
 }
