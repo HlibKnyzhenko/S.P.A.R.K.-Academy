@@ -1,60 +1,28 @@
-// --------------------
-// script.js
-// --------------------
+async function loginToAdmin() {
+    const passwordInput = document.getElementById('adminPasswordInput'); // Убедись, что ID совпадает с твоим HTML
+    const password = passwordInput.value;
+    const errorText = document.querySelector('.error-message'); // Твой элемент для вывода ошибки
 
-// Импортируем Appwrite SDK
-const { Client, Account, ID } = require('appwrite');
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+        });
 
-// --------------------
-// Настраиваем клиент
-// --------------------
-const client = new Client();
+        const data = await response.json();
 
-client
-  .setEndpoint('https://fra.cloud.appwrite.io/v1') // твой API endpoint
-  .setProject('6919bd9c00395c67f284');             // твой Project ID
-
-const account = new Account(client);
-
-// --------------------
-// Функция регистрации
-// --------------------
-async function registerUser(email, password, name) {
-  try {
-    const response = await account.create(ID.unique(), email, password, name);
-    console.log('Регистрация успешна:', response);
-    return response;
-  } catch (error) {
-    console.error('Ошибка при регистрации:', error.message);
-  }
+        if (response.ok && data.success) {
+            // Если пароль верный, сохраняем токен и переходим в админку
+            localStorage.setItem('adminToken', data.token);
+            window.location.href = '/admin-panel.html'; 
+        } else {
+            errorText.textContent = 'Неверный пароль';
+            errorText.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Ошибка:', error);
+        errorText.textContent = 'Ошибка запроса к серверу';
+        errorText.style.display = 'block';
+    }
 }
-
-// --------------------
-// Функция входа
-// --------------------
-async function loginUser(email, password) {
-  try {
-    // Создаём сессию
-    const session = await account.createSession(email, password);
-    console.log('Вход успешен! Сессия:', session);
-
-    // Получаем данные пользователя (личный кабинет)
-    const user = await account.get();
-    console.log('Личный кабинет:', user);
-
-    return user;
-  } catch (error) {
-    console.error('Ошибка при входе:', error.message);
-  }
-}
-
-// --------------------
-// Примеры использования
-// --------------------
-
-// 1️⃣ Зарегистрировать нового пользователя
-// Разкомментируй, если нужно создать нового
-// registerUser('user@example.com', 'password123', 'Gleb');
-
-// 2️⃣ Войти пользователю
-loginUser('user@example.com', 'password123');
