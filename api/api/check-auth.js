@@ -1,21 +1,27 @@
-export default function handler(req, res) {
-  // 1. Проверяем, что это POST запрос (отправка данных)
+export default async function handler(req, res) {
+  // Разрешаем только POST
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Только POST запросы' });
+    return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  // 2. Достаем пароль, который ты ввел на сайте
-  const { password } = req.body;
+  try {
+    // В Vercel req.body для JSON объектов обычно уже распарсен,
+    // но на всякий случай проверяем наличие данных
+    const { password } = req.body;
 
-  // 3. Берем правильный пароль из настроек Vercel
-  const correctPassword = process.env.ADMIN_PANEL_PASSWORD;
+    const correctPassword = process.env.ADMIN_PANEL_PASSWORD;
 
-  // 4. Сравниваем их
-  if (password === correctPassword) {
-    // Если совпало — успех!
-    return res.status(200).json({ success: true });
-  } else {
-    // Если нет — ошибка
-    return res.status(401).json({ success: false, message: 'Неверный пароль' });
+    if (!correctPassword) {
+      console.error("Критическая ошибка: ADMIN_PANEL_PASSWORD не задан в настройках Vercel!");
+      return res.status(500).json({ success: false, error: "Server config error" });
+    }
+
+    if (password === correctPassword) {
+      return res.status(200).json({ success: true });
+    } else {
+      return res.status(401).json({ success: false, message: "Wrong password" });
+    }
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
   }
 }
