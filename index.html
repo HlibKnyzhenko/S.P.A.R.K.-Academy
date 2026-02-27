@@ -357,34 +357,6 @@ p {
     margin-top: 14px;
 }
 
-.admin-stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-    margin-top: 10px;
-}
-
-.admin-stat-card {
-    text-align: left;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    padding: 12px;
-}
-
-.admin-stat-card p {
-    margin: 0;
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 0.95em;
-}
-
-.admin-stat-card strong {
-    display: block;
-    margin-top: 6px;
-    font-size: 1.5em;
-    color: #fff;
-}
-
 .admin-form label {
     text-align: left;
     font-weight: 700;
@@ -649,17 +621,6 @@ table.colleges-table {
         </div>
 
         <div id="admin-editor-block" style="display:none;">
-            <div class="admin-stats-grid">
-                <div class="admin-stat-card">
-                    <p>Всего учеников</p>
-                    <strong id="adminTotalStudents">-</strong>
-                </div>
-                <div class="admin-stat-card">
-                    <p>Зарегистрировались сегодня</p>
-                    <strong id="adminRegisteredToday">-</strong>
-                </div>
-            </div>
-
             <form id="adminDataForm" class="admin-form">
                 <label for="adminLessons">Уроки и время (1 строка = 1 урок)</label>
                 <textarea id="adminLessons"></textarea>
@@ -1108,10 +1069,6 @@ let currentLang = 'ru';
 let authMode = 'register';
 let isAdminAuthenticated = false;
 let adminSessionPassword = '';
-let adminStatsCache = {
-    totalStudents: 0,
-    registeredToday: 0
-};
 let academyDataCache = {
     lessons: [...defaultAcademyData.lessons],
     teachers: [...defaultAcademyData.teachers],
@@ -1177,17 +1134,6 @@ async function resetAcademyDataRemote() {
         })
     });
     academyDataCache = payload.academyData;
-}
-
-async function loadAdminStats() {
-    const payload = await apiRequest('/api/admin/stats', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            adminPassword: adminSessionPassword
-        })
-    });
-    adminStatsCache = payload.stats || { totalStudents: 0, registeredToday: 0 };
 }
 
 function changeLanguage(lang) {
@@ -1428,16 +1374,9 @@ function closeOtherInfo() {
     document.getElementById('other-popup').style.display = 'none';
 }
 
-async function openAdminPanel() {
+function openAdminPanel() {
     closeAllPopups();
     document.getElementById('admin-popup').style.display = 'flex';
-    if (isAdminAuthenticated) {
-        try {
-            await loadAdminStats();
-        } catch (error) {
-            setAdminStatus(error.message, true);
-        }
-    }
     renderAdminState();
 }
 
@@ -1453,15 +1392,12 @@ function renderAdminState() {
         document.getElementById('adminLessons').value = academyDataCache.lessons.join('\n');
         document.getElementById('adminTeachers').value = academyDataCache.teachers.join('\n');
         document.getElementById('adminHomework').value = academyDataCache.homework.join('\n');
-        document.getElementById('adminTotalStudents').innerText = String(adminStatsCache.totalStudents ?? 0);
-        document.getElementById('adminRegisteredToday').innerText = String(adminStatsCache.registeredToday ?? 0);
     }
 }
 
 function adminLogout() {
     isAdminAuthenticated = false;
     adminSessionPassword = '';
-    adminStatsCache = { totalStudents: 0, registeredToday: 0 };
     renderAdminState();
     setAdminStatus('Вы вышли из админ-панели.', false);
 }
@@ -1499,7 +1435,6 @@ document.getElementById('adminLoginForm').addEventListener('submit', async funct
         });
         isAdminAuthenticated = true;
         adminSessionPassword = password;
-        await loadAdminStats();
         document.getElementById('adminPassword').value = '';
         renderAdminState();
         setAdminStatus('Доступ к админ-панели открыт.', false);
