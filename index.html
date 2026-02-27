@@ -323,7 +323,29 @@ p {
     color: rgba(255,255,255,0.7);
 }
 
+.account-form select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.account-form select option {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
 #auth-status {
+    margin-top: 10px;
+    min-height: 20px;
+    font-size: 0.95em;
+}
+
+#special-request-status {
     margin-top: 10px;
     min-height: 20px;
     font-size: 0.95em;
@@ -490,6 +512,7 @@ table.colleges-table {
         <div class="cta" id="guestCta">
             <button onclick="openAuthPopup('register')"><span id="btnCreateAccount">Создать аккаунт</span></button>
             <button onclick="openAuthPopup('login')"><span id="btnLogin">Войти в аккаунт</span></button>
+            <button onclick="openSpecialRequestPopup()"><span id="btnSpecialRequest">Подать специальную заявку</span></button>
         </div>
 
         <div id="dashboard" style="display:none;">
@@ -554,6 +577,32 @@ table.colleges-table {
         </div>
 
         <p id="auth-status"></p>
+    </div>
+</div>
+
+<div id="special-request-popup" class="form-popup">
+    <div class="glass" style="max-width: 520px;">
+        <button class="close-btn" onclick="closeSpecialRequestPopup()">×</button>
+        <h2 id="special-request-title">Специальная заявка</h2>
+
+        <form id="specialRequestForm" class="account-form" action="https://formspree.io/f/xojnbkde" method="POST">
+            <input type="text" name="name" id="specialName" placeholder="Как вас зовут?" required>
+            <input type="number" name="age" id="specialAge" placeholder="Сколько вам лет?" min="1" max="100" required>
+            <select name="english_level" id="specialEnglishLevel" required>
+                <option value="" disabled selected>Примерный уровень английского языка</option>
+                <option value="A1">A1 (Beginner)</option>
+                <option value="A2">A2 (Elementary)</option>
+                <option value="B1">B1 (Intermediate)</option>
+                <option value="B2">B2 (Upper-Intermediate)</option>
+                <option value="C1">C1 (Advanced)</option>
+                <option value="C2">C2 (Proficient)</option>
+                <option value="Not sure">Не знаю точно</option>
+            </select>
+            <input type="text" name="telegram_username" id="specialTelegram" placeholder="Ваш Telegram username (@username)" required>
+            <button type="submit" class="submit-btn">Отправить заявку</button>
+        </form>
+
+        <p id="special-request-status"></p>
     </div>
 </div>
 
@@ -938,6 +987,7 @@ const translations = {
         description: 'Создайте аккаунт, чтобы видеть расписание уроков, преподавателей и домашние задания.',
         btnCreateAccount: 'Создать аккаунт',
         btnLogin: 'Войти в аккаунт',
+        btnSpecialRequest: 'Подать специальную заявку',
         btnLogout: 'Выйти из аккаунта',
         menuButton: '☰',
         navColleges: 'Колледжи',
@@ -958,6 +1008,7 @@ const translations = {
         description: 'Create an account to see your lessons schedule, teachers and homework.',
         btnCreateAccount: 'Create account',
         btnLogin: 'Log in',
+        btnSpecialRequest: 'Submit special request',
         btnLogout: 'Log out',
         menuButton: '☰',
         navColleges: 'Colleges',
@@ -978,6 +1029,7 @@ const translations = {
         description: 'Створіть акаунт, щоб бачити розклад уроків, викладачів і домашні завдання.',
         btnCreateAccount: 'Створити акаунт',
         btnLogin: 'Увійти в акаунт',
+        btnSpecialRequest: 'Подати спеціальну заявку',
         btnLogout: 'Вийти з акаунта',
         menuButton: '☰',
         navColleges: 'Коледжі',
@@ -1092,6 +1144,7 @@ function changeLanguage(lang) {
     document.getElementById('description').innerText = t.description;
     document.getElementById('btnCreateAccount').innerText = t.btnCreateAccount;
     document.getElementById('btnLogin').innerText = t.btnLogin;
+    document.getElementById('btnSpecialRequest').innerText = t.btnSpecialRequest;
     document.getElementById('btnLogout').innerText = t.btnLogout;
     document.querySelector('.menu-toggle').innerText = t.menuButton;
 
@@ -1130,6 +1183,17 @@ function closeAuthPopup() {
     setAuthStatus('');
 }
 
+function openSpecialRequestPopup() {
+    closeAllPopups();
+    document.getElementById('special-request-popup').style.display = 'flex';
+    setSpecialRequestStatus('');
+}
+
+function closeSpecialRequestPopup() {
+    document.getElementById('special-request-popup').style.display = 'none';
+    setSpecialRequestStatus('');
+}
+
 function switchAuthMode(mode) {
     authMode = mode;
     const isRegister = mode === 'register';
@@ -1147,6 +1211,12 @@ function setAuthStatus(text, isError) {
 
 function setAdminStatus(text, isError) {
     const el = document.getElementById('admin-status');
+    el.innerText = text;
+    el.style.color = isError ? '#ff8b8b' : '#7df6b0';
+}
+
+function setSpecialRequestStatus(text, isError) {
+    const el = document.getElementById('special-request-status');
     el.innerText = text;
     el.style.color = isError ? '#ff8b8b' : '#7df6b0';
 }
@@ -1226,6 +1296,36 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         setTimeout(closeAuthPopup, 500);
     } catch (error) {
         setAuthStatus(error.message, true);
+    }
+});
+
+document.getElementById('specialRequestForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const form = event.target;
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    setSpecialRequestStatus('Отправляем заявку...', false);
+
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Не удалось отправить заявку. Попробуйте позже.');
+        }
+
+        form.reset();
+        setSpecialRequestStatus('Заявка отправлена. Спасибо!', false);
+    } catch (error) {
+        setSpecialRequestStatus(error.message || 'Ошибка отправки.', true);
+    } finally {
+        submitButton.disabled = false;
     }
 });
 
