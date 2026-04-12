@@ -7,21 +7,36 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { name, email, password } = req.body || {};
+    const { name, email, password, englishLevel, motivation } = req.body || {};
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !englishLevel || !motivation) {
       return res.status(400).json({ error: 'Заполните все поля.' });
     }
 
     const normalizedEmail = String(email).trim().toLowerCase();
     const normalizedName = String(name).trim();
+    const normalizedEnglishLevel = String(englishLevel).trim().toUpperCase();
+    const normalizedMotivation = String(motivation).trim();
+    const allowedLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'NOT SURE'];
 
     if (!normalizedEmail.includes('@')) {
       return res.status(400).json({ error: 'Некорректный email.' });
     }
 
+    if (!normalizedName) {
+      return res.status(400).json({ error: 'Введите имя.' });
+    }
+
     if (String(password).length < 6) {
       return res.status(400).json({ error: 'Пароль должен быть минимум 6 символов.' });
+    }
+
+    if (!allowedLevels.includes(normalizedEnglishLevel)) {
+      return res.status(400).json({ error: 'Выберите уровень английского.' });
+    }
+
+    if (normalizedMotivation.length < 20) {
+      return res.status(400).json({ error: 'Ответьте подробнее, почему мы должны выбрать именно вас.' });
     }
 
     const state = await getState();
@@ -35,6 +50,8 @@ module.exports = async function handler(req, res) {
       name: normalizedName,
       email: normalizedEmail,
       passwordHash: hashPassword(password),
+      englishLevel: normalizedEnglishLevel,
+      motivation: normalizedMotivation,
       createdAt: new Date().toISOString()
     };
 
@@ -45,7 +62,9 @@ module.exports = async function handler(req, res) {
       ok: true,
       user: {
         name: user.name,
-        email: user.email
+        email: user.email,
+        englishLevel: user.englishLevel,
+        motivation: user.motivation
       }
     });
   } catch (error) {

@@ -8,14 +8,14 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
-      const { lessons, teachers, homework, adminPassword } = req.body || {};
+      const { intake, lessons, teachers, homework, adminPassword } = req.body || {};
       const serverAdminPassword = process.env.ADMIN_PANEL_PASSWORD || 'spark-admin-2026';
 
       if (adminPassword !== serverAdminPassword) {
         return res.status(401).json({ error: 'Неверный админ пароль.' });
       }
 
-      const academyData = sanitizeAcademyData({ lessons, teachers, homework });
+      const academyData = sanitizeAcademyData({ intake, lessons, teachers, homework });
       const state = await getState();
       state.academyData = academyData;
       await saveState(state);

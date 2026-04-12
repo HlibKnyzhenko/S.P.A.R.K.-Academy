@@ -202,6 +202,220 @@ p {
     box-shadow: 0 0 30px rgba(0,0,0,0.5);
 }
 
+.landing-section {
+    width: min(1100px, calc(100% - 40px));
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+}
+
+.section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.06);
+    font-size: 0.82em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.74);
+}
+
+.hero-shell {
+    margin-top: 30px;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.85fr);
+    gap: 24px;
+    align-items: stretch;
+}
+
+.hero-copy {
+    text-align: left;
+}
+
+.hero-copy h1 {
+    max-width: 760px;
+}
+
+.hero-copy p {
+    max-width: 720px;
+}
+
+.hero-seat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 0 10px;
+    padding: 12px 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.04));
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.18);
+    font-size: 0.98em;
+    font-weight: 700;
+}
+
+.hero-seat-badge::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #7df6b0;
+    box-shadow: 0 0 14px rgba(125, 246, 176, 0.8);
+    flex-shrink: 0;
+}
+
+.hero-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.hero-highlight {
+    text-align: left;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+}
+
+.hero-highlight strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1em;
+}
+
+.hero-highlight span {
+    display: block;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.45;
+    font-size: 0.94em;
+}
+
+.hero-panel {
+    text-align: left;
+    padding: 22px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.hero-panel-label {
+    margin: 0 0 10px;
+    font-size: 0.82em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.58);
+}
+
+.hero-panel h3 {
+    margin: 0 0 12px;
+    font-size: 1.4em;
+}
+
+.hero-panel p {
+    margin-top: 0;
+}
+
+.hero-panel-list {
+    margin-top: 18px;
+    padding-left: 0;
+    list-style: none;
+}
+
+.hero-panel-list li {
+    position: relative;
+    padding-left: 24px;
+}
+
+.hero-panel-list li::before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 12px rgba(255,255,255,0.45);
+}
+
+.section-heading {
+    text-align: left;
+    margin-bottom: 26px;
+}
+
+.section-heading h2 {
+    margin: 16px 0 10px;
+    font-size: 2em;
+}
+
+.roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    position: relative;
+}
+
+.roadmap-step {
+    position: relative;
+    text-align: left;
+    padding: 22px 18px 18px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.roadmap-step::after {
+    content: "";
+    position: absolute;
+    inset: auto -25% -45% 25%;
+    height: 120px;
+    background: radial-gradient(circle, rgba(255,255,255,0.13), transparent 68%);
+    pointer-events: none;
+}
+
+.roadmap-step:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.2);
+    box-shadow: 0 18px 35px rgba(0,0,0,0.18);
+}
+
+.roadmap-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.08);
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.roadmap-step h3 {
+    margin: 0 0 10px;
+    font-size: 1.08em;
+}
+
+.roadmap-step p {
+    margin: 0;
+    font-size: 0.96em;
+    line-height: 1.5;
+}
+
 .glass::-webkit-scrollbar {
     width: 8px;
 }
@@ -303,6 +517,141 @@ p {
     margin-bottom: 8px;
 }
 
+.dashboard-shell {
+    text-align: left;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.dashboard-intro {
+    flex: 1 1 360px;
+    margin-top: 0;
+}
+
+.dashboard-intro h3 {
+    font-size: 1.5em;
+}
+
+.dashboard-intro p {
+    margin-bottom: 0;
+}
+
+.progress-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.progress-card {
+    margin-top: 0;
+}
+
+.progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.progress-meta span {
+    color: rgba(255,255,255,0.76);
+}
+
+.progress-meta strong {
+    font-size: 1.4em;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.progress-bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, rgba(255,255,255,0.68), rgba(255,255,255,0.95));
+    box-shadow: 0 0 18px rgba(255,255,255,0.28);
+}
+
+.progress-hint {
+    margin: 12px 0 0;
+    font-size: 0.95em;
+    color: rgba(255,255,255,0.72);
+}
+
+.achievement-panel {
+    grid-column: span 2;
+}
+
+.achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.achievement-card {
+    padding: 16px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+}
+
+.achievement-card strong,
+.achievement-card span {
+    display: block;
+}
+
+.achievement-card strong {
+    margin-bottom: 8px;
+}
+
+.achievement-card span {
+    color: rgba(255,255,255,0.76);
+    line-height: 1.45;
+    font-size: 0.92em;
+}
+
+.achievement-state {
+    display: inline-flex;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.08);
+    font-size: 0.74em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.achievement-card.locked {
+    opacity: 0.72;
+}
+
+.dashboard-focus {
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #fff;
+    font-weight: 700;
+}
+
 .account-form {
     display: grid;
     gap: 10px;
@@ -320,6 +669,23 @@ p {
 }
 
 .account-form input::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.account-form textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    box-sizing: border-box;
+    resize: vertical;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.account-form textarea::placeholder {
     color: rgba(255,255,255,0.7);
 }
 
@@ -391,7 +757,9 @@ p {
 }
 
 .admin-form textarea,
-.admin-form input[type="password"] {
+.admin-form input[type="password"],
+.admin-form input[type="text"],
+.admin-form input[type="number"] {
     width: 100%;
     box-sizing: border-box;
     border-radius: 10px;
@@ -405,6 +773,12 @@ p {
 .admin-form textarea {
     min-height: 110px;
     resize: vertical;
+}
+
+.admin-inline-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
 }
 
 #admin-status {
@@ -497,6 +871,27 @@ table.colleges-table {
         font-size: 1.9em;
     }
 
+    .landing-section {
+        width: calc(100% - 24px);
+        padding: 22px 18px;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading h2 {
+        font-size: 1.6em;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+    }
+
+    .achievement-panel {
+        grid-column: span 1;
+    }
+
     .cta button,
     .submit-btn,
     .account-btn {
@@ -533,42 +928,103 @@ table.colleges-table {
 </div>
 
 <main>
-    <div class="glass">
-        <h1 id="title">Добро пожаловать в S.P.A.R.K. Academy!</h1>
-        <p id="description">Создайте аккаунт, чтобы видеть расписание уроков, преподавателей и домашние задания.</p>
+    <section class="glass landing-section hero-shell">
+        <div class="hero-grid">
+            <div class="hero-copy">
+                <span class="section-eyebrow" id="heroEyebrow">Selective Admission Track</span>
+                <div class="hero-seat-badge" id="heroSeatsBadge">Набор на весенний поток: осталось 4 места из 15</div>
+                <h1 id="title">Твой путь в топовые колледжи США начинается здесь.</h1>
+                <p id="description">Академия с международным признанием, где English, soft skills и сильное портфолио собираются в одну селективную траекторию.</p>
+                <div class="hero-highlights" id="heroHighlights"></div>
 
-        <div class="cta" id="guestCta">
-            <button onclick="openAuthPopup('register')"><span id="btnCreateAccount">Создать аккаунт</span></button>
-            <button onclick="openAuthPopup('login')"><span id="btnLogin">Войти в аккаунт</span></button>
-            <button onclick="openSpecialRequestPopup()"><span id="btnSpecialRequest">Подать специальную заявку</span></button>
-        </div>
-
-        <div id="dashboard" style="display:none;">
-            <div class="account-actions cta" style="margin-top: 18px;">
-                <button class="account-btn" onclick="logout()"><span id="btnLogout">Выйти из аккаунта</span></button>
+                <div class="cta" id="guestCta">
+                    <button onclick="openAuthPopup('register')"><span id="btnCreateAccount">Подать заявку на интервью</span></button>
+                    <button onclick="openAuthPopup('login')"><span id="btnLogin">Войти в кабинет</span></button>
+                    <button onclick="openSpecialRequestPopup()"><span id="btnSpecialRequest">Подать специальную заявку</span></button>
+                </div>
             </div>
 
-            <div class="account-card">
+            <aside class="hero-panel">
+                <p class="hero-panel-label" id="heroPanelLabel">Admission Format</p>
+                <h3 id="heroPanelTitle">Отбираем не всех, а тех, кто готов расти быстро.</h3>
+                <p id="heroPanelText">Каждый кандидат проходит короткий отборочный маршрут, после которого мы строим персональную траекторию к колледжу, стажировке или сильному портфолио.</p>
+                <ul class="hero-panel-list" id="heroPanelList"></ul>
+            </aside>
+        </div>
+    </section>
+
+    <section class="glass landing-section roadmap-shell" id="roadmapSection">
+        <div class="section-heading">
+            <span class="section-eyebrow" id="roadmapEyebrow">Roadmap</span>
+            <h2 id="roadmapTitle">От первого теста до подачи в колледж</h2>
+            <p id="roadmapDescription">Прозрачный маршрут, по которому ученик двигается шаг за шагом вместе с академией.</p>
+        </div>
+        <div class="roadmap-grid" id="roadmapGrid"></div>
+    </section>
+
+    <section id="dashboard" class="glass landing-section dashboard-shell" style="display:none;">
+        <div class="dashboard-header">
+            <div class="account-card dashboard-intro">
                 <h3 id="welcomeUser">Личный кабинет</h3>
+                <p id="dashboardLead">Ваш текущий трек и следующий шаг.</p>
                 <p id="nextLessonText">Ближайший урок: Среда, 18:00 (Speaking Club)</p>
             </div>
-
-            <div class="dashboard-grid">
-                <div class="account-card">
-                    <h3 id="lessonsTitle">Когда уроки</h3>
-                    <ul class="dashboard-list" id="lessonsList"></ul>
-                </div>
-                <div class="account-card">
-                    <h3 id="teachersTitle">Учителя</h3>
-                    <ul class="dashboard-list" id="teachersList"></ul>
-                </div>
-                <div class="account-card">
-                    <h3 id="homeworkTitle">Домашние задания</h3>
-                    <ul class="dashboard-list" id="homeworkList"></ul>
-                </div>
+            <div class="account-actions cta" style="margin-top: 0;">
+                <button class="account-btn" onclick="logout()"><span id="btnLogout">Выйти из аккаунта</span></button>
             </div>
         </div>
-    </div>
+
+        <div class="progress-grid">
+            <div class="account-card progress-card">
+                <div class="progress-meta">
+                    <span id="englishProgressLabel">Прогресс к уровню B2</span>
+                    <strong id="englishProgressValue">0%</strong>
+                </div>
+                <div class="progress-bar">
+                    <span id="englishProgressBar" style="width:0%;"></span>
+                </div>
+                <p class="progress-hint" id="englishProgressHint">Следующий фокус: пройти интервью и определить стартовый уровень.</p>
+            </div>
+
+            <div class="account-card progress-card">
+                <div class="progress-meta">
+                    <span id="portfolioProgressLabel">Готовность портфолио</span>
+                    <strong id="portfolioProgressValue">0%</strong>
+                </div>
+                <div class="progress-bar">
+                    <span id="portfolioProgressBar" style="width:0%;"></span>
+                </div>
+                <p class="progress-hint" id="portfolioProgressHint">Мы соберем академическую историю, кейсы и позиционирование под твою цель.</p>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="account-card">
+                <h3 id="lessonsTitle">Когда уроки</h3>
+                <ul class="dashboard-list" id="lessonsList"></ul>
+            </div>
+            <div class="account-card">
+                <h3 id="teachersTitle">Учителя</h3>
+                <ul class="dashboard-list" id="teachersList"></ul>
+            </div>
+            <div class="account-card">
+                <h3 id="homeworkTitle">Домашние задания</h3>
+                <ul class="dashboard-list" id="homeworkList"></ul>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="account-card achievement-panel">
+                <h3 id="achievementsTitle">Достижения</h3>
+                <div class="achievement-grid" id="achievementGrid"></div>
+            </div>
+            <div class="account-card">
+                <h3 id="nextMilestoneTitle">Следующий milestone</h3>
+                <p id="nextMilestoneText">Сфокусируйтесь на первом интервью и диагностике уровня.</p>
+                <div class="dashboard-focus" id="dashboardFocus">Фокус недели: подготовить сильный ответ о своей цели и мотивации.</div>
+            </div>
+        </div>
+    </section>
 </main>
 
 <footer>
@@ -584,24 +1040,35 @@ table.colleges-table {
 <div id="auth-popup" class="form-popup">
     <div class="glass" style="max-width: 500px;">
         <button class="close-btn" onclick="closeAuthPopup()">×</button>
-        <h2 id="auth-title">Создать аккаунт</h2>
+        <h2 id="auth-title">Подать заявку на интервью</h2>
 
         <form id="registerForm" class="account-form">
-            <input type="text" id="regName" placeholder="Имя" required>
+            <input type="text" id="regName" placeholder="Имя и фамилия" required>
             <input type="email" id="regEmail" placeholder="Email" required>
             <input type="password" id="regPassword" placeholder="Пароль" required>
-            <button type="submit" class="submit-btn">Создать аккаунт</button>
+            <select id="regEnglishLevel" required>
+                <option value="" disabled selected>Текущий уровень английского</option>
+                <option value="A1">A1 (Beginner)</option>
+                <option value="A2">A2 (Elementary)</option>
+                <option value="B1">B1 (Intermediate)</option>
+                <option value="B2">B2 (Upper-Intermediate)</option>
+                <option value="C1">C1 (Advanced)</option>
+                <option value="C2">C2 (Proficient)</option>
+                <option value="Not sure">Не знаю точно</option>
+            </select>
+            <textarea id="regMotivation" placeholder="Почему мы должны выбрать именно тебя?" required></textarea>
+            <button type="submit" class="submit-btn" id="registerSubmitButton">Подать заявку на интервью</button>
         </form>
 
         <form id="loginForm" class="account-form" style="display:none;">
             <input type="email" id="loginEmail" placeholder="Email" required>
             <input type="password" id="loginPassword" placeholder="Пароль" required>
-            <button type="submit" class="submit-btn">Войти</button>
+            <button type="submit" class="submit-btn" id="loginSubmitButton">Войти в кабинет</button>
         </form>
 
         <div class="cta" style="margin-top: 16px;">
-            <button onclick="switchAuthMode('register')" id="switchToRegister">Регистрация</button>
-            <button onclick="switchAuthMode('login')" id="switchToLogin">Вход</button>
+            <button onclick="switchAuthMode('register')" id="switchToRegister">Подать заявку</button>
+            <button onclick="switchAuthMode('login')" id="switchToLogin">Войти</button>
         </div>
 
         <p id="auth-status"></p>
@@ -626,7 +1093,9 @@ table.colleges-table {
                 <option value="C2">C2 (Proficient)</option>
                 <option value="Not sure">Не знаю точно</option>
             </select>
+            <input type="text" name="goal" id="specialGoal" placeholder="В какой колледж, программу или стажировку вы целитесь?" required>
             <input type="text" name="telegram_username" id="specialTelegram" placeholder="Ваш Telegram username (@username)" required>
+            <textarea name="why_choose_me" id="specialMotivation" placeholder="Почему мы должны выбрать именно тебя?" required></textarea>
             <button type="submit" class="submit-btn">Отправить заявку</button>
         </form>
 
@@ -655,12 +1124,27 @@ table.colleges-table {
                     <strong id="adminTotalStudents">-</strong>
                 </div>
                 <div class="admin-stat-card">
-                    <p>Зарегистрировались сегодня</p>
+                    <p>Подали заявку сегодня</p>
                     <strong id="adminRegisteredToday">-</strong>
                 </div>
             </div>
 
             <form id="adminDataForm" class="admin-form">
+                <div class="admin-inline-grid">
+                    <div>
+                        <label for="adminCohortLabel">Название потока</label>
+                        <input type="text" id="adminCohortLabel" placeholder="например, весенний поток">
+                    </div>
+                    <div>
+                        <label for="adminRemainingSeats">Осталось мест</label>
+                        <input type="number" id="adminRemainingSeats" min="0" step="1">
+                    </div>
+                    <div>
+                        <label for="adminTotalSeats">Всего мест</label>
+                        <input type="number" id="adminTotalSeats" min="1" step="1">
+                    </div>
+                </div>
+
                 <label for="adminLessons">Уроки и время (1 строка = 1 урок)</label>
                 <textarea id="adminLessons"></textarea>
 
@@ -1022,10 +1506,12 @@ table.colleges-table {
 <script>
 const translations = {
     ru: {
-        title: 'Добро пожаловать в S.P.A.R.K. Academy!',
-        description: 'Создайте аккаунт, чтобы видеть расписание уроков, преподавателей и домашние задания.',
-        btnCreateAccount: 'Создать аккаунт',
-        btnLogin: 'Войти в аккаунт',
+        heroEyebrow: 'Selective Admission Track',
+        title: 'Твой путь в топовые колледжи США начинается здесь.',
+        description: 'Академия с международным признанием, где English, soft skills и сильное портфолио собираются в одну селективную траекторию.',
+        intakeTemplate: 'Набор на {cohort}: осталось {remaining} {seatWord} из {total}',
+        btnCreateAccount: 'Подать заявку на интервью',
+        btnLogin: 'Войти в кабинет',
         btnSpecialRequest: 'Подать специальную заявку',
         btnLogout: 'Выйти из аккаунта',
         menuButton: '☰',
@@ -1035,19 +1521,104 @@ const translations = {
         navApps: 'Приложения',
         navOther: 'Прочее',
         navAdmin: 'Админ панель',
+        heroHighlights: [
+            {
+                title: 'English + Soft Skills',
+                text: 'Подтягиваем язык, уверенность и интервью-стратегию в одном интенсиве.'
+            },
+            {
+                title: 'Portfolio Strategy',
+                text: 'Собираем достижения, эссе и позиционирование под реальные требования колледжей.'
+            },
+            {
+                title: 'Selective Community',
+                text: 'Небольшие группы и высокий личный фокус вместо массового потока.'
+            }
+        ],
+        heroPanelLabel: 'Admission Format',
+        heroPanelTitle: 'Отбираем не всех, а тех, кто готов расти быстро.',
+        heroPanelText: 'Каждый кандидат проходит короткий отборочный маршрут, после которого мы строим персональную траекторию к колледжу, стажировке или сильному портфолио.',
+        heroPanelChecklist: [
+            'Тестирование уровня и интервью с куратором',
+            'Интенсив по English и soft skills',
+            'Портфолио, позиционирование и подача'
+        ],
+        roadmapEyebrow: 'Roadmap',
+        roadmapTitle: 'От первого теста до подачи в колледж',
+        roadmapDescription: 'Прозрачный путь, по которому ученик двигается шаг за шагом вместе с академией.',
+        roadmapSteps: [
+            {
+                title: 'Тестирование уровня и интервью',
+                text: 'Определяем стартовую точку, мотивацию и формат сопровождения.'
+            },
+            {
+                title: 'Интенсив по English & Soft Skills',
+                text: 'Прокачиваем speaking, writing, уверенность и академическую коммуникацию.'
+            },
+            {
+                title: 'Формирование портфолио',
+                text: 'Собираем достижения, проекты, эссе и сильную историю кандидата.'
+            },
+            {
+                title: 'Подача в колледж / стажировку',
+                text: 'Финализируем документы, shortlist и выходим на следующий уровень отбора.'
+            }
+        ],
         lessonsTitle: 'Когда уроки',
         teachersTitle: 'Учителя',
         homeworkTitle: 'Домашние задания',
-        authRegister: 'Создать аккаунт',
-        authLogin: 'Вход в аккаунт',
-        nextLessonPrefix: 'Ближайший урок:'
+        authRegister: 'Подать заявку на интервью',
+        authLogin: 'Войти в кабинет',
+        nextLessonPrefix: 'Ближайший урок:',
+        dashboardWelcomeSuffix: ', ваш личный кабинет',
+        dashboardLeadTemplate: 'Текущий уровень: {level}. Ваш маршрут ведет к B2, сильному портфолио и подаче.',
+        englishProgressLabel: 'Прогресс к уровню B2',
+        englishProgressHintTemplate: 'Текущий уровень: {level}. Следующий шаг: довести speaking и confidence до B2.',
+        portfolioProgressLabel: 'Готовность портфолио',
+        portfolioProgressHint: 'Собираем кейсы, достижения и narrative под сильную заявку.',
+        achievementsTitle: 'Достижения',
+        achievementUnlocked: 'Открыто',
+        achievementLocked: 'В процессе',
+        nextMilestoneTitle: 'Следующий milestone',
+        focusTemplate: 'Фокус недели: {focus}',
+        milestoneEnglish: 'Пройти интервью уровня и войти в интенсив по English & Soft Skills.',
+        milestonePortfolio: 'Собрать 3 сильных кейса и оформить академическую историю для портфолио.',
+        milestoneApply: 'Подготовить shortlist колледжей или стажировок и выйти на подачу.',
+        focusEnglish: 'подготовить speaking sample и ответ о своей цели',
+        focusPortfolio: 'упаковать достижения, проекты и мотивацию в единый профиль',
+        focusApply: 'сверить дедлайны и финализировать пакет документов',
+        badges: {
+            application: {
+                title: 'Interview Applicant',
+                unlocked: 'Заявка подана и профиль открыт в системе.',
+                locked: 'Начни с подачи заявки на интервью.'
+            },
+            homework: {
+                title: 'Homework Hero',
+                unlocked: 'Домашние задания уже работают на твой академический прогресс.',
+                locked: 'Откроется после уверенного движения по интенсиву.'
+            },
+            speaking: {
+                title: 'Perfect Speaking Session',
+                unlocked: 'Уровень позволяет уверенно заходить в speaking-интенсив.',
+                locked: 'Откроется после усиления speaking и interview answers.'
+            },
+            portfolio: {
+                title: 'Portfolio Architect',
+                unlocked: 'Профиль уже достаточно сильный для портфолио-упаковки.',
+                locked: 'Откроется, когда соберем кейсы и академическую историю.'
+            }
+        },
+        notSureLevel: 'Не знаю точно'
     },
     en: {
-        title: 'Welcome to S.P.A.R.K. Academy!',
-        description: 'Create an account to see your lessons schedule, teachers and homework.',
-        btnCreateAccount: 'Create account',
-        btnLogin: 'Log in',
-        btnSpecialRequest: 'Submit special request',
+        heroEyebrow: 'Selective Admission Track',
+        title: 'Your path to top U.S. colleges starts here.',
+        description: 'An internationally minded academy where English, soft skills, and a strong portfolio become one selective growth track.',
+        intakeTemplate: '{cohort} intake: {remaining} {seatWord} left out of {total}',
+        btnCreateAccount: 'Apply for Interview',
+        btnLogin: 'Open Dashboard',
+        btnSpecialRequest: 'Submit Special Request',
         btnLogout: 'Log out',
         menuButton: '☰',
         navColleges: 'Colleges',
@@ -1056,18 +1627,103 @@ const translations = {
         navApps: 'Apps',
         navOther: 'Other',
         navAdmin: 'Admin Panel',
+        heroHighlights: [
+            {
+                title: 'English + Soft Skills',
+                text: 'We build language mastery, confidence, and interview strategy in one intensive track.'
+            },
+            {
+                title: 'Portfolio Strategy',
+                text: 'We shape achievements, essays, and positioning around real college expectations.'
+            },
+            {
+                title: 'Selective Community',
+                text: 'Small cohorts and high-touch guidance instead of a mass-market format.'
+            }
+        ],
+        heroPanelLabel: 'Admission Format',
+        heroPanelTitle: 'We do not admit everyone. We work with students ready to move fast.',
+        heroPanelText: 'Each applicant goes through a short evaluation path before we build a personal route toward college admission, internships, or a standout portfolio.',
+        heroPanelChecklist: [
+            'Level testing and interview with a mentor',
+            'English and soft skills intensive',
+            'Portfolio strategy and college applications'
+        ],
+        roadmapEyebrow: 'Roadmap',
+        roadmapTitle: 'From the first assessment to the final application',
+        roadmapDescription: 'A clear four-step path that guides each student through the academy experience.',
+        roadmapSteps: [
+            {
+                title: 'Level Testing and Interview',
+                text: 'We define the starting point, motivation, and the right support format.'
+            },
+            {
+                title: 'English & Soft Skills Intensive',
+                text: 'We sharpen speaking, writing, confidence, and academic communication.'
+            },
+            {
+                title: 'Portfolio Building',
+                text: 'We package achievements, projects, essays, and a compelling applicant story.'
+            },
+            {
+                title: 'College / Internship Submission',
+                text: 'We finalize documents, the shortlist, and the next stage of applications.'
+            }
+        ],
         lessonsTitle: 'Lesson schedule',
         teachersTitle: 'Teachers',
         homeworkTitle: 'Homework',
-        authRegister: 'Create account',
-        authLogin: 'Log in',
-        nextLessonPrefix: 'Next lesson:'
+        authRegister: 'Apply for Interview',
+        authLogin: 'Open Dashboard',
+        nextLessonPrefix: 'Next lesson:',
+        dashboardWelcomeSuffix: ', your dashboard',
+        dashboardLeadTemplate: 'Current level: {level}. Your route leads to B2, a stronger portfolio, and final applications.',
+        englishProgressLabel: 'Progress to B2',
+        englishProgressHintTemplate: 'Current level: {level}. Next move: strengthen speaking and confidence to reach B2.',
+        portfolioProgressLabel: 'Portfolio readiness',
+        portfolioProgressHint: 'We package achievements, cases, and narrative into one strong profile.',
+        achievementsTitle: 'Achievements',
+        achievementUnlocked: 'Unlocked',
+        achievementLocked: 'In progress',
+        nextMilestoneTitle: 'Next milestone',
+        focusTemplate: 'This week focus: {focus}',
+        milestoneEnglish: 'Complete the level interview and step into the English & Soft Skills intensive.',
+        milestonePortfolio: 'Collect 3 strong cases and build the academic story for your portfolio.',
+        milestoneApply: 'Finalize the shortlist and move to college or internship submission.',
+        focusEnglish: 'prepare a speaking sample and a clear answer about your goal',
+        focusPortfolio: 'package achievements, projects, and motivation into one profile',
+        focusApply: 'align deadlines and finalize your document package',
+        badges: {
+            application: {
+                title: 'Interview Applicant',
+                unlocked: 'Your application is in and your profile is now active.',
+                locked: 'Start by submitting your interview application.'
+            },
+            homework: {
+                title: 'Homework Hero',
+                unlocked: 'Your assignments are already feeding your academic momentum.',
+                locked: 'Unlocks once you build steady momentum in the intensive.'
+            },
+            speaking: {
+                title: 'Perfect Speaking Session',
+                unlocked: 'Your current level supports confident speaking-session work.',
+                locked: 'Unlocks after your speaking and interview answers get stronger.'
+            },
+            portfolio: {
+                title: 'Portfolio Architect',
+                unlocked: 'Your profile is strong enough to move into portfolio packaging.',
+                locked: 'Unlocks when we gather your cases and academic story.'
+            }
+        },
+        notSureLevel: 'Not sure'
     },
     ua: {
-        title: 'Ласкаво просимо до S.P.A.R.K. Academy!',
-        description: 'Створіть акаунт, щоб бачити розклад уроків, викладачів і домашні завдання.',
-        btnCreateAccount: 'Створити акаунт',
-        btnLogin: 'Увійти в акаунт',
+        heroEyebrow: 'Selective Admission Track',
+        title: 'Твій шлях до топових коледжів США починається тут.',
+        description: 'Академія з міжнародним фокусом, де English, soft skills і сильне портфоліо збираються в одну селективну траєкторію.',
+        intakeTemplate: 'Набір на {cohort}: залишилося {remaining} {seatWord} з {total}',
+        btnCreateAccount: 'Подати заявку на інтерв’ю',
+        btnLogin: 'Увійти в кабінет',
         btnSpecialRequest: 'Подати спеціальну заявку',
         btnLogout: 'Вийти з акаунта',
         menuButton: '☰',
@@ -1077,16 +1733,104 @@ const translations = {
         navApps: 'Додатки',
         navOther: 'Інше',
         navAdmin: 'Адмін панель',
+        heroHighlights: [
+            {
+                title: 'English + Soft Skills',
+                text: 'Прокачуємо мову, впевненість і стратегію інтерв’ю в одному інтенсиві.'
+            },
+            {
+                title: 'Portfolio Strategy',
+                text: 'Збираємо досягнення, есе та позиціонування під реальні вимоги коледжів.'
+            },
+            {
+                title: 'Selective Community',
+                text: 'Невеликі групи та сильний персональний супровід замість масового потоку.'
+            }
+        ],
+        heroPanelLabel: 'Admission Format',
+        heroPanelTitle: 'Ми беремо не всіх, а тих, хто готовий швидко зростати.',
+        heroPanelText: 'Кожен кандидат проходить короткий відбір, після якого ми будуємо персональний маршрут до коледжу, стажування або сильного портфоліо.',
+        heroPanelChecklist: [
+            'Тест рівня та інтерв’ю з куратором',
+            'Інтенсив з English і soft skills',
+            'Портфоліо, позиціонування та подача'
+        ],
+        roadmapEyebrow: 'Roadmap',
+        roadmapTitle: 'Від першого тесту до подачі в коледж',
+        roadmapDescription: 'Прозорий маршрут, яким учень рухається крок за кроком разом з академією.',
+        roadmapSteps: [
+            {
+                title: 'Тестування рівня та інтерв’ю',
+                text: 'Визначаємо стартову точку, мотивацію та формат супроводу.'
+            },
+            {
+                title: 'Інтенсив з English & Soft Skills',
+                text: 'Прокачуємо speaking, writing, впевненість і академічну комунікацію.'
+            },
+            {
+                title: 'Формування портфоліо',
+                text: 'Збираємо досягнення, проєкти, есе та сильну історію кандидата.'
+            },
+            {
+                title: 'Подача в коледж / стажування',
+                text: 'Фіналізуємо документи, shortlist і виходимо на наступний етап відбору.'
+            }
+        ],
         lessonsTitle: 'Коли уроки',
         teachersTitle: 'Викладачі',
         homeworkTitle: 'Домашні завдання',
-        authRegister: 'Створити акаунт',
-        authLogin: 'Вхід в акаунт',
-        nextLessonPrefix: 'Найближчий урок:'
+        authRegister: 'Подати заявку на інтерв’ю',
+        authLogin: 'Увійти в кабінет',
+        nextLessonPrefix: 'Найближчий урок:',
+        dashboardWelcomeSuffix: ', ваш особистий кабінет',
+        dashboardLeadTemplate: 'Поточний рівень: {level}. Ваш маршрут веде до B2, сильного портфоліо та фінальної подачі.',
+        englishProgressLabel: 'Прогрес до рівня B2',
+        englishProgressHintTemplate: 'Поточний рівень: {level}. Наступний крок: підтягнути speaking та confidence до B2.',
+        portfolioProgressLabel: 'Готовність портфоліо',
+        portfolioProgressHint: 'Пакуємо кейси, досягнення та narrative в один сильний профіль.',
+        achievementsTitle: 'Досягнення',
+        achievementUnlocked: 'Відкрито',
+        achievementLocked: 'У процесі',
+        nextMilestoneTitle: 'Наступний milestone',
+        focusTemplate: 'Фокус тижня: {focus}',
+        milestoneEnglish: 'Пройти інтерв’ю рівня та зайти в інтенсив з English & Soft Skills.',
+        milestonePortfolio: 'Зібрати 3 сильні кейси та оформити академічну історію для портфоліо.',
+        milestoneApply: 'Підготувати shortlist коледжів або стажувань і вийти на подачу.',
+        focusEnglish: 'підготувати speaking sample і відповідь про свою мету',
+        focusPortfolio: 'упакувати досягнення, проєкти й мотивацію в єдиний профіль',
+        focusApply: 'звірити дедлайни та фіналізувати пакет документів',
+        badges: {
+            application: {
+                title: 'Interview Applicant',
+                unlocked: 'Заявку подано, а профіль уже відкритий у системі.',
+                locked: 'Почніть із подачі заявки на інтерв’ю.'
+            },
+            homework: {
+                title: 'Homework Hero',
+                unlocked: 'Домашні завдання вже працюють на ваш академічний прогрес.',
+                locked: 'Відкриється після стабільного руху в інтенсиві.'
+            },
+            speaking: {
+                title: 'Perfect Speaking Session',
+                unlocked: 'Поточний рівень уже дозволяє впевнено заходити в speaking-інтенсив.',
+                locked: 'Відкриється після посилення speaking та interview answers.'
+            },
+            portfolio: {
+                title: 'Portfolio Architect',
+                unlocked: 'Профіль уже достатньо сильний для упаковки портфоліо.',
+                locked: 'Відкриється, коли ми зберемо кейси та академічну історію.'
+            }
+        },
+        notSureLevel: 'Не знаю точно'
     }
 };
 
 const defaultAcademyData = {
+    intake: {
+        cohortLabel: 'весенний поток',
+        remainingSeats: 4,
+        totalSeats: 15
+    },
     lessons: [
         'Понедельник, 17:00 - Grammar Boost',
         'Среда, 18:00 - Speaking Club',
@@ -1104,6 +1848,16 @@ const defaultAcademyData = {
     ]
 };
 
+const ENGLISH_PROGRESS_MAP = {
+    A1: 18,
+    A2: 36,
+    B1: 64,
+    B2: 100,
+    C1: 100,
+    C2: 100,
+    'NOT SURE': 26
+};
+
 let currentLang = 'ru';
 let authMode = 'register';
 let isAdminAuthenticated = false;
@@ -1112,23 +1866,189 @@ let adminStatsCache = {
     totalStudents: 0,
     registeredToday: 0
 };
-let academyDataCache = {
-    lessons: [...defaultAcademyData.lessons],
-    teachers: [...defaultAcademyData.teachers],
-    homework: [...defaultAcademyData.homework]
-};
+let academyDataCache = normalizeAcademyData(defaultAcademyData);
+
+function replaceTokens(template, values) {
+    return Object.entries(values).reduce((result, [key, value]) => {
+        return result.split(`{${key}}`).join(String(value));
+    }, template);
+}
+
+function normalizeLevel(value) {
+    const normalized = String(value || 'B1').trim().toUpperCase();
+    if (normalized === 'NOT SURE' || normalized === 'НЕ ЗНАЮ ТОЧНО') {
+        return 'NOT SURE';
+    }
+
+    return ENGLISH_PROGRESS_MAP[normalized] ? normalized : 'B1';
+}
+
+function normalizeUser(user) {
+    if (!user || typeof user !== 'object') {
+        return null;
+    }
+
+    return {
+        name: String(user.name || '').trim() || 'Student',
+        email: String(user.email || '').trim().toLowerCase(),
+        englishLevel: normalizeLevel(user.englishLevel),
+        motivation: String(user.motivation || '').trim()
+    };
+}
+
+function normalizeAcademyData(input) {
+    const source = input && typeof input === 'object' ? input : defaultAcademyData;
+    const intakeInput = source.intake && typeof source.intake === 'object' ? source.intake : {};
+    const totalSeatsRaw = Number(intakeInput.totalSeats);
+    const totalSeats = Number.isFinite(totalSeatsRaw) ? Math.max(1, Math.round(totalSeatsRaw)) : defaultAcademyData.intake.totalSeats;
+    const remainingSeatsRaw = Number(intakeInput.remainingSeats);
+    const remainingSeats = Number.isFinite(remainingSeatsRaw)
+        ? Math.min(Math.max(0, Math.round(remainingSeatsRaw)), totalSeats)
+        : defaultAcademyData.intake.remainingSeats;
+
+    return {
+        intake: {
+            cohortLabel: String(intakeInput.cohortLabel || defaultAcademyData.intake.cohortLabel).trim() || defaultAcademyData.intake.cohortLabel,
+            remainingSeats,
+            totalSeats
+        },
+        lessons: Array.isArray(source.lessons) && source.lessons.length ? source.lessons : [...defaultAcademyData.lessons],
+        teachers: Array.isArray(source.teachers) && source.teachers.length ? source.teachers : [...defaultAcademyData.teachers],
+        homework: Array.isArray(source.homework) && source.homework.length ? source.homework : [...defaultAcademyData.homework]
+    };
+}
+
+function getSeatWord(count, lang) {
+    if (lang === 'en') {
+        return count === 1 ? 'spot' : 'spots';
+    }
+
+    if (lang === 'ua') {
+        const mod10 = count % 10;
+        const mod100 = count % 100;
+        if (mod10 === 1 && mod100 !== 11) {
+            return 'місце';
+        }
+        if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) {
+            return 'місця';
+        }
+        return 'місць';
+    }
+
+    const mod10 = count % 10;
+    const mod100 = count % 100;
+    if (mod10 === 1 && mod100 !== 11) {
+        return 'место';
+    }
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) {
+        return 'места';
+    }
+    return 'мест';
+}
+
+function getLevelLabel(level) {
+    return level === 'NOT SURE' ? translations[currentLang].notSureLevel : level;
+}
+
+function buildDashboardModel(user) {
+    const englishLevel = normalizeLevel(user?.englishLevel);
+    const englishProgress = ENGLISH_PROGRESS_MAP[englishLevel] || ENGLISH_PROGRESS_MAP.B1;
+    const motivationLength = (user?.motivation || '').length;
+    const portfolioProgress = Math.min(100, Math.max(36, Math.round((englishProgress * 0.72) + Math.min(16, Math.floor(motivationLength / 16)) + 12)));
+    const badges = translations[currentLang].badges;
+
+    const achievements = [
+        {
+            title: badges.application.title,
+            unlocked: true,
+            description: badges.application.unlocked
+        },
+        {
+            title: badges.homework.title,
+            unlocked: englishProgress >= 55,
+            description: englishProgress >= 55 ? badges.homework.unlocked : badges.homework.locked
+        },
+        {
+            title: badges.speaking.title,
+            unlocked: englishProgress >= 70,
+            description: englishProgress >= 70 ? badges.speaking.unlocked : badges.speaking.locked
+        },
+        {
+            title: badges.portfolio.title,
+            unlocked: portfolioProgress >= 78,
+            description: portfolioProgress >= 78 ? badges.portfolio.unlocked : badges.portfolio.locked
+        }
+    ];
+
+    let milestone = translations[currentLang].milestoneEnglish;
+    let focus = translations[currentLang].focusEnglish;
+
+    if (englishProgress >= 100 && portfolioProgress < 85) {
+        milestone = translations[currentLang].milestonePortfolio;
+        focus = translations[currentLang].focusPortfolio;
+    } else if (englishProgress >= 100 && portfolioProgress >= 85) {
+        milestone = translations[currentLang].milestoneApply;
+        focus = translations[currentLang].focusApply;
+    }
+
+    return {
+        englishLevel,
+        englishProgress,
+        portfolioProgress,
+        achievements,
+        milestone,
+        focus
+    };
+}
+
+function renderHeroHighlights() {
+    const html = translations[currentLang].heroHighlights.map((item) => {
+        return `<div class="hero-highlight"><strong>${item.title}</strong><span>${item.text}</span></div>`;
+    }).join('');
+    document.getElementById('heroHighlights').innerHTML = html;
+}
+
+function renderHeroPanel() {
+    const t = translations[currentLang];
+    document.getElementById('heroPanelLabel').innerText = t.heroPanelLabel;
+    document.getElementById('heroPanelTitle').innerText = t.heroPanelTitle;
+    document.getElementById('heroPanelText').innerText = t.heroPanelText;
+    document.getElementById('heroPanelList').innerHTML = t.heroPanelChecklist.map((item) => `<li>${item}</li>`).join('');
+}
+
+function renderRoadmap() {
+    const html = translations[currentLang].roadmapSteps.map((step, index) => {
+        return `<article class="roadmap-step"><span class="roadmap-step-number">${index + 1}</span><h3>${step.title}</h3><p>${step.text}</p></article>`;
+    }).join('');
+    document.getElementById('roadmapGrid').innerHTML = html;
+}
+
+function renderIntakeBadge() {
+    const intake = academyDataCache.intake || defaultAcademyData.intake;
+    const badge = replaceTokens(translations[currentLang].intakeTemplate, {
+        cohort: intake.cohortLabel,
+        remaining: intake.remainingSeats,
+        seatWord: getSeatWord(intake.remainingSeats, currentLang),
+        total: intake.totalSeats
+    });
+
+    document.getElementById('heroSeatsBadge').innerText = badge;
+}
 
 function setCurrentUser(user) {
-    if (!user) {
+    const normalizedUser = normalizeUser(user);
+
+    if (!normalizedUser) {
         localStorage.removeItem('sparkCurrentUser');
         return;
     }
-    localStorage.setItem('sparkCurrentUser', JSON.stringify(user));
+
+    localStorage.setItem('sparkCurrentUser', JSON.stringify(normalizedUser));
 }
 
 function getCurrentUser() {
     try {
-        return JSON.parse(localStorage.getItem('sparkCurrentUser') || 'null');
+        return normalizeUser(JSON.parse(localStorage.getItem('sparkCurrentUser') || 'null'));
     } catch (error) {
         return null;
     }
@@ -1146,14 +2066,12 @@ async function apiRequest(url, options) {
 async function loadAcademyData() {
     try {
         const data = await apiRequest('/api/academy-data');
-        academyDataCache = data.academyData;
+        academyDataCache = normalizeAcademyData(data.academyData);
     } catch (error) {
-        academyDataCache = {
-            lessons: [...defaultAcademyData.lessons],
-            teachers: [...defaultAcademyData.teachers],
-            homework: [...defaultAcademyData.homework]
-        };
+        academyDataCache = normalizeAcademyData(defaultAcademyData);
     }
+
+    renderIntakeBadge();
 }
 
 async function saveAcademyDataRemote(data) {
@@ -1165,7 +2083,8 @@ async function saveAcademyDataRemote(data) {
             adminPassword: adminSessionPassword
         })
     });
-    academyDataCache = payload.academyData;
+    academyDataCache = normalizeAcademyData(payload.academyData);
+    renderIntakeBadge();
 }
 
 async function resetAcademyDataRemote() {
@@ -1176,7 +2095,8 @@ async function resetAcademyDataRemote() {
             adminPassword: adminSessionPassword
         })
     });
-    academyDataCache = payload.academyData;
+    academyDataCache = normalizeAcademyData(payload.academyData);
+    renderIntakeBadge();
 }
 
 async function loadAdminStats() {
@@ -1194,6 +2114,7 @@ function changeLanguage(lang) {
     currentLang = lang;
     const t = translations[lang];
 
+    document.getElementById('heroEyebrow').innerText = t.heroEyebrow;
     document.getElementById('title').innerText = t.title;
     document.getElementById('description').innerText = t.description;
     document.getElementById('btnCreateAccount').innerText = t.btnCreateAccount;
@@ -1209,13 +2130,26 @@ function changeLanguage(lang) {
     document.getElementById('navOther').innerText = t.navOther;
     document.getElementById('navAdmin').innerText = t.navAdmin;
 
+    document.getElementById('roadmapEyebrow').innerText = t.roadmapEyebrow;
+    document.getElementById('roadmapTitle').innerText = t.roadmapTitle;
+    document.getElementById('roadmapDescription').innerText = t.roadmapDescription;
     document.getElementById('lessonsTitle').innerText = t.lessonsTitle;
     document.getElementById('teachersTitle').innerText = t.teachersTitle;
     document.getElementById('homeworkTitle').innerText = t.homeworkTitle;
+    document.getElementById('englishProgressLabel').innerText = t.englishProgressLabel;
+    document.getElementById('portfolioProgressLabel').innerText = t.portfolioProgressLabel;
+    document.getElementById('achievementsTitle').innerText = t.achievementsTitle;
+    document.getElementById('nextMilestoneTitle').innerText = t.nextMilestoneTitle;
 
     document.getElementById('switchToRegister').innerText = t.authRegister;
     document.getElementById('switchToLogin').innerText = t.authLogin;
+    document.getElementById('registerSubmitButton').innerText = t.authRegister;
+    document.getElementById('loginSubmitButton').innerText = t.authLogin;
 
+    renderHeroHighlights();
+    renderHeroPanel();
+    renderRoadmap();
+    renderIntakeBadge();
     updateDashboard();
     switchAuthMode(authMode);
 }
@@ -1289,13 +2223,34 @@ function updateDashboard() {
     guestCta.style.display = 'none';
     dashboard.style.display = 'block';
 
-    document.getElementById('welcomeUser').innerText = user.name + ', ваш личный кабинет';
+    const model = buildDashboardModel(user);
+    document.getElementById('welcomeUser').innerText = user.name + translations[currentLang].dashboardWelcomeSuffix;
+    document.getElementById('dashboardLead').innerText = replaceTokens(translations[currentLang].dashboardLeadTemplate, {
+        level: getLevelLabel(model.englishLevel)
+    });
     const nextLesson = academyDataCache.lessons[0] || '-';
     document.getElementById('nextLessonText').innerText = translations[currentLang].nextLessonPrefix + ' ' + nextLesson;
+    document.getElementById('englishProgressValue').innerText = `${model.englishProgress}%`;
+    document.getElementById('englishProgressBar').style.width = `${model.englishProgress}%`;
+    document.getElementById('englishProgressHint').innerText = replaceTokens(translations[currentLang].englishProgressHintTemplate, {
+        level: getLevelLabel(model.englishLevel)
+    });
+    document.getElementById('portfolioProgressValue').innerText = `${model.portfolioProgress}%`;
+    document.getElementById('portfolioProgressBar').style.width = `${model.portfolioProgress}%`;
+    document.getElementById('portfolioProgressHint').innerText = translations[currentLang].portfolioProgressHint;
+    document.getElementById('nextMilestoneText').innerText = model.milestone;
+    document.getElementById('dashboardFocus').innerText = replaceTokens(translations[currentLang].focusTemplate, {
+        focus: model.focus
+    });
 
     document.getElementById('lessonsList').innerHTML = academyDataCache.lessons.map((item) => '<li>' + item + '</li>').join('');
     document.getElementById('teachersList').innerHTML = academyDataCache.teachers.map((item) => '<li>' + item + '</li>').join('');
     document.getElementById('homeworkList').innerHTML = academyDataCache.homework.map((item) => '<li>' + item + '</li>').join('');
+    document.getElementById('achievementGrid').innerHTML = model.achievements.map((item) => {
+        const stateText = item.unlocked ? translations[currentLang].achievementUnlocked : translations[currentLang].achievementLocked;
+        const cardClass = item.unlocked ? 'achievement-card' : 'achievement-card locked';
+        return `<div class="${cardClass}"><span class="achievement-state">${stateText}</span><strong>${item.title}</strong><span>${item.description}</span></div>`;
+    }).join('');
 }
 
 function logout() {
@@ -1309,8 +2264,10 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     const name = document.getElementById('regName').value.trim();
     const email = document.getElementById('regEmail').value.trim().toLowerCase();
     const password = document.getElementById('regPassword').value;
+    const englishLevel = document.getElementById('regEnglishLevel').value;
+    const motivation = document.getElementById('regMotivation').value.trim();
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !englishLevel || !motivation) {
         setAuthStatus('Заполните все поля.', true);
         return;
     }
@@ -1319,11 +2276,12 @@ document.getElementById('registerForm').addEventListener('submit', async functio
         const data = await apiRequest('/api/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, password })
+            body: JSON.stringify({ name, email, password, englishLevel, motivation })
         });
 
         setCurrentUser(data.user);
-        setAuthStatus('Аккаунт создан. Вы вошли в систему.', false);
+        event.target.reset();
+        setAuthStatus('Заявка принята. Кабинет открыт.', false);
         updateDashboard();
         setTimeout(closeAuthPopup, 700);
     } catch (error) {
@@ -1450,6 +2408,9 @@ function renderAdminState() {
     document.getElementById('admin-login-block').style.display = isAdminAuthenticated ? 'none' : 'block';
     document.getElementById('admin-editor-block').style.display = isAdminAuthenticated ? 'block' : 'none';
     if (isAdminAuthenticated) {
+        document.getElementById('adminCohortLabel').value = academyDataCache.intake.cohortLabel;
+        document.getElementById('adminRemainingSeats').value = String(academyDataCache.intake.remainingSeats);
+        document.getElementById('adminTotalSeats').value = String(academyDataCache.intake.totalSeats);
         document.getElementById('adminLessons').value = academyDataCache.lessons.join('\n');
         document.getElementById('adminTeachers').value = academyDataCache.teachers.join('\n');
         document.getElementById('adminHomework').value = academyDataCache.homework.join('\n');
@@ -1510,17 +2471,40 @@ document.getElementById('adminLoginForm').addEventListener('submit', async funct
 
 document.getElementById('adminDataForm').addEventListener('submit', async function(event) {
     event.preventDefault();
+    const cohortLabel = document.getElementById('adminCohortLabel').value.trim();
+    const remainingSeats = Number(document.getElementById('adminRemainingSeats').value);
+    const totalSeats = Number(document.getElementById('adminTotalSeats').value);
     const lessons = parseLines(document.getElementById('adminLessons').value);
     const teachers = parseLines(document.getElementById('adminTeachers').value);
     const homework = parseLines(document.getElementById('adminHomework').value);
 
+    if (!cohortLabel || !Number.isFinite(remainingSeats) || !Number.isFinite(totalSeats)) {
+        setAdminStatus('Заполните блок потока и количество мест.', true);
+        return;
+    }
+
+    if (remainingSeats < 0 || totalSeats < 1 || remainingSeats > totalSeats) {
+        setAdminStatus('Проверьте значения мест: остаток не может быть больше общего числа.', true);
+        return;
+    }
+
     if (!lessons.length || !teachers.length || !homework.length) {
-        setAdminStatus('Заполните все 3 блока минимум одной строкой.', true);
+        setAdminStatus('Заполните все блоки минимум одной строкой.', true);
         return;
     }
 
     try {
-        await saveAcademyDataRemote({ lessons, teachers, homework });
+        await saveAcademyDataRemote({
+            intake: {
+                cohortLabel,
+                remainingSeats,
+                totalSeats
+            },
+            lessons,
+            teachers,
+            homework
+        });
+        renderAdminState();
         updateDashboard();
         setAdminStatus('Изменения сохранены для всех устройств.', false);
     } catch (error) {
@@ -1535,8 +2519,8 @@ window.onclick = function(event) {
 };
 
 async function initialize() {
-    changeLanguage(document.querySelector('.lang').value);
     await loadAcademyData();
+    changeLanguage(document.querySelector('.lang').value);
     updateDashboard();
 }
 

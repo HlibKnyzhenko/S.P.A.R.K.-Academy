@@ -25,7 +25,9 @@ module.exports = async function handler(req, res) {
       ok: true,
       user: {
         name: user.name,
-        email: user.email
+        email: user.email,
+        englishLevel: user.englishLevel || 'B1',
+        motivation: user.motivation || ''
       }
     });
   } catch (error) {

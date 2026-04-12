@@ -3,6 +3,11 @@ const { kv } = require('@vercel/kv');
 const DATA_KEY = 'spark_global_data_v1';
 
 const defaultAcademyData = {
+  intake: {
+    cohortLabel: 'весенний поток',
+    remainingSeats: 4,
+    totalSeats: 15
+  },
   lessons: [
     'Понедельник, 17:00 - Grammar Boost',
     'Среда, 18:00 - Speaking Club',
@@ -30,11 +35,24 @@ function sanitizeAcademyData(input) {
     return defaultAcademyData;
   }
 
+  const intakeInput = input.intake && typeof input.intake === 'object' ? input.intake : {};
+  const remainingSeats = Number.isFinite(Number(intakeInput.remainingSeats))
+    ? Math.max(0, Number(intakeInput.remainingSeats))
+    : defaultAcademyData.intake.remainingSeats;
+  const totalSeats = Number.isFinite(Number(intakeInput.totalSeats))
+    ? Math.max(1, Number(intakeInput.totalSeats))
+    : defaultAcademyData.intake.totalSeats;
+  const intake = {
+    cohortLabel: String(intakeInput.cohortLabel || defaultAcademyData.intake.cohortLabel).trim() || defaultAcademyData.intake.cohortLabel,
+    remainingSeats: Math.min(remainingSeats, totalSeats),
+    totalSeats
+  };
   const lessons = Array.isArray(input.lessons) && input.lessons.length ? input.lessons : defaultAcademyData.lessons;
   const teachers = Array.isArray(input.teachers) && input.teachers.length ? input.teachers : defaultAcademyData.teachers;
   const homework = Array.isArray(input.homework) && input.homework.length ? input.homework : defaultAcademyData.homework;
 
   return {
+    intake,
     lessons,
     teachers,
     homework
