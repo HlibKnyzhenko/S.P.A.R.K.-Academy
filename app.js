@@ -309,6 +309,17 @@ const ENGLISH_PROGRESS_MAP = {
 };
 
 const CERTIFICATE_UPLOAD_MAX_BYTES = 1_300_000;
+const LOCAL_STATE_KEY = 'sparkAcademyStateV2';
+const DEFAULT_ADMIN_PASSWORD = 'spark-admin-2026';
+const LOCAL_API_ROUTES = new Set([
+    '/api/academy-data',
+    '/api/admin/login',
+    '/api/admin/stats',
+    '/api/admin/students',
+    '/api/auth/login',
+    '/api/auth/profile',
+    '/api/auth/register'
+]);
 
 let currentLang = 'ru';
 let authMode = 'register';
@@ -324,6 +335,7 @@ let adminStatsCache = {
     registeredToday: 0
 };
 let academyDataCache = normalizeAcademyData(defaultAcademyData);
+let runtimeLocalStateCache = null;
 
 function escapeHtml(value) {
     return String(value || '')
@@ -458,6 +470,7 @@ function normalizeUser(user) {
         id: String(user.id || `u_${slugify(email, 'student')}`).trim(),
         name: String(user.name || '').trim() || 'Student',
         email,
+        passwordHash: String(user.passwordHash || '').trim(),
         englishLevel,
         motivation,
         englishProgress,
@@ -565,6 +578,363 @@ function getCurrentUser() {
     return currentUserCache || getStoredUser();
 }
 
+function toPublicUser(user) {
+    const normalized = normalizeUser(user);
+    if (!normalized) {
+        return null;
+    }
+
+    return {
+        id: normalized.id,
+        name: normalized.name,
+        email: normalized.email,
+        englishLevel: normalized.englishLevel,
+        motivation: normalized.motivation,
+        englishProgress: normalized.englishProgress,
+        portfolioProgress: normalized.portfolioProgress,
+        nextMilestone: normalized.nextMilestone,
+        achievementIds: [...normalized.achievementIds],
+        certificates: normalized.certificates.map((item) => ({ ...item }))
+    };
+}
+
+function toAdminUser(user) {
+    const normalized = normalizeUser(user);
+    if (!normalized) {
+        return null;
+    }
+
+    return {
+        ...toPublicUser(normalized),
+        adminVisiblePassword: normalized.adminVisiblePassword,
+        createdAt: normalized.createdAt
+    };
+}
+
+function createDefaultLocalState() {
+    return {
+        users: [],
+        academyData: normalizeAcademyData(defaultAcademyData)
+    };
+}
+
+function formatLocalDayKey(value) {
+    return new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Europe/Kyiv',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).format(value);
+}
+
+function getLocalState() {
+    const fallbackState = runtimeLocalStateCache || createDefaultLocalState();
+
+    try {
+        const rawValue = localStorage.getItem(LOCAL_STATE_KEY);
+        const parsed = rawValue ? JSON.parse(rawValue) : fallbackState;
+        const academyData = normalizeAcademyData(parsed?.academyData);
+        const allowedAchievementIds = new Set(academyData.achievementsCatalog.map((item) => item.id));
+        const users = Array.isArray(parsed?.users)
+            ? parsed.users
+                .map((item) => normalizeUser(item))
+                .filter(Boolean)
+                .map((item) => ({
+                    ...item,
+                    achievementIds: item.achievementIds.filter((id) => allowedAchievementIds.has(id))
+                }))
+            : [];
+
+        runtimeLocalStateCache = {
+            users,
+            academyData
+        };
+    } catch (error) {
+        runtimeLocalStateCache = createDefaultLocalState();
+    }
+
+    return {
+        users: runtimeLocalStateCache.users.map((item) => ({ ...item, certificates: item.certificates.map((certificate) => ({ ...certificate })) })),
+        academyData: normalizeAcademyData(runtimeLocalStateCache.academyData)
+    };
+}
+
+function saveLocalState(state) {
+    const academyData = normalizeAcademyData(state?.academyData);
+    const allowedAchievementIds = new Set(academyData.achievementsCatalog.map((item) => item.id));
+    const users = Array.isArray(state?.users)
+        ? state.users
+            .map((item) => normalizeUser(item))
+            .filter(Boolean)
+            .map((item) => ({
+                ...item,
+                achievementIds: item.achievementIds.filter((id) => allowedAchievementIds.has(id))
+            }))
+        : [];
+
+    runtimeLocalStateCache = {
+        users,
+        academyData
+    };
+
+    try {
+        localStorage.setItem(LOCAL_STATE_KEY, JSON.stringify(runtimeLocalStateCache));
+    } catch (error) {
+        // Ignore storage quota issues and keep the runtime cache alive for the current session.
+    }
+}
+
+function parseJsonRequestBody(options) {
+    if (!options || typeof options !== 'object' || options.body == null) {
+        return {};
+    }
+
+    if (typeof options.body === 'string') {
+        try {
+            return JSON.parse(options.body);
+        } catch (error) {
+            return {};
+        }
+    }
+
+    return options.body && typeof options.body === 'object' ? options.body : {};
+}
+
+function createApiError(message, status) {
+    const error = new Error(message);
+    error.status = status;
+    return error;
+}
+
+function validateAdminPassword(password) {
+    if (!password || password !== DEFAULT_ADMIN_PASSWORD) {
+        throw createApiError('Неверный админ пароль.', 401);
+    }
+}
+
+function validateRegistrationPayload(body, users) {
+    const name = String(body.name || '').trim();
+    const email = String(body.email || '').trim().toLowerCase();
+    const password = String(body.password || '');
+    const levelInput = String(body.englishLevel || '').trim().toUpperCase();
+    const englishLevel = levelInput === 'НЕ ЗНАЮ ТОЧНО' ? 'NOT SURE' : levelInput;
+    const motivation = String(body.motivation || '').trim();
+
+    if (!name || !email || !password || !englishLevel || !motivation) {
+        throw createApiError('Заполните все поля.', 400);
+    }
+
+    if (!email.includes('@')) {
+        throw createApiError('Некорректный email.', 400);
+    }
+
+    if (password.length < 6) {
+        throw createApiError('Пароль должен быть минимум 6 символов.', 400);
+    }
+
+    if (!(englishLevel in ENGLISH_PROGRESS_MAP)) {
+        throw createApiError('Выберите уровень английского.', 400);
+    }
+
+    if (motivation.length < 20) {
+        throw createApiError('Ответьте подробнее, почему мы должны выбрать именно вас.', 400);
+    }
+
+    if (users.some((user) => user.email === email)) {
+        throw createApiError('Такой аккаунт уже существует.', 409);
+    }
+
+    const englishProgress = ENGLISH_PROGRESS_MAP[englishLevel] || ENGLISH_PROGRESS_MAP.B1;
+    const portfolioProgress = buildDefaultPortfolioProgress(englishProgress, motivation);
+
+    return {
+        id: `u_${Date.now()}`,
+        name,
+        email,
+        passwordHash: password,
+        adminVisiblePassword: password,
+        englishLevel,
+        motivation,
+        englishProgress,
+        portfolioProgress,
+        nextMilestone: buildDefaultMilestone(englishProgress, portfolioProgress),
+        achievementIds: [],
+        certificates: [],
+        createdAt: new Date().toISOString()
+    };
+}
+
+async function handleLocalApiRequest(url, options) {
+    const method = String(options?.method || 'GET').toUpperCase();
+    const body = parseJsonRequestBody(options);
+    const state = getLocalState();
+
+    if (url === '/api/academy-data' && method === 'GET') {
+        return {
+            ok: true,
+            academyData: state.academyData
+        };
+    }
+
+    if (url === '/api/academy-data' && method === 'POST') {
+        validateAdminPassword(body.adminPassword);
+
+        state.academyData = normalizeAcademyData({
+            intake: body.intake,
+            webinarLink: body.webinarLink,
+            achievementsCatalog: body.achievementsCatalog,
+            lessons: body.lessons,
+            teachers: body.teachers,
+            homework: body.homework
+        });
+        saveLocalState(state);
+
+        return {
+            ok: true,
+            academyData: state.academyData
+        };
+    }
+
+    if (url === '/api/academy-data' && method === 'DELETE') {
+        validateAdminPassword(body.adminPassword);
+
+        state.academyData = normalizeAcademyData(defaultAcademyData);
+        saveLocalState(state);
+
+        return {
+            ok: true,
+            academyData: state.academyData
+        };
+    }
+
+    if (url === '/api/admin/login' && method === 'POST') {
+        validateAdminPassword(body.password);
+        return { ok: true };
+    }
+
+    if (url === '/api/admin/stats' && method === 'POST') {
+        validateAdminPassword(body.adminPassword);
+        const todayKey = formatLocalDayKey(new Date());
+        const registeredToday = state.users.filter((user) => {
+            if (!user.createdAt) {
+                return false;
+            }
+
+            const createdAt = new Date(user.createdAt);
+            return !Number.isNaN(createdAt.getTime()) && formatLocalDayKey(createdAt) === todayKey;
+        }).length;
+
+        return {
+            ok: true,
+            stats: {
+                totalStudents: state.users.length,
+                registeredToday
+            }
+        };
+    }
+
+    if (url === '/api/admin/students' && method === 'POST') {
+        validateAdminPassword(body.adminPassword);
+        return {
+            ok: true,
+            users: state.users.map((user) => toAdminUser(user)).filter(Boolean)
+        };
+    }
+
+    if (url === '/api/admin/students' && method === 'PATCH') {
+        validateAdminPassword(body.adminPassword);
+
+        const userId = String(body.userId || '').trim();
+        const userIndex = state.users.findIndex((user) => user.id === userId);
+
+        if (userIndex === -1) {
+            throw createApiError('Ученик не найден.', 404);
+        }
+
+        const existingUser = state.users[userIndex];
+        const updates = body.updates && typeof body.updates === 'object' ? body.updates : {};
+        const nextPassword = String(updates.newPassword || '').trim();
+
+        if (nextPassword && nextPassword.length < 6) {
+            throw createApiError('Новый пароль должен быть минимум 6 символов.', 400);
+        }
+
+        const updatedUser = normalizeUser({
+            ...existingUser,
+            ...updates,
+            passwordHash: nextPassword || existingUser.passwordHash || existingUser.adminVisiblePassword,
+            adminVisiblePassword: nextPassword || updates.adminVisiblePassword || existingUser.adminVisiblePassword
+        });
+
+        if (!updatedUser) {
+            throw createApiError('Некорректные данные ученика.', 400);
+        }
+
+        state.users[userIndex] = updatedUser;
+        saveLocalState(state);
+
+        return {
+            ok: true,
+            user: toAdminUser(updatedUser),
+            users: state.users.map((user) => toAdminUser(user)).filter(Boolean)
+        };
+    }
+
+    if (url === '/api/auth/register' && method === 'POST') {
+        const user = validateRegistrationPayload(body, state.users);
+        state.users.push(normalizeUser(user));
+        saveLocalState(state);
+
+        return {
+            ok: true,
+            user: toPublicUser(user)
+        };
+    }
+
+    if (url === '/api/auth/login' && method === 'POST') {
+        const email = String(body.email || '').trim().toLowerCase();
+        const password = String(body.password || '');
+
+        if (!email || !password) {
+            throw createApiError('Введите email и пароль.', 400);
+        }
+
+        const user = state.users.find((item) => item.email === email);
+        const isPasswordValid = user && password === (user.passwordHash || user.adminVisiblePassword);
+
+        if (!user || !isPasswordValid) {
+            throw createApiError('Неверный email или пароль.', 401);
+        }
+
+        return {
+            ok: true,
+            user: toPublicUser(user)
+        };
+    }
+
+    if (url === '/api/auth/profile' && method === 'POST') {
+        const id = String(body.id || '').trim();
+        const email = String(body.email || '').trim().toLowerCase();
+
+        if (!id || !email) {
+            throw createApiError('Недостаточно данных для профиля.', 400);
+        }
+
+        const user = state.users.find((item) => item.id === id && item.email === email);
+
+        if (!user) {
+            throw createApiError('Профиль не найден.', 404);
+        }
+
+        return {
+            ok: true,
+            user: toPublicUser(user)
+        };
+    }
+
+    throw createApiError('Этот запрос не поддерживается в локальном режиме.', 405);
+}
+
 async function syncCurrentUserProfile() {
     const storedUser = getStoredUser();
     if (!storedUser || !storedUser.id || !storedUser.email) {
@@ -587,12 +957,48 @@ async function syncCurrentUserProfile() {
 }
 
 async function apiRequest(url, options) {
-    const response = await fetch(url, options);
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) {
-        throw new Error(data.error || 'Ошибка запроса');
+    const canUseLocalFallback = LOCAL_API_ROUTES.has(url);
+
+    try {
+        const response = await fetch(url, options);
+        const rawText = await response.text();
+        let data = {};
+
+        if (rawText) {
+            try {
+                data = JSON.parse(rawText);
+            } catch (error) {
+                if (canUseLocalFallback) {
+                    return handleLocalApiRequest(url, options);
+                }
+
+                throw new Error('Сервер вернул некорректный ответ.');
+            }
+        }
+
+        if (!response.ok) {
+            const error = new Error(data.error || 'Ошибка запроса');
+            error.status = response.status;
+
+            if (canUseLocalFallback && (response.status === 404 || response.status === 405 || response.status >= 500)) {
+                return handleLocalApiRequest(url, options);
+            }
+
+            throw error;
+        }
+
+        return data;
+    } catch (error) {
+        if (canUseLocalFallback && (error.status >= 500 || error.status === 404 || error.status === 405 || error.name === 'TypeError')) {
+            return handleLocalApiRequest(url, options);
+        }
+
+        if (canUseLocalFallback && /Failed to fetch|Load failed|NetworkError/i.test(String(error.message || ''))) {
+            return handleLocalApiRequest(url, options);
+        }
+
+        throw error;
     }
-    return data;
 }
 
 async function loadAcademyData() {
@@ -1537,6 +1943,37 @@ window.onclick = function(event) {
         closeAllPopups();
     }
 };
+
+Object.assign(window, {
+    adminLogout,
+    changeLanguage,
+    closeAdminPanel,
+    closeAppsInfo,
+    closeAuthPopup,
+    closeCollegesInfo,
+    closeMaterialsInfo,
+    closeOtherInfo,
+    closeSpecialRequestPopup,
+    closeTestPrepInfo,
+    deleteSelectedAchievement,
+    editAchievement,
+    handleAdminCertificateAdd,
+    logout,
+    openAdminPanel,
+    openAppsInfo,
+    openAuthPopup,
+    openCollegesInfo,
+    openMaterialsInfo,
+    openOtherInfo,
+    openSpecialRequestPopup,
+    openTestPrepInfo,
+    removeAdminStudentCertificate,
+    resetAcademyData,
+    selectAdminStudent,
+    startNewAchievement,
+    switchAuthMode,
+    toggleSidebar
+});
 
 async function initialize() {
     await loadAcademyData();
