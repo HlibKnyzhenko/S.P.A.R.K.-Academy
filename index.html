@@ -652,6 +652,61 @@ p {
     font-weight: 700;
 }
 
+.dashboard-muted {
+    color: rgba(255,255,255,0.66);
+    line-height: 1.5;
+}
+
+.dashboard-action-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 14px;
+    padding: 12px 18px;
+    border-radius: 10px;
+    background: #fff;
+    color: #000;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.dashboard-action-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255,255,255,0.18);
+}
+
+.certificate-list {
+    display: grid;
+    gap: 12px;
+}
+
+.certificate-card {
+    padding: 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+}
+
+.certificate-card strong,
+.certificate-card span {
+    display: block;
+}
+
+.certificate-card strong {
+    margin-bottom: 6px;
+}
+
+.certificate-card span {
+    color: rgba(255,255,255,0.72);
+    line-height: 1.45;
+}
+
+.certificate-card a {
+    display: inline-flex;
+    margin-top: 12px;
+    font-weight: 700;
+}
+
 .account-form {
     display: grid;
     gap: 10px;
@@ -781,6 +836,140 @@ p {
     gap: 12px;
 }
 
+.admin-section-card {
+    text-align: left;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 18px;
+    padding: 18px;
+    margin-top: 18px;
+}
+
+.admin-section-card h3 {
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+
+.admin-note {
+    font-size: 0.92em;
+    color: rgba(255,255,255,0.62);
+    line-height: 1.5;
+}
+
+.admin-list-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.admin-student-card,
+.admin-achievement-card,
+.admin-certificate-card {
+    text-align: left;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+}
+
+.admin-student-card {
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.admin-student-card:hover,
+.admin-student-card.active {
+    border-color: rgba(255,255,255,0.22);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 24px rgba(0,0,0,0.18);
+}
+
+.admin-student-card strong,
+.admin-achievement-card strong,
+.admin-certificate-card strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.admin-student-card span,
+.admin-achievement-card span,
+.admin-certificate-card span {
+    display: block;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.45;
+    font-size: 0.94em;
+}
+
+.admin-student-card small,
+.admin-achievement-card small,
+.admin-certificate-card small {
+    display: block;
+    margin-top: 8px;
+    color: rgba(255,255,255,0.55);
+}
+
+.admin-actions-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+
+.admin-actions-row .submit-btn,
+.admin-actions-row .account-btn,
+.admin-actions-row button {
+    width: auto;
+    min-width: 160px;
+}
+
+.admin-checkbox-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.admin-checkbox-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+}
+
+.admin-checkbox-item input {
+    margin-top: 4px;
+}
+
+.admin-checkbox-item strong,
+.admin-checkbox-item span {
+    display: block;
+}
+
+.admin-checkbox-item span {
+    color: rgba(255,255,255,0.68);
+    font-size: 0.92em;
+    line-height: 1.4;
+}
+
+.admin-hidden {
+    display: none;
+}
+
+.admin-upload-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.admin-upload-row input[type="file"] {
+    flex: 1 1 280px;
+}
+
+.readonly-input {
+    opacity: 0.82;
+}
+
 #admin-status {
     min-height: 20px;
     margin-top: 10px;
@@ -890,6 +1079,13 @@ table.colleges-table {
 
     .achievement-panel {
         grid-column: span 1;
+    }
+
+    .admin-actions-row .submit-btn,
+    .admin-actions-row .account-btn,
+    .admin-actions-row button,
+    .dashboard-action-link {
+        width: 100%;
     }
 
     .cta button,
@@ -1021,7 +1217,14 @@ table.colleges-table {
             <div class="account-card">
                 <h3 id="nextMilestoneTitle">Следующий milestone</h3>
                 <p id="nextMilestoneText">Сфокусируйтесь на первом интервью и диагностике уровня.</p>
-                <div class="dashboard-focus" id="dashboardFocus">Фокус недели: подготовить сильный ответ о своей цели и мотивации.</div>
+                <div class="dashboard-focus">
+                    <span id="webinarStatusText" class="dashboard-muted">Ссылка на вебинар появится здесь, как только администратор ее добавит.</span>
+                    <a id="webinarLinkButton" class="dashboard-action-link admin-hidden" href="#" target="_blank" rel="noopener noreferrer">Открыть вебинар</a>
+                </div>
+            </div>
+            <div class="account-card">
+                <h3 id="certificatesTitle">Сертификаты</h3>
+                <div class="certificate-list" id="certificatesList"></div>
             </div>
         </div>
     </section>
@@ -1104,7 +1307,7 @@ table.colleges-table {
 </div>
 
 <div id="admin-popup" class="form-popup">
-    <div class="glass" style="max-width: 720px;">
+    <div class="glass" style="max-width: 1120px;">
         <button class="close-btn" onclick="closeAdminPanel()">×</button>
         <h2 id="admin-title">Админ панель</h2>
 
@@ -1145,6 +1348,9 @@ table.colleges-table {
                     </div>
                 </div>
 
+                <label for="adminWebinarLink">Ссылка на вебинар для всех учеников</label>
+                <input type="text" id="adminWebinarLink" placeholder="https://...">
+
                 <label for="adminLessons">Уроки и время (1 строка = 1 урок)</label>
                 <textarea id="adminLessons"></textarea>
 
@@ -1155,11 +1361,111 @@ table.colleges-table {
                 <textarea id="adminHomework"></textarea>
 
                 <div class="cta" style="margin-top: 8px;">
-                    <button type="submit" class="submit-btn">Сохранить для всех</button>
+                    <button type="submit" class="submit-btn">Сохранить глобальные настройки</button>
                     <button type="button" class="submit-btn" onclick="resetAcademyData()">Сбросить на стандарт</button>
                     <button type="button" class="submit-btn" onclick="adminLogout()">Выйти из админки</button>
                 </div>
             </form>
+
+            <div class="admin-section-card">
+                <h3>Каталог достижений</h3>
+                <p class="admin-note">Эти достижения можно создавать, менять и потом выдавать конкретным ученикам.</p>
+                <div class="admin-list-grid" id="adminAchievementCatalogList"></div>
+
+                <form id="adminAchievementForm" class="admin-form">
+                    <input type="hidden" id="adminAchievementId">
+                    <label for="adminAchievementTitle">Название достижения</label>
+                    <input type="text" id="adminAchievementTitle" placeholder="Например: Scholarship Ready">
+
+                    <label for="adminAchievementDescription">Описание достижения</label>
+                    <textarea id="adminAchievementDescription" placeholder="Коротко объясните, за что выдается это достижение."></textarea>
+
+                    <div class="admin-actions-row">
+                        <button type="submit" class="submit-btn">Сохранить достижение</button>
+                        <button type="button" class="submit-btn" onclick="startNewAchievement()">Новое достижение</button>
+                        <button type="button" class="submit-btn" onclick="deleteSelectedAchievement()">Удалить выбранное</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="admin-section-card">
+                <h3>Все ученики</h3>
+                <p class="admin-note">В старых аккаунтах пароль может быть недоступен, если он был сохранен до обновления системы. При необходимости можно задать новый пароль вручную.</p>
+                <div class="admin-list-grid" id="adminStudentsList"></div>
+            </div>
+
+            <div class="admin-section-card">
+                <h3>Управление учеником</h3>
+                <form id="adminStudentForm" class="admin-form">
+                    <label for="adminStudentSelect">Выбрать ученика</label>
+                    <select id="adminStudentSelect"></select>
+
+                    <div class="admin-inline-grid">
+                        <div>
+                            <label for="adminStudentName">Имя</label>
+                            <input type="text" id="adminStudentName" class="readonly-input" readonly>
+                        </div>
+                        <div>
+                            <label for="adminStudentEmail">Email</label>
+                            <input type="text" id="adminStudentEmail" class="readonly-input" readonly>
+                        </div>
+                        <div>
+                            <label for="adminStudentPassword">Пароль</label>
+                            <input type="text" id="adminStudentPassword" class="readonly-input" readonly>
+                        </div>
+                    </div>
+
+                    <div class="admin-inline-grid">
+                        <div>
+                            <label for="adminStudentEnglishLevel">Уровень английского</label>
+                            <select id="adminStudentEnglishLevel">
+                                <option value="A1">A1 (Beginner)</option>
+                                <option value="A2">A2 (Elementary)</option>
+                                <option value="B1">B1 (Intermediate)</option>
+                                <option value="B2">B2 (Upper-Intermediate)</option>
+                                <option value="C1">C1 (Advanced)</option>
+                                <option value="C2">C2 (Proficient)</option>
+                                <option value="NOT SURE">Не знаю точно</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="adminStudentEnglishProgress">Прогресс к уровню английского (%)</label>
+                            <input type="number" id="adminStudentEnglishProgress" min="0" max="100" step="1">
+                        </div>
+                        <div>
+                            <label for="adminStudentPortfolioProgress">Готовность портфолио (%)</label>
+                            <input type="number" id="adminStudentPortfolioProgress" min="0" max="100" step="1">
+                        </div>
+                    </div>
+
+                    <label for="adminStudentNextMilestone">Следующий milestone</label>
+                    <textarea id="adminStudentNextMilestone" placeholder="Опишите следующий шаг для ученика."></textarea>
+
+                    <label for="adminStudentMotivation">Мотивация ученика</label>
+                    <textarea id="adminStudentMotivation" class="readonly-input" readonly></textarea>
+
+                    <label for="adminStudentNewPassword">Новый пароль для ученика (необязательно)</label>
+                    <input type="text" id="adminStudentNewPassword" placeholder="Минимум 6 символов">
+
+                    <div>
+                        <label>Выдать достижения</label>
+                        <div class="admin-checkbox-grid" id="adminStudentAchievements"></div>
+                    </div>
+
+                    <div>
+                        <label for="adminStudentCertificate">Сертификаты ученика</label>
+                        <div class="admin-upload-row">
+                            <input type="file" id="adminStudentCertificate" accept=".pdf,image/*">
+                            <button type="button" class="submit-btn" onclick="handleAdminCertificateAdd()">Добавить сертификат</button>
+                        </div>
+                        <div class="admin-list-grid" id="adminStudentCertificates"></div>
+                    </div>
+
+                    <div class="admin-actions-row">
+                        <button type="submit" class="submit-btn">Сохранить ученика</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <p id="admin-status"></p>
@@ -1503,7 +1809,7 @@ table.colleges-table {
     </div>
 </div>
 
-<script>
+<script type="text/plain" id="legacy-app-script">
 const translations = {
     ru: {
         heroEyebrow: 'Selective Admission Track',
@@ -2526,5 +2832,6 @@ async function initialize() {
 
 initialize();
 </script>
+<script src="app.js"></script>
 </body>
 </html>

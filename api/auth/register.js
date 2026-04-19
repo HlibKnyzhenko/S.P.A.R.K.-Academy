@@ -1,4 +1,11 @@
-const { getState, saveState } = require('../_lib/store');
+const {
+  DEFAULT_ENGLISH_PROGRESS_MAP,
+  buildDefaultMilestone,
+  buildDefaultPortfolioProgress,
+  getState,
+  saveState,
+  toPublicUser
+} = require('../_lib/store');
 const { hashPassword } = require('../_lib/security');
 
 module.exports = async function handler(req, res) {
@@ -50,8 +57,23 @@ module.exports = async function handler(req, res) {
       name: normalizedName,
       email: normalizedEmail,
       passwordHash: hashPassword(password),
+      adminVisiblePassword: String(password),
       englishLevel: normalizedEnglishLevel,
       motivation: normalizedMotivation,
+      englishProgress: DEFAULT_ENGLISH_PROGRESS_MAP[normalizedEnglishLevel] || DEFAULT_ENGLISH_PROGRESS_MAP.B1,
+      portfolioProgress: buildDefaultPortfolioProgress(
+        DEFAULT_ENGLISH_PROGRESS_MAP[normalizedEnglishLevel] || DEFAULT_ENGLISH_PROGRESS_MAP.B1,
+        normalizedMotivation
+      ),
+      nextMilestone: buildDefaultMilestone(
+        DEFAULT_ENGLISH_PROGRESS_MAP[normalizedEnglishLevel] || DEFAULT_ENGLISH_PROGRESS_MAP.B1,
+        buildDefaultPortfolioProgress(
+          DEFAULT_ENGLISH_PROGRESS_MAP[normalizedEnglishLevel] || DEFAULT_ENGLISH_PROGRESS_MAP.B1,
+          normalizedMotivation
+        )
+      ),
+      achievementIds: [],
+      certificates: [],
       createdAt: new Date().toISOString()
     };
 
@@ -60,12 +82,7 @@ module.exports = async function handler(req, res) {
 
     return res.status(201).json({
       ok: true,
-      user: {
-        name: user.name,
-        email: user.email,
-        englishLevel: user.englishLevel,
-        motivation: user.motivation
-      }
+      user: toPublicUser(user)
     });
   } catch (error) {
     return res.status(500).json({ error: 'Ошибка сервера при регистрации.' });

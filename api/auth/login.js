@@ -1,4 +1,4 @@
-const { getState } = require('../_lib/store');
+const { getState, toPublicUser } = require('../_lib/store');
 const { verifyPassword } = require('../_lib/security');
 
 module.exports = async function handler(req, res) {
@@ -23,12 +23,7 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({
       ok: true,
-      user: {
-        name: user.name,
-        email: user.email,
-        englishLevel: user.englishLevel || 'B1',
-        motivation: user.motivation || ''
-      }
+      user: toPublicUser(user)
     });
   } catch (error) {
     return res.status(500).json({ error: 'Ошибка сервера при входе.' });
