@@ -45,5 +45,5 @@ email confirmation code during registration.
 
 ## 4. Middleware behavior
 
-`middleware.ts` protects every route inside `/dashboard`. Unauthenticated users are
+`middleware.js` protects every route inside `/dashboard`. Unauthenticated users are
 redirected by Clerk to the configured sign-in URL.
