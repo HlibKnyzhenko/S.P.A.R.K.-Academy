@@ -1,10 +1,12 @@
+const { DEFAULT_ADMIN_PASSWORD } = require('../_lib/store');
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const { password } = req.body || {};
-  const adminPassword = process.env.ADMIN_PANEL_PASSWORD || 'spark-admin-2026';
+  const adminPassword = process.env.ADMIN_PANEL_PASSWORD || DEFAULT_ADMIN_PASSWORD;
 
   if (!password || password !== adminPassword) {
     return res.status(401).json({ error: 'Неверный админ пароль.' });

@@ -1,8 +1,8 @@
 const { hashPassword } = require('../_lib/security');
-const { getState, saveState, sanitizeUserRecord, toAdminUser } = require('../_lib/store');
+const { DEFAULT_ADMIN_PASSWORD, getState, saveState, sanitizeUserRecord, toAdminUser } = require('../_lib/store');
 
 function isAdminPasswordValid(password) {
-  const adminPassword = process.env.ADMIN_PANEL_PASSWORD || 'spark-admin-2026';
+  const adminPassword = process.env.ADMIN_PANEL_PASSWORD || DEFAULT_ADMIN_PASSWORD;
   return password && password === adminPassword;
 }
 

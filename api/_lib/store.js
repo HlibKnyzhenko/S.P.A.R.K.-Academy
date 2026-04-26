@@ -2,6 +2,7 @@ const { kv } = require('@vercel/kv');
 
 const DATA_KEY = 'spark_global_data_v1';
 const CERTIFICATE_MAX_SIZE = 2_000_000;
+const DEFAULT_ADMIN_PASSWORD = 'SPARKA____C331AD3EMY4242423';
 const ALLOWED_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'NOT SURE'];
 const DEFAULT_ENGLISH_PROGRESS_MAP = {
   A1: 18,
@@ -37,12 +38,44 @@ const defaultAchievementsCatalog = [
 ];
 
 const defaultAcademyData = {
+  hero: {
+    eyebrow: 'Academy with international recognition',
+    headline: 'Tvoi put v topovye kolledzhi SShA nachinaetsya zdes. Akademiya s mezhdunarodnym priznaniem.',
+    subheadline: 'S.P.A.R.K. Academy combines English, soft skills, portfolio strategy, and interview preparation into one selective route for ambitious students.',
+    interviewCtaLabel: 'Podat zayavku na intervyu'
+  },
   intake: {
     cohortLabel: 'весенний поток',
     remainingSeats: 4,
     totalSeats: 15
   },
-  webinarLink: '',
+  roadmap: [
+    {
+      id: 'roadmap-1',
+      title: 'Шаг 1: Тестирование уровня и интервью',
+      description: 'Определяем стартовую точку, амбиции и готовность к интенсивному маршруту.'
+    },
+    {
+      id: 'roadmap-2',
+      title: 'Шаг 2: Интенсив по English & Soft Skills',
+      description: 'Выравниваем язык, speaking-ритм, академическую коммуникацию и уверенность.'
+    },
+    {
+      id: 'roadmap-3',
+      title: 'Шаг 3: Формирование портфолио',
+      description: 'Собираем сильную историю кандидата, кейсы, волонтерство и achievements.'
+    },
+    {
+      id: 'roadmap-4',
+      title: 'Шаг 4: Подача в колледж / стажировку',
+      description: 'Выходим на shortlist, application-пакет и финальные интервью.'
+    }
+  ],
+  webinar: {
+    title: 'Application Strategy Webinar',
+    time: 'Каждую субботу, 18:00 Kyiv / 17:00 CET',
+    link: ''
+  },
   achievementsCatalog: defaultAchievementsCatalog,
   lessons: [
     'Понедельник, 17:00 - Grammar Boost',
@@ -50,9 +83,40 @@ const defaultAcademyData = {
     'Пятница, 16:30 - IELTS Practice'
   ],
   teachers: [
-    'Анна Коваленко - Speaking & Pronunciation',
-    'Максим Петренко - Grammar',
-    'Olivia Brown - IELTS Coach'
+    {
+      id: 'teacher-anna-kovalenko',
+      name: 'Анна Коваленко',
+      role: 'Speaking & Pronunciation Mentor',
+      focus: 'Уверенное speaking, interview drills, articulation.'
+    },
+    {
+      id: 'teacher-max-petrenko',
+      name: 'Максим Петренко',
+      role: 'Grammar Strategist',
+      focus: 'Системный English foundation и academic writing.'
+    },
+    {
+      id: 'teacher-olivia-brown',
+      name: 'Olivia Brown',
+      role: 'IELTS Coach',
+      focus: 'Band growth, application readiness, mock sessions.'
+    }
+  ],
+  workshops: [
+    {
+      id: 'workshop-essay-storytelling',
+      title: 'Essay Storytelling Lab',
+      time: 'Вторник, 19:00 Kyiv',
+      link: '',
+      description: 'Собираем personal statement, который звучит как сильная история кандидата.'
+    },
+    {
+      id: 'workshop-interview-sprint',
+      title: 'Interview Sprint',
+      time: 'Четверг, 18:30 Kyiv',
+      link: '',
+      description: 'Живая практика ответов для колледжей, стажировок и scholarship interviews.'
+    }
   ],
   homework: [
     'До среды: выучить 20 новых слов по теме Education.',
@@ -130,6 +194,89 @@ function sanitizeAchievement(input, index) {
     title,
     description
   };
+}
+
+function sanitizeRoadmapStep(input, index) {
+  if (!input || typeof input !== 'object') {
+    return null;
+  }
+
+  const title = String(input.title || '').trim();
+  const description = String(input.description || '').trim();
+  if (!title) {
+    return null;
+  }
+
+  return {
+    id: String(input.id || `roadmap-${index + 1}`).trim() || `roadmap-${index + 1}`,
+    title,
+    description
+  };
+}
+
+function sanitizeRoadmap(input) {
+  const source = Array.isArray(input) && input.length
+    ? input
+    : defaultAcademyData.roadmap;
+
+  return source
+    .map((item, index) => sanitizeRoadmapStep(item, index))
+    .filter(Boolean)
+    .slice(0, 8);
+}
+
+function sanitizeTeacher(input, index) {
+  if (!input || typeof input !== 'object') {
+    return null;
+  }
+
+  const name = String(input.name || '').trim();
+  if (!name) {
+    return null;
+  }
+
+  const role = String(input.role || '').trim() || 'Mentor';
+  const focus = String(input.focus || '').trim();
+
+  return {
+    id: String(input.id || `teacher-${slugify(name, `teacher-${index + 1}`)}`).trim(),
+    name,
+    role,
+    focus
+  };
+}
+
+function sanitizeTeachers(input) {
+  const source = Array.isArray(input) && input.length ? input : defaultAcademyData.teachers;
+  return source
+    .map((item, index) => sanitizeTeacher(item, index))
+    .filter(Boolean);
+}
+
+function sanitizeWorkshop(input, index) {
+  if (!input || typeof input !== 'object') {
+    return null;
+  }
+
+  const title = String(input.title || '').trim();
+  if (!title) {
+    return null;
+  }
+
+  return {
+    id: String(input.id || `workshop-${slugify(title, `workshop-${index + 1}`)}`).trim(),
+    title,
+    time: String(input.time || '').trim(),
+    link: String(input.link || '').trim(),
+    description: String(input.description || '').trim()
+  };
+}
+
+function sanitizeWorkshops(input) {
+  const source = Array.isArray(input) && input.length ? input : defaultAcademyData.workshops;
+  return source
+    .map((item, index) => sanitizeWorkshop(item, index))
+    .filter(Boolean);
 }
 
 function sanitizeAchievementsCatalog(input) {
@@ -257,10 +404,22 @@ function sanitizeAcademyData(input) {
   if (!input || typeof input !== 'object') {
     return {
       ...defaultAcademyData,
+      hero: { ...defaultAcademyData.hero },
+      roadmap: sanitizeRoadmap(defaultAcademyData.roadmap),
+      webinar: { ...defaultAcademyData.webinar },
+      teachers: sanitizeTeachers(defaultAcademyData.teachers),
+      workshops: sanitizeWorkshops(defaultAcademyData.workshops),
       achievementsCatalog: sanitizeAchievementsCatalog(defaultAcademyData.achievementsCatalog)
     };
   }
 
+  const heroInput = input.hero && typeof input.hero === 'object' ? input.hero : {};
+  const hero = {
+    eyebrow: String(heroInput.eyebrow || defaultAcademyData.hero.eyebrow).trim() || defaultAcademyData.hero.eyebrow,
+    headline: String(heroInput.headline || defaultAcademyData.hero.headline).trim() || defaultAcademyData.hero.headline,
+    subheadline: String(heroInput.subheadline || defaultAcademyData.hero.subheadline).trim() || defaultAcademyData.hero.subheadline,
+    interviewCtaLabel: String(heroInput.interviewCtaLabel || defaultAcademyData.hero.interviewCtaLabel).trim() || defaultAcademyData.hero.interviewCtaLabel
+  };
   const intakeInput = input.intake && typeof input.intake === 'object' ? input.intake : {};
   const remainingSeats = Number.isFinite(Number(intakeInput.remainingSeats))
     ? Math.max(0, Number(intakeInput.remainingSeats))
@@ -274,19 +433,29 @@ function sanitizeAcademyData(input) {
     totalSeats
   };
   const lessons = Array.isArray(input.lessons) && input.lessons.length ? input.lessons : defaultAcademyData.lessons;
-  const teachers = Array.isArray(input.teachers) && input.teachers.length ? input.teachers : defaultAcademyData.teachers;
+  const roadmap = sanitizeRoadmap(input.roadmap);
+  const teachers = sanitizeTeachers(input.teachers);
+  const workshops = sanitizeWorkshops(input.workshops);
   const homework = Array.isArray(input.homework) && input.homework.length ? input.homework : defaultAcademyData.homework;
-  const webinarLink = String(input.webinarLink || '').trim();
+  const webinarInput = input.webinar && typeof input.webinar === 'object' ? input.webinar : {};
+  const webinar = {
+    title: String(webinarInput.title || defaultAcademyData.webinar.title).trim() || defaultAcademyData.webinar.title,
+    time: String(webinarInput.time || defaultAcademyData.webinar.time).trim() || defaultAcademyData.webinar.time,
+    link: String(webinarInput.link || input.webinarLink || defaultAcademyData.webinar.link).trim()
+  };
   const achievementsCatalog = Array.isArray(input.achievementsCatalog)
     ? sanitizeAchievementsCatalog(input.achievementsCatalog)
     : sanitizeAchievementsCatalog(defaultAcademyData.achievementsCatalog);
 
   return {
+    hero,
     intake,
-    webinarLink,
+    roadmap,
+    webinar,
     achievementsCatalog,
     lessons,
     teachers,
+    workshops,
     homework
   };
 }
@@ -320,6 +489,7 @@ async function saveState(state) {
 }
 
 module.exports = {
+  DEFAULT_ADMIN_PASSWORD,
   ALLOWED_LEVELS,
   DEFAULT_ENGLISH_PROGRESS_MAP,
   buildDefaultMilestone,

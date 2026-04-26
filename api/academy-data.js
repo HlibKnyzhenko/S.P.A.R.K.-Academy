@@ -1,4 +1,4 @@
-const { getState, saveState, sanitizeAcademyData, defaultAcademyData } = require('./_lib/store');
+const { DEFAULT_ADMIN_PASSWORD, getState, saveState, sanitizeAcademyData, defaultAcademyData } = require('./_lib/store');
 
 module.exports = async function handler(req, res) {
   try {
@@ -8,14 +8,25 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
-      const { intake, webinarLink, achievementsCatalog, lessons, teachers, homework, adminPassword } = req.body || {};
-      const serverAdminPassword = process.env.ADMIN_PANEL_PASSWORD || 'spark-admin-2026';
+      const { hero, intake, roadmap, webinar, webinarLink, achievementsCatalog, lessons, teachers, workshops, homework, adminPassword } = req.body || {};
+      const serverAdminPassword = process.env.ADMIN_PANEL_PASSWORD || DEFAULT_ADMIN_PASSWORD;
 
       if (adminPassword !== serverAdminPassword) {
         return res.status(401).json({ error: 'Неверный админ пароль.' });
       }
 
-      const academyData = sanitizeAcademyData({ intake, webinarLink, achievementsCatalog, lessons, teachers, homework });
+      const academyData = sanitizeAcademyData({
+        hero,
+        intake,
+        roadmap,
+        webinar,
+        webinarLink,
+        achievementsCatalog,
+        lessons,
+        teachers,
+        workshops,
+        homework
+      });
       const state = await getState();
       state.academyData = academyData;
       await saveState(state);
@@ -25,7 +36,7 @@ module.exports = async function handler(req, res) {
 
     if (req.method === 'DELETE') {
       const { adminPassword } = req.body || {};
-      const serverAdminPassword = process.env.ADMIN_PANEL_PASSWORD || 'spark-admin-2026';
+      const serverAdminPassword = process.env.ADMIN_PANEL_PASSWORD || DEFAULT_ADMIN_PASSWORD;
 
       if (adminPassword !== serverAdminPassword) {
         return res.status(401).json({ error: 'Неверный админ пароль.' });

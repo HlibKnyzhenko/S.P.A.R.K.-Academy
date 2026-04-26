@@ -1,4 +1,4 @@
-const { getState } = require('../_lib/store');
+const { DEFAULT_ADMIN_PASSWORD, getState } = require('../_lib/store');
 
 const ADMIN_TIMEZONE = 'Europe/Kyiv';
 
@@ -18,7 +18,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const { adminPassword } = req.body || {};
-    const serverAdminPassword = process.env.ADMIN_PANEL_PASSWORD || 'spark-admin-2026';
+    const serverAdminPassword = process.env.ADMIN_PANEL_PASSWORD || DEFAULT_ADMIN_PASSWORD;
 
     if (!adminPassword || adminPassword !== serverAdminPassword) {
       return res.status(401).json({ error: 'Неверный админ пароль.' });
