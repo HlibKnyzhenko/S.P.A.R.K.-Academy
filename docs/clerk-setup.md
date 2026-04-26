@@ -43,7 +43,7 @@ email confirmation code during registration.
 - `/sign-up` -> custom Clerk sign-up page
 - `/dashboard` -> protected personal cabinet
 
-## 4. Middleware behavior
+## 4. Proxy behavior
 
-`middleware.js` protects every route inside `/dashboard`. Unauthenticated users are
+`proxy.js` protects every route inside `/dashboard`. Unauthenticated users are
 redirected by Clerk to the configured sign-in URL.
