@@ -95,6 +95,11 @@ a {
   padding: 1rem;
 }
 
+.spark-card-compact {
+  border-radius: 18px;
+  padding: 0.85rem;
+}
+
 .spark-roadmap-card {
   position: relative;
   overflow: hidden;
@@ -189,12 +194,12 @@ a {
 
 .spark-input {
   width: 100%;
-  min-height: 3rem;
+  min-height: 2.8rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 1rem;
   background: rgba(255, 255, 255, 0.07);
   color: #f8fbff;
-  padding: 0.85rem 1rem;
+  padding: 0.72rem 0.95rem;
   outline: none;
 }
 

@@ -335,51 +335,53 @@ export default function AdminPanel({ initialAcademyData }) {
   return (
     <main className="spark-shell min-h-screen px-4 py-6 sm:px-6 sm:py-8">
       <div className="spark-grid absolute inset-0" />
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-6">
-        <section className="spark-glass spark-section rounded-[30px] p-5 sm:p-8">
+      <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-col gap-4">
+        <section className="spark-glass spark-section rounded-[26px] p-4 sm:p-5">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div>
               <div className="spark-badge inline-flex rounded-full px-4 py-2 text-xs font-bold uppercase tracking-[0.22em]">
                 Academy Control Room
               </div>
-              <h1 className="mt-5 text-3xl font-extrabold text-white sm:text-4xl">
+              <h1 className="mt-4 max-w-4xl text-2xl font-extrabold leading-tight text-white sm:text-3xl">
                 Admin panel for seats, students, certificates, and live programming.
               </h1>
-              <p className="spark-muted mt-3 max-w-3xl text-base leading-7">
+              <p className="spark-muted mt-2 max-w-3xl text-sm leading-6 sm:text-base">
                 Update the public landing page, manage selective intake pressure, assign achievements,
                 upload certificates, and keep teachers plus workshops current.
               </p>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-[22px] border border-white/10 bg-white/6 px-4 py-4">
+            <div className="grid shrink-0 gap-3 sm:grid-cols-2">
+              <div className="rounded-[18px] border border-white/10 bg-white/6 px-4 py-3">
                 <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/50">Students</p>
-                <p className="mt-3 text-3xl font-bold text-white">{stats?.totalStudents || users.length}</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats?.totalStudents || users.length}</p>
               </div>
-              <div className="rounded-[22px] border border-white/10 bg-white/6 px-4 py-4">
+              <div className="rounded-[18px] border border-white/10 bg-white/6 px-4 py-3">
                 <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/50">Registered today</p>
-                <p className="mt-3 text-3xl font-bold text-white">{stats?.registeredToday || 0}</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats?.registeredToday || 0}</p>
               </div>
             </div>
           </div>
-          {notice ? <p className="mt-4 text-sm text-emerald-200">{notice}</p> : null}
-          {error ? <p className="mt-2 text-sm text-rose-300">{error}</p> : null}
+          <div className="mt-3 flex flex-col gap-1">
+            {notice ? <p className="text-sm text-emerald-200">{notice}</p> : null}
+            {error ? <p className="text-sm text-rose-300">{error}</p> : null}
+          </div>
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_420px]">
-          <div className="flex flex-col gap-6">
-            <section className="spark-glass spark-section rounded-[28px] p-5 sm:p-8">
+        <section className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="flex flex-col gap-4">
+            <section className="spark-glass spark-section rounded-[24px] p-4 sm:p-5">
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
                     Intake & Hero
                   </p>
-                  <h2 className="mt-3 text-3xl font-bold text-white">Landing page messaging</h2>
+                  <h2 className="mt-2 text-2xl font-bold text-white">Landing page messaging</h2>
                 </div>
-                <button className="spark-button-primary" disabled={loading} onClick={saveAcademyData} type="button">
+                <button className="spark-button-primary min-w-[170px]" disabled={loading} onClick={saveAcademyData} type="button">
                   Save Academy Data
                 </button>
               </div>
-              <div className="mt-6 grid gap-4">
+              <div className="mt-4 grid gap-3">
                 <input className="spark-input" value={academyData.hero.headline} onChange={(event) => updateHero("headline", event.target.value)} />
                 <textarea className="spark-input min-h-28 resize-y py-3" value={academyData.hero.subheadline} onChange={(event) => updateHero("subheadline", event.target.value)} />
                 <div className="grid gap-4 md:grid-cols-3">
@@ -387,23 +389,23 @@ export default function AdminPanel({ initialAcademyData }) {
                   <input className="spark-input" type="number" value={academyData.intake.remainingSeats} onChange={(event) => updateIntake("remainingSeats", event.target.value)} />
                   <input className="spark-input" type="number" value={academyData.intake.totalSeats} onChange={(event) => updateIntake("totalSeats", event.target.value)} />
                 </div>
-                <div className="rounded-[22px] border border-emerald-300/20 bg-emerald-300/10 px-4 py-4 text-sm text-emerald-50">
+                <div className="rounded-[18px] border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm text-emerald-50">
                   {seatsMessage}
                 </div>
               </div>
             </section>
 
-            <section className="spark-glass spark-section rounded-[28px] p-5 sm:p-8">
+            <section className="spark-glass spark-section rounded-[24px] p-4 sm:p-5">
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">Teachers</p>
-                  <h2 className="mt-3 text-3xl font-bold text-white">Visible in the cabinet</h2>
+                  <h2 className="mt-2 text-2xl font-bold text-white">Visible in the cabinet</h2>
                 </div>
-                <button className="spark-button-secondary" onClick={addTeacher} type="button">
+                <button className="spark-button-secondary min-w-[138px]" onClick={addTeacher} type="button">
                   Add teacher
                 </button>
               </div>
-              <div className="mt-6 grid gap-4">
+              <div className="mt-4 grid gap-3 lg:grid-cols-2">
                 {academyData.teachers.map((teacher, index) => (
                   <div key={teacher.id || index} className="spark-card">
                     <div className="grid gap-3">
@@ -416,24 +418,24 @@ export default function AdminPanel({ initialAcademyData }) {
               </div>
             </section>
 
-            <section className="spark-glass spark-section rounded-[28px] p-5 sm:p-8">
+            <section className="spark-glass spark-section rounded-[24px] p-4 sm:p-5">
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">Workshops</p>
-                  <h2 className="mt-3 text-3xl font-bold text-white">Webinar and live schedule</h2>
+                  <h2 className="mt-2 text-2xl font-bold text-white">Webinar and live schedule</h2>
                 </div>
-                <button className="spark-button-secondary" onClick={addWorkshop} type="button">
+                <button className="spark-button-secondary min-w-[148px]" onClick={addWorkshop} type="button">
                   Add workshop
                 </button>
               </div>
-              <div className="spark-card mt-6">
+              <div className="spark-card mt-4">
                 <div className="grid gap-3">
                   <input className="spark-input" placeholder="Webinar title" value={academyData.webinar.title} onChange={(event) => updateWebinar("title", event.target.value)} />
                   <input className="spark-input" placeholder="Webinar time" value={academyData.webinar.time} onChange={(event) => updateWebinar("time", event.target.value)} />
                   <input className="spark-input" placeholder="Webinar link" value={academyData.webinar.link} onChange={(event) => updateWebinar("link", event.target.value)} />
                 </div>
               </div>
-              <div className="mt-4 grid gap-4">
+              <div className="mt-3 grid gap-3 lg:grid-cols-2">
                 {academyData.workshops.map((workshop, index) => (
                   <div key={workshop.id || index} className="spark-card">
                     <div className="grid gap-3">
@@ -447,17 +449,17 @@ export default function AdminPanel({ initialAcademyData }) {
               </div>
             </section>
 
-            <section className="spark-glass spark-section rounded-[28px] p-5 sm:p-8">
+            <section className="spark-glass spark-section rounded-[24px] p-4 sm:p-5">
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">Achievements</p>
-                  <h2 className="mt-3 text-3xl font-bold text-white">Create badge catalog</h2>
+                  <h2 className="mt-2 text-2xl font-bold text-white">Create badge catalog</h2>
                 </div>
-                <button className="spark-button-secondary" onClick={addAchievement} type="button">
+                <button className="spark-button-secondary min-w-[166px]" onClick={addAchievement} type="button">
                   Add achievement
                 </button>
               </div>
-              <div className="mt-6 grid gap-4">
+              <div className="mt-4 grid gap-3 lg:grid-cols-2">
                 {academyData.achievementsCatalog.map((achievement, index) => (
                   <div key={achievement.id || index} className="spark-card">
                     <div className="grid gap-3">
@@ -470,23 +472,23 @@ export default function AdminPanel({ initialAcademyData }) {
             </section>
           </div>
 
-          <aside className="spark-glass spark-section rounded-[28px] p-5 sm:p-8">
+          <aside className="spark-glass spark-section rounded-[24px] p-4 sm:p-5">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">Students</p>
-            <h2 className="mt-3 text-3xl font-bold text-white">Assign progress, badges, certificates</h2>
-            <div className="mt-6 grid gap-4">
+            <h2 className="mt-2 text-[28px] font-bold leading-tight text-white">Assign progress, badges, certificates</h2>
+            <div className="mt-4 grid gap-3">
               {users.length ? (
                 users.map((user, userIndex) => (
                   <article key={user.id} className="spark-card">
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <h3 className="text-xl font-semibold text-white">{user.name}</h3>
+                        <h3 className="text-lg font-semibold text-white">{user.name}</h3>
                         <p className="mt-1 text-sm text-white/60">{user.email}</p>
                       </div>
-                      <button className="spark-button-primary" disabled={loading} onClick={() => saveUser(user)} type="button">
+                      <button className="spark-button-primary min-w-[74px] px-4" disabled={loading} onClick={() => saveUser(user)} type="button">
                         Save
                       </button>
                     </div>
-                    <div className="mt-4 grid gap-3">
+                    <div className="mt-3 grid gap-3">
                       <div className="grid gap-3 sm:grid-cols-2">
                         <input className="spark-input" type="number" value={user.englishProgress} onChange={(event) => updateUser(userIndex, "englishProgress", event.target.value)} />
                         <input className="spark-input" type="number" value={user.portfolioProgress} onChange={(event) => updateUser(userIndex, "portfolioProgress", event.target.value)} />
@@ -495,7 +497,7 @@ export default function AdminPanel({ initialAcademyData }) {
                       <textarea className="spark-input min-h-24 resize-y py-3" value={user.nextMilestone} onChange={(event) => updateUser(userIndex, "nextMilestone", event.target.value)} />
                     </div>
 
-                    <div className="mt-5">
+                    <div className="mt-4">
                       <p className="text-sm font-semibold text-white">Achievements</p>
                       <div className="mt-3 flex flex-wrap gap-2">
                         {academyData.achievementsCatalog.map((achievement) => {
@@ -514,7 +516,7 @@ export default function AdminPanel({ initialAcademyData }) {
                       </div>
                     </div>
 
-                    <div className="mt-5">
+                    <div className="mt-4">
                       <div className="flex items-center justify-between gap-4">
                         <p className="text-sm font-semibold text-white">Certificates</p>
                         <label className="spark-button-secondary cursor-pointer">
