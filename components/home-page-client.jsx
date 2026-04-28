@@ -15,7 +15,7 @@ export default function HomePageClient({ academyData, userId }) {
   const [formError, setFormError] = useState("");
 
   const intakeLabel = useMemo(() => {
-    return `Nabor na ${academyData.intake.cohortLabel}: ostalos ${academyData.intake.remainingSeats} mesta iz ${academyData.intake.totalSeats}`;
+    return `Набор на ${academyData.intake.cohortLabel}: осталось ${academyData.intake.remainingSeats} места из ${academyData.intake.totalSeats}`;
   }, [academyData]);
 
   function updateField(field, value) {

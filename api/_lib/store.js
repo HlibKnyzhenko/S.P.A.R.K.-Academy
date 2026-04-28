@@ -40,9 +40,9 @@ const defaultAchievementsCatalog = [
 const defaultAcademyData = {
   hero: {
     eyebrow: 'Academy with international recognition',
-    headline: 'Tvoi put v topovye kolledzhi SShA nachinaetsya zdes. Akademiya s mezhdunarodnym priznaniem.',
+    headline: 'Твой путь в топовые колледжи США начинается здесь. Академия с международным признанием.',
     subheadline: 'S.P.A.R.K. Academy combines English, soft skills, portfolio strategy, and interview preparation into one selective route for ambitious students.',
-    interviewCtaLabel: 'Podat zayavku na intervyu'
+    interviewCtaLabel: 'Apply for an interview'
   },
   intake: {
     cohortLabel: 'весенний поток',
