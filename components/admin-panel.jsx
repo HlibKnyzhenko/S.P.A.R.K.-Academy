@@ -45,22 +45,22 @@ export default function AdminPanel({ initialAcademyData }) {
 
     try {
       const [loginRes, statsRes, usersRes, academyRes] = await Promise.all([
-        fetch("/api/admin/login", {
+        fetch("/api/spark", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ password: adminPassword }),
+          body: JSON.stringify({ action: "login", password: adminPassword }),
         }),
-        fetch("/api/admin/stats", {
+        fetch("/api/spark", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ adminPassword }),
+          body: JSON.stringify({ action: "stats", adminPassword }),
         }),
-        fetch("/api/admin/students", {
+        fetch("/api/spark", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ adminPassword }),
+          body: JSON.stringify({ action: "students", adminPassword }),
         }),
-        fetch("/api/academy-data"),
+        fetch("/api/spark?action=academyData"),
       ]);
 
       const [loginPayload, statsPayload, usersPayload, academyPayload] = await Promise.all([
@@ -164,10 +164,11 @@ export default function AdminPanel({ initialAcademyData }) {
     setNotice("");
 
     try {
-      const response = await fetch("/api/academy-data", {
+      const response = await fetch("/api/spark", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          action: "saveAcademyData",
           adminPassword,
           hero: academyData.hero,
           intake: {
@@ -205,10 +206,11 @@ export default function AdminPanel({ initialAcademyData }) {
     setNotice("");
 
     try {
-      const response = await fetch("/api/admin/students", {
-        method: "PATCH",
+      const response = await fetch("/api/spark", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          action: "updateStudent",
           adminPassword,
           userId: user.id,
           updates: {

@@ -16,19 +16,14 @@
 
 html {
   min-height: 100%;
-  background:
-    radial-gradient(circle at top, rgba(0, 234, 255, 0.14), transparent 28%),
-    linear-gradient(180deg, #050505 0%, #090909 42%, #020202 100%);
+  background: linear-gradient(180deg, #050505 0%, #090909 42%, #020202 100%);
 }
 
 body {
   min-height: 100vh;
   margin: 0;
   color: var(--foreground);
-  background:
-    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.06), transparent 24%),
-    radial-gradient(circle at 90% 15%, rgba(0, 234, 255, 0.12), transparent 20%),
-    radial-gradient(circle at 50% 85%, rgba(255, 255, 255, 0.05), transparent 28%);
+  background: #050505;
 }
 
 a {
@@ -47,9 +42,7 @@ a {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(120deg, rgba(255, 255, 255, 0.03), transparent 22%),
-    linear-gradient(300deg, rgba(0, 234, 255, 0.05), transparent 26%);
+  background: transparent;
 }
 
 .spark-grid {
@@ -106,12 +99,7 @@ a {
 }
 
 .spark-roadmap-card::after {
-  content: "";
-  position: absolute;
-  inset: auto -10% -40% 30%;
-  height: 140px;
-  background: radial-gradient(circle, rgba(0, 234, 255, 0.16), transparent 72%);
-  pointer-events: none;
+  content: none;
 }
 
 .spark-step-index {
@@ -212,6 +200,23 @@ a {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.spark-language {
+  display: inline-flex;
+  width: auto;
+}
+
+.spark-language-select {
+  min-height: 2.875rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.72rem 2.2rem 0.72rem 1rem;
+  outline: none;
+}
+
 .spark-confetti {
   position: absolute;
   top: -10vh;
@@ -251,6 +256,11 @@ textarea:-webkit-autofill:focus {
   .spark-button-primary,
   .spark-button-secondary,
   .spark-button-ghost {
+    width: 100%;
+  }
+
+  .spark-language,
+  .spark-language-select {
     width: 100%;
   }
 }

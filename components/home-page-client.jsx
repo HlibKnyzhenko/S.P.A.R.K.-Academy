@@ -2,10 +2,16 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { LanguageSwitcher, translateAcademyData, useLanguage } from "./i18n";
 
 const englishLevels = ["A1", "A2", "B1", "B2", "C1", "C2", "NOT SURE"];
 
 export default function HomePageClient({ academyData, userId }) {
+  const { language, setLanguage, t } = useLanguage();
+  const translatedAcademyData = useMemo(
+    () => translateAcademyData(academyData, language),
+    [academyData, language]
+  );
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -15,8 +21,12 @@ export default function HomePageClient({ academyData, userId }) {
   const [formError, setFormError] = useState("");
 
   const intakeLabel = useMemo(() => {
-    return `Набор на ${academyData.intake.cohortLabel}: осталось ${academyData.intake.remainingSeats} места из ${academyData.intake.totalSeats}`;
-  }, [academyData]);
+    return t("seats", {
+      cohort: translatedAcademyData.intake.cohortLabel,
+      remaining: translatedAcademyData.intake.remainingSeats,
+      total: translatedAcademyData.intake.totalSeats,
+    });
+  }, [t, translatedAcademyData]);
 
   function updateField(field, value) {
     setFormError("");
@@ -32,7 +42,7 @@ export default function HomePageClient({ academyData, userId }) {
       !formState.ambition.trim() ||
       formState.ambition.trim().length < 20
     ) {
-      setFormError("Please answer every field and make your motivation more detailed.");
+      setFormError(t("formError"));
       return;
     }
 
@@ -46,26 +56,27 @@ export default function HomePageClient({ academyData, userId }) {
     <main className="spark-shell min-h-screen px-4 py-6 sm:px-6 sm:py-8">
       <div className="spark-grid absolute inset-0" />
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-6">
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-3">
+          <LanguageSwitcher language={language} setLanguage={setLanguage} />
           <Link href="/admin" className="spark-button-ghost w-auto px-4 py-2 text-sm">
-            Admin panel
+            {t("adminPanel")}
           </Link>
         </div>
         <section className="spark-glass spark-section overflow-hidden rounded-[30px] px-5 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(320px,0.85fr)] lg:items-start">
             <div>
               <div className="spark-badge inline-flex rounded-full px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em]">
-                {academyData.hero.eyebrow}
+                {translatedAcademyData.hero.eyebrow}
               </div>
               <div className="mt-5 inline-flex items-center gap-3 rounded-full border border-emerald-300/25 bg-emerald-300/10 px-4 py-2 text-sm font-semibold text-emerald-100 shadow-[0_0_30px_rgba(125,246,176,0.18)]">
                 <span className="h-2.5 w-2.5 rounded-full bg-emerald-300 shadow-[0_0_18px_rgba(125,246,176,0.85)]" />
                 {intakeLabel}
               </div>
               <h1 className="mt-6 max-w-4xl text-4xl font-extrabold leading-[1.02] text-white sm:text-5xl lg:text-6xl">
-                {academyData.hero.headline}
+                {translatedAcademyData.hero.headline}
               </h1>
               <p className="spark-muted mt-5 max-w-3xl text-base leading-7 sm:text-lg">
-                {academyData.hero.subheadline}
+                {translatedAcademyData.hero.subheadline}
               </p>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -73,39 +84,38 @@ export default function HomePageClient({ academyData, userId }) {
                   href="/sign-up"
                   className="spark-button-primary text-center"
                 >
-                  {academyData.hero.interviewCtaLabel}
+                  {translatedAcademyData.hero.interviewCtaLabel || t("applyForInterview")}
                 </Link>
                 <Link
                   href={userId ? "/dashboard" : "/sign-in"}
                   className="spark-button-secondary text-center"
                 >
-                  {userId ? "Open personal cabinet" : "Sign in"}
+                  {userId ? t("openCabinet") : t("signIn")}
                 </Link>
               </div>
             </div>
 
             <div className="spark-panel rounded-[26px] p-5 sm:p-6">
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
-                Strategic application form
+                {t("strategicForm")}
               </p>
               <h2 className="mt-3 text-2xl font-bold text-white sm:text-[28px]">
-                Apply for Interview
+                {t("applyForInterview")}
               </h2>
               <p className="spark-muted mt-2 text-sm leading-6">
-                This is a selective route. Tell us why your ambition, discipline, and portfolio
-                potential deserve one of the remaining seats.
+                {t("formDescription")}
               </p>
 
               <form className="mt-5 grid gap-3" onSubmit={handleSubmit}>
                 <input
                   className="spark-input"
-                  placeholder="Your full name"
+                  placeholder={t("fullName")}
                   value={formState.name}
                   onChange={(event) => updateField("name", event.target.value)}
                 />
                 <input
                   className="spark-input"
-                  placeholder="Email address"
+                  placeholder={t("email")}
                   type="email"
                   value={formState.email}
                   onChange={(event) => updateField("email", event.target.value)}
@@ -123,17 +133,16 @@ export default function HomePageClient({ academyData, userId }) {
                 </select>
                 <textarea
                   className="spark-input min-h-32 resize-y py-3"
-                  placeholder="Why should we choose you?"
+                  placeholder={t("motivation")}
                   value={formState.ambition}
                   onChange={(event) => updateField("ambition", event.target.value)}
                 />
                 <button className="spark-button-primary w-full" type="submit">
-                  Apply for Interview
+                  {t("applyForInterview")}
                 </button>
                 {formError ? <p className="text-sm text-rose-300">{formError}</p> : null}
                 <p className="text-xs leading-5 text-white/50">
-                  После отправки ты перейдешь на secure sign-up flow. Черновик ответа сохранится
-                  в этом браузере.
+                  {t("draftNote")}
                 </p>
               </form>
             </div>
@@ -144,14 +153,14 @@ export default function HomePageClient({ academyData, userId }) {
           <div className="spark-glass spark-section rounded-[28px] p-5 sm:p-8">
             <div className="section-heading">
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
-                Interactive Roadmap
+                {t("roadmap")}
               </p>
               <h2 className="mt-3 text-3xl font-bold text-white sm:text-4xl">
-                The route from interview to admission.
+                {t("routeTitle")}
               </h2>
             </div>
             <div className="mt-6 grid gap-4 lg:grid-cols-2">
-              {academyData.roadmap.map((step, index) => (
+              {translatedAcademyData.roadmap.map((step, index) => (
                 <article key={step.id} className="spark-card spark-roadmap-card">
                   <div className="spark-step-index">{String(index + 1).padStart(2, "0")}</div>
                   <h3 className="mt-4 text-xl font-semibold text-white">{step.title}</h3>
@@ -164,10 +173,10 @@ export default function HomePageClient({ academyData, userId }) {
           <div className="flex flex-col gap-6">
             <section className="spark-glass spark-section rounded-[28px] p-5 sm:p-6">
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
-                Teachers
+                {t("teachers")}
               </p>
               <div className="mt-4 grid gap-3">
-                {academyData.teachers.map((teacher) => (
+                {translatedAcademyData.teachers.map((teacher) => (
                   <article key={teacher.id} className="spark-card">
                     <h3 className="text-lg font-semibold text-white">{teacher.name}</h3>
                     <p className="mt-1 text-sm font-medium text-cyan-200">{teacher.role}</p>
@@ -179,26 +188,26 @@ export default function HomePageClient({ academyData, userId }) {
 
             <section className="spark-glass spark-section rounded-[28px] p-5 sm:p-6">
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
-                Webinar & Workshops
+                {t("webinarWorkshops")}
               </p>
               <div className="spark-card mt-4">
-                <h3 className="text-lg font-semibold text-white">{academyData.webinar.title}</h3>
-                <p className="mt-2 text-sm text-white/72">{academyData.webinar.time}</p>
-                {academyData.webinar.link ? (
+                <h3 className="text-lg font-semibold text-white">{translatedAcademyData.webinar.title}</h3>
+                <p className="mt-2 text-sm text-white/72">{translatedAcademyData.webinar.time}</p>
+                {translatedAcademyData.webinar.link ? (
                   <a
-                    href={academyData.webinar.link}
+                    href={translatedAcademyData.webinar.link}
                     target="_blank"
                     rel="noreferrer"
                     className="mt-4 inline-flex text-sm font-semibold text-cyan-200 hover:text-white"
                   >
-                    Open webinar link
+                    {t("openWebinar")}
                   </a>
                 ) : (
-                  <p className="mt-4 text-sm text-white/45">The admin panel will add the live link here.</p>
+                  <p className="mt-4 text-sm text-white/45">{t("webinarMissing")}</p>
                 )}
               </div>
               <div className="mt-4 grid gap-3">
-                {academyData.workshops.map((workshop) => (
+                {translatedAcademyData.workshops.map((workshop) => (
                   <article key={workshop.id} className="spark-card">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                       <div>
@@ -212,7 +221,7 @@ export default function HomePageClient({ academyData, userId }) {
                           rel="noreferrer"
                           className="text-sm font-semibold text-cyan-200 hover:text-white"
                         >
-                          Join
+                          {t("join")}
                         </a>
                       ) : null}
                     </div>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { LanguageSwitcher, translateAcademyData, translateContent, useLanguage } from "./i18n";
 
 function ProgressBar({ label, value, accentClass }) {
   return (
@@ -48,6 +49,11 @@ function ConfettiLayer() {
 }
 
 export default function DashboardClient({ user, academyData, initialStudentProfile }) {
+  const { language, setLanguage, t } = useLanguage();
+  const translatedAcademyData = useMemo(
+    () => translateAcademyData(academyData, language),
+    [academyData, language]
+  );
   const [studentProfile, setStudentProfile] = useState(initialStudentProfile);
   const [syncError, setSyncError] = useState("");
   const [certificate, setCertificate] = useState(null);
@@ -58,10 +64,11 @@ export default function DashboardClient({ user, academyData, initialStudentProfi
 
     async function syncProfile() {
       try {
-        const response = await fetch("/api/auth/sync", {
+        const response = await fetch("/api/spark", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            action: "syncProfile",
             email: user.email,
             name: user.name,
           }),
@@ -77,7 +84,7 @@ export default function DashboardClient({ user, academyData, initialStudentProfi
         }
       } catch (error) {
         if (active) {
-          setSyncError("Profile sync failed. Try refreshing the page.");
+          setSyncError(t("syncError"));
         }
       }
     }
@@ -87,12 +94,12 @@ export default function DashboardClient({ user, academyData, initialStudentProfi
     return () => {
       active = false;
     };
-  }, [user.email, user.name]);
+  }, [t, user.email, user.name]);
 
   const unlockedAchievements = useMemo(() => {
     const ids = new Set(studentProfile?.achievementIds || []);
-    return academyData.achievementsCatalog.filter((item) => ids.has(item.id));
-  }, [academyData.achievementsCatalog, studentProfile]);
+    return translatedAcademyData.achievementsCatalog.filter((item) => ids.has(item.id));
+  }, [translatedAcademyData.achievementsCatalog, studentProfile]);
 
   function openCertificate(item) {
     setCertificate(item);
@@ -110,40 +117,40 @@ export default function DashboardClient({ user, academyData, initialStudentProfi
             <div className="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
               <div className="max-w-3xl">
                 <div className="spark-badge inline-flex rounded-full px-4 py-2 text-xs font-bold uppercase tracking-[0.22em]">
-                  Personal Cabinet 2.0
+                  {t("cabinetBadge")}
                 </div>
                 <h1 className="mt-5 text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl">
-                  Welcome, {user.name}
+                  {t("welcome", { name: user.name })}
                 </h1>
                 <p className="spark-muted mt-4 text-base leading-7">
-                  Track portfolio readiness, unlock achievements, follow workshops, and stay close
-                  to the interview route without losing momentum.
+                  {t("dashboardIntro")}
                 </p>
                 {studentProfile?.nextMilestone ? (
-                  <div className="mt-5 rounded-[22px] border border-cyan-200/15 bg-cyan-200/8 p-4 text-sm leading-6 text-cyan-50">
-                    <span className="font-semibold text-white">Next milestone:</span>{" "}
-                    {studentProfile.nextMilestone}
+                  <div className="mt-5 rounded-[22px] border border-white/15 bg-white/6 p-4 text-sm leading-6 text-white/85">
+                    <span className="font-semibold text-white">{t("nextMilestone")}</span>{" "}
+                    {translateContent(studentProfile.nextMilestone, language)}
                   </div>
                 ) : null}
                 {syncError ? <p className="mt-3 text-sm text-rose-300">{syncError}</p> : null}
               </div>
-              <div className="flex items-start">
+              <div className="flex items-start gap-3">
+                <LanguageSwitcher language={language} setLanguage={setLanguage} />
                 <Link href="/admin" className="spark-button-ghost w-auto px-4 py-2 text-sm">
-                  Open admin panel
+                  {t("openAdminPanel")}
                 </Link>
               </div>
             </div>
 
             <div className="mt-8 grid gap-4 lg:grid-cols-2">
               <ProgressBar
-                label="English progress to target level"
+                label={t("englishProgress")}
                 value={studentProfile?.englishProgress || 0}
-                accentClass="bg-[linear-gradient(90deg,#00eaff,#7df6b0)]"
+                accentClass="bg-[linear-gradient(90deg,#7df6b0,#ffffff)]"
               />
               <ProgressBar
-                label="Portfolio readiness"
+                label={t("portfolioReadiness")}
                 value={studentProfile?.portfolioProgress || 0}
-                accentClass="bg-[linear-gradient(90deg,#ffffff,#00eaff)]"
+                accentClass="bg-[linear-gradient(90deg,#ffffff,#7df6b0)]"
               />
             </div>
           </section>
@@ -154,30 +161,30 @@ export default function DashboardClient({ user, academyData, initialStudentProfi
                 <div className="flex items-center justify-between gap-4">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
-                      Achievement system
+                      {t("achievementsSystem")}
                     </p>
-                    <h2 className="mt-3 text-3xl font-bold text-white">Unlocked badges</h2>
+                    <h2 className="mt-3 text-3xl font-bold text-white">{t("unlockedBadges")}</h2>
                   </div>
                   <div className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm font-semibold text-white/75">
-                    {unlockedAchievements.length}/{academyData.achievementsCatalog.length}
+                    {unlockedAchievements.length}/{translatedAcademyData.achievementsCatalog.length}
                   </div>
                 </div>
                 <div className="mt-6 grid gap-3 md:grid-cols-2">
-                  {academyData.achievementsCatalog.map((achievement) => {
+                  {translatedAcademyData.achievementsCatalog.map((achievement) => {
                     const unlocked = unlockedAchievements.some((item) => item.id === achievement.id);
                     return (
                       <article
                         key={achievement.id}
                         className={`rounded-[22px] border p-5 transition ${
                           unlocked
-                            ? "border-emerald-300/25 bg-emerald-300/10 shadow-[0_0_30px_rgba(125,246,176,0.12)]"
+                            ? "border-emerald-300/25 bg-emerald-300/10"
                             : "border-white/10 bg-white/6"
                         }`}
                       >
                         <div className="flex items-start justify-between gap-3">
                           <h3 className="text-lg font-semibold text-white">{achievement.title}</h3>
                           <span className="text-xs font-bold uppercase tracking-[0.18em] text-white/55">
-                            {unlocked ? "Unlocked" : "Locked"}
+                            {unlocked ? t("unlocked") : t("locked")}
                           </span>
                         </div>
                         <p className="spark-muted mt-3 text-sm leading-6">{achievement.description}</p>
@@ -189,16 +196,16 @@ export default function DashboardClient({ user, academyData, initialStudentProfi
 
               <div className="spark-glass spark-section rounded-[28px] p-5 sm:p-8">
                 <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
-                  Certificates
+                  {t("certificates")}
                 </p>
-                <h2 className="mt-3 text-3xl font-bold text-white">Your proof of progress</h2>
+                <h2 className="mt-3 text-3xl font-bold text-white">{t("proofProgress")}</h2>
                 <div className="mt-6 grid gap-3 md:grid-cols-2">
                   {(studentProfile?.certificates || []).length ? (
                     studentProfile.certificates.map((item) => (
                       <article key={item.id} className="spark-card">
                         <h3 className="text-lg font-semibold text-white">{item.name}</h3>
                         <p className="mt-2 text-sm text-white/55">
-                          Uploaded {new Date(item.uploadedAt).toLocaleDateString()}
+                          {t("uploaded")} {new Date(item.uploadedAt).toLocaleDateString()}
                         </p>
                         <div className="mt-4 flex gap-3">
                           <button
@@ -206,17 +213,17 @@ export default function DashboardClient({ user, academyData, initialStudentProfi
                             onClick={() => openCertificate(item)}
                             className="spark-button-secondary"
                           >
-                            Open on site
+                            {t("openOnSite")}
                           </button>
                           <a className="spark-button-ghost" href={item.dataUrl} download={item.name}>
-                            Download
+                            {t("download")}
                           </a>
                         </div>
                       </article>
                     ))
                   ) : (
                     <div className="rounded-[22px] border border-white/10 bg-white/6 p-5 text-sm leading-6 text-white/55">
-                      Certificates added by the admin panel will appear here.
+                      {t("certificatesMissing")}
                     </div>
                   )}
                 </div>
@@ -226,10 +233,10 @@ export default function DashboardClient({ user, academyData, initialStudentProfi
             <aside className="flex flex-col gap-6">
               <section className="spark-glass spark-section rounded-[28px] p-5 sm:p-6">
                 <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
-                  Teachers
+                  {t("teachers")}
                 </p>
                 <div className="mt-4 grid gap-3">
-                  {academyData.teachers.map((teacher) => (
+                  {translatedAcademyData.teachers.map((teacher) => (
                     <article key={teacher.id} className="spark-card">
                       <h3 className="text-lg font-semibold text-white">{teacher.name}</h3>
                       <p className="mt-1 text-sm text-cyan-200">{teacher.role}</p>
@@ -241,26 +248,26 @@ export default function DashboardClient({ user, academyData, initialStudentProfi
 
               <section className="spark-glass spark-section rounded-[28px] p-5 sm:p-6">
                 <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
-                  Webinar
+                  {t("webinar")}
                 </p>
                 <div className="spark-card mt-4">
-                  <h3 className="text-lg font-semibold text-white">{academyData.webinar.title}</h3>
-                  <p className="mt-2 text-sm text-white/70">{academyData.webinar.time}</p>
-                  {academyData.webinar.link ? (
+                  <h3 className="text-lg font-semibold text-white">{translatedAcademyData.webinar.title}</h3>
+                  <p className="mt-2 text-sm text-white/70">{translatedAcademyData.webinar.time}</p>
+                  {translatedAcademyData.webinar.link ? (
                     <a
-                      href={academyData.webinar.link}
+                      href={translatedAcademyData.webinar.link}
                       target="_blank"
                       rel="noreferrer"
                       className="mt-4 inline-flex text-sm font-semibold text-cyan-200 hover:text-white"
                     >
-                      Open webinar
+                      {t("openWebinar")}
                     </a>
                   ) : (
-                    <p className="mt-4 text-sm text-white/45">Link will be published by the admin panel.</p>
+                    <p className="mt-4 text-sm text-white/45">{t("webinarMissing")}</p>
                   )}
                 </div>
                 <div className="mt-4 grid gap-3">
-                  {academyData.workshops.map((workshop) => (
+                  {translatedAcademyData.workshops.map((workshop) => (
                     <article key={workshop.id} className="spark-card">
                       <h3 className="text-lg font-semibold text-white">{workshop.title}</h3>
                       <p className="mt-2 text-sm text-white/70">{workshop.time}</p>
@@ -272,7 +279,7 @@ export default function DashboardClient({ user, academyData, initialStudentProfi
                           rel="noreferrer"
                           className="mt-3 inline-flex text-sm font-semibold text-cyan-200 hover:text-white"
                         >
-                          Join workshop
+                          {t("openWorkshop")}
                         </a>
                       ) : null}
                     </article>
@@ -290,10 +297,10 @@ export default function DashboardClient({ user, academyData, initialStudentProfi
             <div className="mb-4 flex items-center justify-between gap-4">
               <div>
                 <h3 className="text-2xl font-bold text-white">{certificate.name}</h3>
-                <p className="mt-1 text-sm text-white/60">Certificate preview with confetti celebration.</p>
+                <p className="mt-1 text-sm text-white/60">{t("previewNote")}</p>
               </div>
               <button className="spark-button-ghost" onClick={() => setCertificate(null)} type="button">
-                Close
+                {t("close")}
               </button>
             </div>
             <div className="overflow-hidden rounded-[24px] border border-white/10 bg-black/20">
@@ -305,7 +312,7 @@ export default function DashboardClient({ user, academyData, initialStudentProfi
             </div>
             <div className="mt-4 flex justify-end">
               <a className="spark-button-primary" href={certificate.dataUrl} download={certificate.name}>
-                Download certificate
+                {t("downloadCertificate")}
               </a>
             </div>
           </div>
