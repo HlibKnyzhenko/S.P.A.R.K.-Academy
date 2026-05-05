@@ -187,6 +187,21 @@ const contentTranslations = {
     en: "Apply for an interview",
     uk: "Подати заявку на інтерв'ю",
   },
+  "Podat zayavku na intervyu": {
+    ru: "Подать заявку на интервью",
+    en: "Apply for an interview",
+    uk: "Подати заявку на інтерв'ю",
+  },
+  "Podat zayavku na intervju": {
+    ru: "Подать заявку на интервью",
+    en: "Apply for an interview",
+    uk: "Подати заявку на інтерв'ю",
+  },
+  "Подать заявку на интервью": {
+    ru: "Подать заявку на интервью",
+    en: "Apply for an interview",
+    uk: "Подати заявку на інтерв'ю",
+  },
   "весенний поток": { ru: "весенний поток", en: "spring cohort", uk: "весняний потік" },
   "Шаг 1: Тестирование уровня и интервью": {
     ru: "Шаг 1: Тестирование уровня и интервью",
