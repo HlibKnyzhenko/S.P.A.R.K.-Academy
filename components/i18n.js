@@ -177,6 +177,11 @@ const contentTranslations = {
     en: "Your path to top U.S. colleges starts here. An academy with international recognition.",
     uk: "Твій шлях до топових коледжів США починається тут. Академія з міжнародним визнанням.",
   },
+  "Твой путь в топовые колледжи США начинается здесь. Академия с международным признанием": {
+    ru: "Твой путь в топовые колледжи США начинается здесь. Академия с международным признанием.",
+    en: "Your path to top U.S. colleges starts here. An academy with international recognition.",
+    uk: "Твій шлях до топових коледжів США починається тут. Академія з міжнародним визнанням.",
+  },
   "S.P.A.R.K. Academy combines English, soft skills, portfolio strategy, and interview preparation into one selective route for ambitious students.": {
     ru: "S.P.A.R.K. Academy объединяет английский, soft skills, стратегию портфолио и подготовку к интервью в один отборочный маршрут для амбициозных учеников.",
     en: "S.P.A.R.K. Academy combines English, soft skills, portfolio strategy, and interview preparation into one selective route for ambitious students.",
@@ -203,6 +208,11 @@ const contentTranslations = {
     uk: "Подати заявку на інтерв'ю",
   },
   "весенний поток": { ru: "весенний поток", en: "spring cohort", uk: "весняний потік" },
+  "весенний поток: The USA Admission Roadmap": {
+    ru: "весенний поток: дорожная карта поступления в США",
+    en: "spring cohort: The USA Admission Roadmap",
+    uk: "весняний потік: дорожня карта вступу до США",
+  },
   "Шаг 1: Тестирование уровня и интервью": {
     ru: "Шаг 1: Тестирование уровня и интервью",
     en: "Step 1: Level test and interview",
@@ -357,6 +367,14 @@ function format(value, params = {}) {
   );
 }
 
+function normalizeContentKey(value) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .replace(/[.。]+$/g, "")
+    .trim()
+    .toLowerCase();
+}
+
 export function useLanguage() {
   const [language, setLanguageState] = useState(fallbackLanguage);
 
@@ -384,7 +402,17 @@ export function useLanguage() {
 
 export function translateContent(value, language) {
   const source = String(value || "");
-  return contentTranslations[source]?.[language] || source;
+  const directTranslation = contentTranslations[source]?.[language];
+  if (directTranslation) {
+    return directTranslation;
+  }
+
+  const normalizedSource = normalizeContentKey(source);
+  const normalizedMatch = Object.entries(contentTranslations).find(
+    ([key]) => normalizeContentKey(key) === normalizedSource
+  );
+
+  return normalizedMatch?.[1]?.[language] || source;
 }
 
 export function translateAcademyData(data, language) {
