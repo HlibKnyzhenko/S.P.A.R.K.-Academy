@@ -5,6 +5,8 @@ import Link from "next/link";
 import { LanguageSwitcher, translateAcademyData, useLanguage } from "./i18n";
 
 const englishLevels = ["A1", "A2", "B1", "B2", "C1", "C2", "NOT SURE"];
+const founderPortfolioUrl = "https://hlib-knyzhenko-portfolio.vercel.app/";
+const founderAvatarUrl = "https://avatars.githubusercontent.com/u/121054442?v=4";
 
 export default function HomePageClient({ academyData, userId }) {
   const { language, setLanguage, t } = useLanguage();
@@ -78,6 +80,33 @@ export default function HomePageClient({ academyData, userId }) {
               <p className="spark-muted mt-5 max-w-3xl text-base leading-7 sm:text-lg">
                 {translatedAcademyData.hero.subheadline}
               </p>
+
+              <a
+                href={founderPortfolioUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 flex max-w-xl items-center gap-4 rounded-[24px] border border-white/10 bg-white/[0.055] p-3 pr-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition hover:border-cyan-200/35 hover:bg-white/[0.08] sm:pr-5"
+              >
+                <img
+                  src={founderAvatarUrl}
+                  alt={t("founderPhotoAlt")}
+                  className="h-20 w-20 shrink-0 rounded-[20px] border border-white/15 object-cover shadow-[0_18px_40px_rgba(0,0,0,0.35)] sm:h-24 sm:w-24"
+                />
+                <span className="min-w-0">
+                  <span className="block text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-200/75">
+                    {t("founderKicker")}
+                  </span>
+                  <span className="mt-1 block text-xl font-bold leading-tight text-white sm:text-2xl">
+                    {t("founderName")}
+                  </span>
+                  <span className="spark-muted mt-1 block text-sm leading-5">
+                    {t("founderRole")}
+                  </span>
+                  <span className="mt-3 inline-flex text-sm font-semibold text-cyan-200">
+                    {t("openFounderPortfolio")}
+                  </span>
+                </span>
+              </a>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Link
