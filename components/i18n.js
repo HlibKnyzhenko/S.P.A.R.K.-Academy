@@ -166,6 +166,246 @@ const ui = {
   },
 };
 
+const aboutContent = {
+  ru: {
+    eyebrow: "О S.P.A.R.K. Academy",
+    title: "About S.P.A.R.K. Academy",
+    intro:
+      "S.P.A.R.K. Academy (Supporting Progress and Rising Knowledge) — это международная бесплатная онлайн-платформа, созданная для того, чтобы открыть подросткам со всего мира доступ к качественному образованию, нетворкингу и инструментам для запуска собственных технологических продуктов.",
+    equality:
+      "Мы работаем по принципу полного равенства: здесь нет жестких вступительных требований или скрытых оплат. Наша цель — создать поддерживающее комьюнити, где каждый может расти независимо от своего финансового положения или геолокации.",
+    formatEyebrow: "Наш формат и ценности",
+    formatTitle: "Мы не верим в скучную зазубренную теорию.",
+    formatIntro: "Обучение в Академии строится на трех столпах:",
+    pillars: [
+      {
+        title: "Короткие и эффективные курсы",
+        text: "Интенсивные программы, которые дают применимые практические знания, а не растянутую воду.",
+      },
+      {
+        title: "Живая практика",
+        text: "Регулярные Speaking Clubs для преодоления языкового барьера и уверенного общения в международной среде.",
+      },
+      {
+        title: "Radical Ownership",
+        text: "Мы учим студентов мыслить как создатели (Founder Mindset) и брать полную ответственность за свои проекты и будущее.",
+      },
+    ],
+    impactEyebrow: "Наш импакт в цифрах",
+    impactTitle: "Мы не просто учим — мы помогаем запускать стартапы.",
+    impactIntro: "В рамках нашей первой когорты из 12 студентов мы получили мощный результат:",
+    impactStats: [
+      "3 лучших выпускника не просто прошли программу, а с нуля разработали свои собственные независимые проекты.",
+      "Сейчас они успешно продвигают и масштабируют свои идеи на международном рынке при нашей активной менторской поддержке.",
+    ],
+    startupsEyebrow: "Featured Student Startups",
+    startupsTitle: "Проекты наших учеников",
+    startupsIntro: "Вот один из ярких кейсов, созданных внутри инкубатора S.P.A.R.K. Academy:",
+    reclaimTitle: "RECLAIM — AI-платформа для решения глобального жилищного кризиса",
+    reclaimFounderLabel: "Основатель",
+    reclaimFounder: "Алина Черненко (Alina Chernenko)",
+    reclaimStatusLabel: "Статус",
+    reclaimStatus: "Действующий MVP-прототип",
+    reclaimUrl: "reclaim-global.lovable.app",
+    reclaimSections: [
+      {
+        title: "Проблема",
+        text: "В развитых странах бушует жилищный кризис, при этом около 20% зданий в центрах городов годами заброшены. Они застряли в «юридическом тупике» (Legal Limbo) из-за судов, банкротств или утерянных документов. В среднем такие дома гниют по 7.4 года — инвесторы и строители боятся в них заходить из-за колоссальных юридических рисков.",
+      },
+      {
+        title: "Решение",
+        text: "AI Forensics (цифровая криминалистика с ИИ). Специально обученный искусственный интеллект заменяет целую команду юристов. Вместо года ручной работы с архивами и земельными реестрами, ИИ проводит полный аудит документов объекта всего за 48 часов, мгновенно находя легальный способ «очистить» здание для законной покупки и ремонта.",
+      },
+      {
+        title: "Глобальный эффект и цели ООН",
+        text: "Проект напрямую бьет по Цели ООН №11 (Устойчивые города). Вместо уничтожения природы и постройки новых кварталов на окраинах, RECLAIM позволяет «перерабатывать» старые стены в центрах городов. Проект оживляет часть из $2.7 триллионов мертвого капитала, застрявшего в бумажных тупиках по всему миру, снижает цены на аренду и убирает социальное напряжение.",
+      },
+    ],
+    mvpTitle: "Как работает MVP (Market Radar)",
+    mvpIntro:
+      "Инвестор или представитель государства заходит на платформу, вводит город, и система выдает интерактивную карту с цветовой системой рисков:",
+    mvpPoints: [
+      { tone: "red", label: "Красные точки", text: "здания в глухом юридическом тупике (высокий риск)." },
+      { tone: "yellow", label: "Желтые точки", text: "здания, по которым ИИ прямо сейчас ведет автоматический аудит." },
+      { tone: "green", label: "Зеленые точки", text: "полностью «очищенные» объекты, готовые к инвестициям." },
+    ],
+    mvpEconomics:
+      "Платформа автоматически рассчитывает экономику: ликвидация юридических рисков силами ИИ повышает рыночную стоимость «замороженного» объекта почти в 4 раза, например с $1.2M до $4.6M.",
+    boostEyebrow: "Ultimate Boost",
+    boostTitle: "Для поступления в США и Европу",
+    boostIntro:
+      "Если твоя цель — топовые зарубежные колледжи и университеты, S.P.A.R.K. Academy станет сильнейшей точкой в твоем профиле.",
+    boostPoints: [
+      {
+        title: "Extracurriculars & Volunteering",
+        text: "Участие в международном волонтерском проекте или создание своего продукта внутри нашего инкубатора — это именно то, что приемные комиссии США ищут в графе «Внеучебная деятельность». Твой реальный код и запущенный проект ценятся выше сухих оценок в табеле.",
+      },
+      {
+        title: "Официальный сертификат",
+        text: "Каждый выпускник, успешно прошедший курс или запустивший проект, получает именной сертификат от Академии для подкрепления своей заявки в Common App.",
+      },
+    ],
+  },
+  en: {
+    eyebrow: "About S.P.A.R.K. Academy",
+    title: "About S.P.A.R.K. Academy",
+    intro:
+      "S.P.A.R.K. Academy (Supporting Progress and Rising Knowledge) is an international free online platform created to give teenagers around the world access to high-quality education, networking, and tools for launching their own technology products.",
+    equality:
+      "We work on a principle of full equality: there are no harsh entry requirements or hidden payments. Our goal is to build a supportive community where everyone can grow regardless of financial background or location.",
+    formatEyebrow: "Our format and values",
+    formatTitle: "We do not believe in boring memorized theory.",
+    formatIntro: "Learning at the Academy is built on three pillars:",
+    pillars: [
+      {
+        title: "Short, effective courses",
+        text: "Intensive programs that give practical, applicable knowledge instead of stretched-out filler.",
+      },
+      {
+        title: "Live practice",
+        text: "Regular Speaking Clubs help students break the language barrier and communicate confidently in an international environment.",
+      },
+      {
+        title: "Radical Ownership",
+        text: "We teach students to think like creators (Founder Mindset) and take full responsibility for their projects and future.",
+      },
+    ],
+    impactEyebrow: "Our impact in numbers",
+    impactTitle: "We do not only teach — we help launch startups.",
+    impactIntro: "In our first cohort of 12 students, we achieved a strong result:",
+    impactStats: [
+      "The top 3 graduates did not just complete the program; they built their own independent projects from scratch.",
+      "They are now promoting and scaling their ideas in the international market with our active mentorship support.",
+    ],
+    startupsEyebrow: "Featured Student Startups",
+    startupsTitle: "Student projects",
+    startupsIntro: "Here is one standout case created inside the S.P.A.R.K. Academy incubator:",
+    reclaimTitle: "RECLAIM — an AI platform for solving the global housing crisis",
+    reclaimFounderLabel: "Founder",
+    reclaimFounder: "Alina Chernenko",
+    reclaimStatusLabel: "Status",
+    reclaimStatus: "Active MVP prototype",
+    reclaimUrl: "reclaim-global.lovable.app",
+    reclaimSections: [
+      {
+        title: "Problem",
+        text: "Developed countries are facing a housing crisis, while about 20% of buildings in city centers remain abandoned for years. They are stuck in legal limbo because of lawsuits, bankruptcies, or lost documents. On average, these properties decay for 7.4 years, while investors and builders avoid them because of major legal risk.",
+      },
+      {
+        title: "Solution",
+        text: "AI Forensics. A specially trained artificial intelligence system replaces an entire legal team. Instead of a year of manual archive and land-registry work, the AI completes a full document audit in just 48 hours and quickly finds a legal path to clear the building for lawful purchase and renovation.",
+      },
+      {
+        title: "Global effect and UN goals",
+        text: "The project directly supports UN Goal 11 (Sustainable Cities). Instead of destroying nature and building new districts on the outskirts, RECLAIM helps reuse old walls in city centers. It unlocks part of the $2.7 trillion in dead capital trapped in paperwork dead ends worldwide, lowers rent pressure, and reduces social tension.",
+      },
+    ],
+    mvpTitle: "How the MVP works (Market Radar)",
+    mvpIntro:
+      "An investor or government representative enters a city, and the platform returns an interactive map with a traffic-light risk system:",
+    mvpPoints: [
+      { tone: "red", label: "Red points", text: "buildings in deep legal limbo (high risk)." },
+      { tone: "yellow", label: "Yellow points", text: "buildings currently under automated AI audit." },
+      { tone: "green", label: "Green points", text: "fully cleared properties ready for investment." },
+    ],
+    mvpEconomics:
+      "The platform automatically calculates the economics: removing legal risks with AI can increase the market value of a frozen property almost 4x, for example from $1.2M to $4.6M.",
+    boostEyebrow: "Ultimate Boost",
+    boostTitle: "For U.S. and European admissions",
+    boostIntro:
+      "If your goal is a top college or university abroad, S.P.A.R.K. Academy can become one of the strongest points in your profile.",
+    boostPoints: [
+      {
+        title: "Extracurriculars & Volunteering",
+        text: "Joining an international volunteer project or building your own product inside our incubator is exactly the kind of extracurricular work U.S. admissions committees look for. Real code and a launched project are valued more than dry grades on a transcript.",
+      },
+      {
+        title: "Official certificate",
+        text: "Every graduate who successfully completes a course or launches a project receives a named Academy certificate to support their Common App application.",
+      },
+    ],
+  },
+  uk: {
+    eyebrow: "Про S.P.A.R.K. Academy",
+    title: "About S.P.A.R.K. Academy",
+    intro:
+      "S.P.A.R.K. Academy (Supporting Progress and Rising Knowledge) — це міжнародна безкоштовна онлайн-платформа, створена для того, щоб відкрити підліткам з усього світу доступ до якісної освіти, нетворкінгу та інструментів для запуску власних технологічних продуктів.",
+    equality:
+      "Ми працюємо за принципом повної рівності: тут немає жорстких вступних вимог або прихованих оплат. Наша мета — створити підтримувальне ком'юніті, де кожен може зростати незалежно від фінансового становища чи геолокації.",
+    formatEyebrow: "Наш формат і цінності",
+    formatTitle: "Ми не віримо в нудну завчену теорію.",
+    formatIntro: "Навчання в Академії будується на трьох основах:",
+    pillars: [
+      {
+        title: "Короткі й ефективні курси",
+        text: "Інтенсивні програми, які дають застосовні практичні знання, а не розтягнуту воду.",
+      },
+      {
+        title: "Жива практика",
+        text: "Регулярні Speaking Clubs для подолання мовного бар'єра та впевненого спілкування в міжнародному середовищі.",
+      },
+      {
+        title: "Radical Ownership",
+        text: "Ми вчимо студентів мислити як творці (Founder Mindset) і брати повну відповідальність за свої проєкти та майбутнє.",
+      },
+    ],
+    impactEyebrow: "Наш імпакт у цифрах",
+    impactTitle: "Ми не просто навчаємо — ми допомагаємо запускати стартапи.",
+    impactIntro: "У межах нашої першої когорти з 12 студентів ми отримали сильний результат:",
+    impactStats: [
+      "3 найкращі випускники не просто пройшли програму, а з нуля розробили власні незалежні проєкти.",
+      "Зараз вони успішно просувають і масштабують свої ідеї на міжнародному ринку за нашої активної менторської підтримки.",
+    ],
+    startupsEyebrow: "Featured Student Startups",
+    startupsTitle: "Проєкти наших учнів",
+    startupsIntro: "Ось один із яскравих кейсів, створених усередині інкубатора S.P.A.R.K. Academy:",
+    reclaimTitle: "RECLAIM — AI-платформа для розв'язання глобальної житлової кризи",
+    reclaimFounderLabel: "Засновниця",
+    reclaimFounder: "Аліна Черненко (Alina Chernenko)",
+    reclaimStatusLabel: "Статус",
+    reclaimStatus: "Діючий MVP-прототип",
+    reclaimUrl: "reclaim-global.lovable.app",
+    reclaimSections: [
+      {
+        title: "Проблема",
+        text: "У розвинених країнах триває житлова криза, водночас близько 20% будівель у центрах міст роками залишаються покинутими. Вони застрягли в «юридичному тупику» (Legal Limbo) через суди, банкрутства або втрачені документи. У середньому такі будинки руйнуються 7.4 року, а інвестори й забудовники бояться заходити в них через величезні юридичні ризики.",
+      },
+      {
+        title: "Рішення",
+        text: "AI Forensics (цифрова криміналістика з ШІ). Спеціально навчений штучний інтелект замінює цілу команду юристів. Замість року ручної роботи з архівами та земельними реєстрами ШІ проводить повний аудит документів об'єкта всього за 48 годин і швидко знаходить легальний спосіб «очистити» будівлю для законної купівлі та ремонту.",
+      },
+      {
+        title: "Глобальний ефект і цілі ООН",
+        text: "Проєкт напряму підтримує Ціль ООН №11 (Сталий розвиток міст). Замість знищення природи та будівництва нових кварталів на околицях RECLAIM дозволяє «переробляти» старі стіни в центрах міст. Проєкт оживляє частину з $2.7 трильйона мертвого капіталу, що застряг у паперових тупиках по всьому світу, знижує ціни на оренду та прибирає соціальну напругу.",
+      },
+    ],
+    mvpTitle: "Як працює MVP (Market Radar)",
+    mvpIntro:
+      "Інвестор або представник держави заходить на платформу, вводить місто, і система видає інтерактивну карту з кольоровою системою ризиків:",
+    mvpPoints: [
+      { tone: "red", label: "Червоні точки", text: "будівлі в глухому юридичному тупику (високий ризик)." },
+      { tone: "yellow", label: "Жовті точки", text: "будівлі, за якими ШІ прямо зараз веде автоматичний аудит." },
+      { tone: "green", label: "Зелені точки", text: "повністю «очищені» об'єкти, готові до інвестицій." },
+    ],
+    mvpEconomics:
+      "Платформа автоматично розраховує економіку: ліквідація юридичних ризиків силами ШІ підвищує ринкову вартість «замороженого» об'єкта майже в 4 рази, наприклад з $1.2M до $4.6M.",
+    boostEyebrow: "Ultimate Boost",
+    boostTitle: "Для вступу до США та Європи",
+    boostIntro:
+      "Якщо твоя мета — топові закордонні коледжі й університети, S.P.A.R.K. Academy стане сильною точкою у твоєму профілі.",
+    boostPoints: [
+      {
+        title: "Extracurriculars & Volunteering",
+        text: "Участь у міжнародному волонтерському проєкті або створення власного продукту в нашому інкубаторі — це саме те, що приймальні комісії США шукають у графі «Позанавчальна діяльність». Твій реальний код і запущений проєкт цінуються вище за сухі оцінки в табелі.",
+      },
+      {
+        title: "Офіційний сертифікат",
+        text: "Кожен випускник, який успішно пройшов курс або запустив проєкт, отримує іменний сертифікат від Академії для підкріплення своєї заявки в Common App.",
+      },
+    ],
+  },
+};
+
 const contentTranslations = {
   "Academy with international recognition": {
     ru: "Академия с международным признанием",
@@ -397,7 +637,9 @@ export function useLanguage() {
     return (key, params) => format(ui[language]?.[key] || ui[fallbackLanguage][key] || key, params);
   }, [language]);
 
-  return { language, setLanguage, t };
+  const about = aboutContent[language] || aboutContent[fallbackLanguage];
+
+  return { language, setLanguage, t, about };
 }
 
 export function translateContent(value, language) {

@@ -9,7 +9,7 @@ const founderPortfolioUrl = "https://hlib-knyzhenko-portfolio.vercel.app/";
 const founderAvatarUrl = "https://avatars.githubusercontent.com/u/121054442?v=4";
 
 export default function HomePageClient({ academyData, userId }) {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, t, about } = useLanguage();
   const translatedAcademyData = useMemo(
     () => translateAcademyData(academyData, language),
     [academyData, language]
@@ -176,6 +176,154 @@ export default function HomePageClient({ academyData, userId }) {
               </form>
             </div>
           </div>
+        </section>
+
+        <section className="spark-glass spark-section rounded-[28px] p-5 sm:p-8 lg:p-10">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+            <div>
+              <div className="spark-badge inline-flex rounded-full px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em]">
+                {about.eyebrow}
+              </div>
+              <h2 className="mt-5 max-w-3xl text-3xl font-bold leading-tight text-white sm:text-4xl">
+                {about.title}
+              </h2>
+              <p className="spark-muted mt-4 text-base leading-7">{about.intro}</p>
+              <p className="spark-muted mt-4 text-base leading-7">{about.equality}</p>
+            </div>
+
+            <div className="grid gap-3">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
+                {about.formatEyebrow}
+              </p>
+              <h3 className="text-2xl font-bold text-white">{about.formatTitle}</h3>
+              <p className="spark-muted text-sm leading-6">{about.formatIntro}</p>
+              <div className="grid gap-3">
+                {about.pillars.map((pillar) => (
+                  <article key={pillar.title} className="spark-card">
+                    <h4 className="text-lg font-semibold text-white">{pillar.title}</h4>
+                    <p className="spark-muted mt-2 text-sm leading-6">{pillar.text}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(280px,0.7fr)_minmax(0,1.3fr)]">
+            <section className="spark-panel rounded-[26px] p-5 sm:p-6">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
+                {about.impactEyebrow}
+              </p>
+              <h3 className="mt-3 text-2xl font-bold text-white">{about.impactTitle}</h3>
+              <p className="spark-muted mt-3 text-sm leading-6">{about.impactIntro}</p>
+              <div className="mt-5 grid gap-3">
+                {about.impactStats.map((stat, index) => (
+                  <div key={stat} className="spark-card spark-card-compact">
+                    <div className="flex gap-3">
+                      <span className="spark-step-index h-9 w-9 text-[11px]">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <p className="spark-muted text-sm leading-6">{stat}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="spark-panel rounded-[26px] p-5 sm:p-6">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
+                {about.startupsEyebrow}
+              </p>
+              <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <h3 className="text-2xl font-bold text-white">{about.startupsTitle}</h3>
+                  <p className="spark-muted mt-2 text-sm leading-6">{about.startupsIntro}</p>
+                </div>
+                <a
+                  href={`https://${about.reclaimUrl}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="spark-button-secondary w-auto shrink-0 text-sm"
+                >
+                  {about.reclaimUrl}
+                </a>
+              </div>
+
+              <div className="mt-5 rounded-[22px] border border-cyan-200/18 bg-cyan-200/[0.055] p-4 sm:p-5">
+                <h4 className="text-xl font-bold leading-tight text-white">{about.reclaimTitle}</h4>
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-[18px] border border-white/10 bg-white/[0.045] p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-200/70">
+                      {about.reclaimFounderLabel}
+                    </p>
+                    <p className="mt-2 font-semibold text-white">{about.reclaimFounder}</p>
+                  </div>
+                  <div className="rounded-[18px] border border-white/10 bg-white/[0.045] p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-200/70">
+                      {about.reclaimStatusLabel}
+                    </p>
+                    <p className="mt-2 font-semibold text-white">{about.reclaimStatus}</p>
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-4">
+                  {about.reclaimSections.map((section) => (
+                    <article key={section.title}>
+                      <h5 className="text-base font-semibold text-white">{section.title}</h5>
+                      <p className="spark-muted mt-2 text-sm leading-6">{section.text}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.8fr)]">
+                <div>
+                  <h4 className="text-lg font-semibold text-white">{about.mvpTitle}</h4>
+                  <p className="spark-muted mt-2 text-sm leading-6">{about.mvpIntro}</p>
+                  <div className="mt-4 grid gap-2">
+                    {about.mvpPoints.map((point) => {
+                      const toneClass = {
+                        red: "bg-rose-400 shadow-[0_0_18px_rgba(251,113,133,0.7)]",
+                        yellow: "bg-amber-300 shadow-[0_0_18px_rgba(252,211,77,0.7)]",
+                        green: "bg-emerald-300 shadow-[0_0_18px_rgba(125,246,176,0.7)]",
+                      }[point.tone];
+
+                      return (
+                        <div key={point.label} className="flex gap-3 rounded-[18px] border border-white/10 bg-white/[0.045] p-3">
+                          <span className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${toneClass}`} />
+                          <p className="spark-muted text-sm leading-6">
+                            <span className="font-semibold text-white">{point.label}</span> — {point.text}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="rounded-[22px] border border-emerald-300/18 bg-emerald-300/[0.07] p-4">
+                  <p className="text-sm font-semibold leading-6 text-emerald-50">{about.mvpEconomics}</p>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <section className="mt-6 spark-panel rounded-[26px] p-5 sm:p-6">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">
+              {about.boostEyebrow}
+            </p>
+            <div className="mt-3 grid gap-5 lg:grid-cols-[minmax(260px,0.65fr)_minmax(0,1.35fr)]">
+              <div>
+                <h3 className="text-2xl font-bold text-white">{about.boostTitle}</h3>
+                <p className="spark-muted mt-3 text-sm leading-6">{about.boostIntro}</p>
+              </div>
+              <div className="grid gap-3 md:grid-cols-2">
+                {about.boostPoints.map((point) => (
+                  <article key={point.title} className="spark-card">
+                    <h4 className="text-lg font-semibold text-white">{point.title}</h4>
+                    <p className="spark-muted mt-2 text-sm leading-6">{point.text}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
