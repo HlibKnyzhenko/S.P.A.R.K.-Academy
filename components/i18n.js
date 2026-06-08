@@ -406,6 +406,48 @@ const aboutContent = {
   },
 };
 
+const testimonialsContent = {
+  ru: {
+    eyebrow: "Отзывы студентов",
+    title: "Что говорят выпускники Академии",
+    intro: "Живой опыт студентов, которые прошли маршрут S.P.A.R.K. Academy.",
+    items: [
+      {
+        quote:
+          "За месяцы, которые я провел на этом курсе, Глеб невероятно ответственно и подробно объяснял материал. С ним всегда было интересно обсуждать разные startup-идеи, и он всегда давал ясные, хорошо обоснованные советы. Помимо академической части, я нашел здесь друзей с похожими взглядами, с которыми точно останусь на связи после курса.",
+        name: "Выпускник S.P.A.R.K. Academy",
+        role: "Первая когорта",
+      },
+    ],
+  },
+  en: {
+    eyebrow: "Student testimonials",
+    title: "What Academy graduates say",
+    intro: "Real feedback from students who completed the S.P.A.R.K. Academy route.",
+    items: [
+      {
+        quote:
+          "During the months I spent taking this course, Gleb was incredibly diligent and thorough in delivering the material. It was always interesting to discuss various startup ideas with him, and he always provided clear, well-reasoned advice. On top of the academic side of things, I made like-minded friends here with whom I'll definitely stay in touch after the course.",
+        name: "S.P.A.R.K. Academy graduate",
+        role: "First cohort",
+      },
+    ],
+  },
+  uk: {
+    eyebrow: "Відгуки студентів",
+    title: "Що кажуть випускники Академії",
+    intro: "Живий досвід студентів, які пройшли маршрут S.P.A.R.K. Academy.",
+    items: [
+      {
+        quote:
+          "За місяці, які я провів на цьому курсі, Гліб надзвичайно відповідально й детально пояснював матеріал. З ним завжди було цікаво обговорювати різні startup-ідеї, і він завжди давав чіткі, добре обгрунтовані поради. Окрім академічної частини, я знайшов тут друзів зі схожими поглядами, з якими точно залишуся на зв'язку після курсу.",
+        name: "Випускник S.P.A.R.K. Academy",
+        role: "Перша когорта",
+      },
+    ],
+  },
+};
+
 const contentTranslations = {
   "Academy with international recognition": {
     ru: "Академия с международным признанием",
@@ -638,8 +680,9 @@ export function useLanguage() {
   }, [language]);
 
   const about = aboutContent[language] || aboutContent[fallbackLanguage];
+  const testimonials = testimonialsContent[language] || testimonialsContent[fallbackLanguage];
 
-  return { language, setLanguage, t, about };
+  return { language, setLanguage, t, about, testimonials };
 }
 
 export function translateContent(value, language) {

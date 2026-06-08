@@ -9,7 +9,7 @@ const founderPortfolioUrl = "https://hlib-knyzhenko-portfolio.vercel.app/";
 const founderAvatarUrl = "https://avatars.githubusercontent.com/u/121054442?v=4";
 
 export default function HomePageClient({ academyData, userId }) {
-  const { language, setLanguage, t, about } = useLanguage();
+  const { language, setLanguage, t, about, testimonials } = useLanguage();
   const translatedAcademyData = useMemo(
     () => translateAcademyData(academyData, language),
     [academyData, language]
@@ -324,6 +324,44 @@ export default function HomePageClient({ academyData, userId }) {
               </div>
             </div>
           </section>
+        </section>
+
+        <section className="spark-glass spark-section rounded-[28px] p-5 sm:p-8 lg:p-10">
+          <div className="grid gap-6 lg:grid-cols-[minmax(260px,0.65fr)_minmax(0,1.35fr)] lg:items-start">
+            <div>
+              <div className="spark-badge inline-flex rounded-full px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em]">
+                {testimonials.eyebrow}
+              </div>
+              <h2 className="mt-5 text-3xl font-bold leading-tight text-white sm:text-4xl">
+                {testimonials.title}
+              </h2>
+              <p className="spark-muted mt-4 text-base leading-7">{testimonials.intro}</p>
+            </div>
+
+            <div className="grid gap-4">
+              {testimonials.items.map((testimonial) => (
+                <article
+                  key={testimonial.quote}
+                  className="spark-panel rounded-[26px] p-5 sm:p-6"
+                >
+                  <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[20px] border border-cyan-200/20 bg-cyan-200/[0.08] text-3xl font-bold leading-none text-cyan-100">
+                      &quot;
+                    </div>
+                    <div>
+                      <p className="text-lg font-medium leading-8 text-white/90">
+                        {testimonial.quote}
+                      </p>
+                      <div className="mt-5 flex flex-col gap-1 border-t border-white/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="font-semibold text-white">{testimonial.name}</p>
+                        <p className="text-sm font-semibold text-cyan-200/80">{testimonial.role}</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
